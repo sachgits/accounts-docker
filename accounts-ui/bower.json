@@ -1,0 +1,7 @@
+{
+  "name": "user-management-ui",
+  "dependencies": {},
+  "devDependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

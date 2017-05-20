@@ -1,0 +1,77 @@
+@import "../../bower_components/bootstrap/less/bootstrap.less"; 
+@import "bootswatch/main.less";
+@import "bootswatch/variables.less";
+
+@import "ember-modal-dialog.less";
+
+
+@import "util.less";
+@import "header.less";
+@import "footer.less";
+
+
+@import "components/dwum-language-selector.less";
+
+@import "components/field-group.less";
+@import "components/action-label.less";
+
+@import "components/form-component/users.less";
+
+
+
+body {
+    background: @gray-lighter;
+}
+
+.dwcm-user-new__body {
+    h2 {
+        margin: 0;
+    }
+
+    .page-header {
+        border-bottom: 1px solid @gray;
+        margin: 10px 0 0;
+    }
+}
+
+.btn-inside-form {
+    position: absolute;
+    top: 29px;
+    right: 20px;
+    border-radius: @border-radius-large;
+}
+
+
+.signin {
+    max-width: 500px;
+    padding: 19px 29px 29px;
+}
+
+.form-signin {
+    margin: 0 auto 20px;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+}
+
+.capitalized {
+    text-transform: capitalize;
+}
+
+.error { 
+    color: @brand-danger; 
+    .glyphicon {
+        font-size: 30px;
+    }
+}
+
+ 
+ 
