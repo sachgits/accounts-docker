@@ -1,11 +1,19 @@
 #!make
 
 PWD=$(shell pwd)
+include env/.envaccounts
 
-all: init build up
+all: init build dotfiles sso-init up
 .PHONY: all
 
 init:
+
+sso-init:
+	@test ! -f $(PWD)/env/.envaccounts || echo "Please run 'make dotfiles' first."
+	# this adds a master user to KeyCloak using environment settings from env/.envaccounts
+	docker-compose up -d sso
+	docker-compose run sso keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
+	docker-compose restart sso
 
 build: build-api build-ui build-sso
 
@@ -37,6 +45,7 @@ secrets:
 
 dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"
+	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
 
 up:
 	docker-compose up -d

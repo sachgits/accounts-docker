@@ -1,7 +1,7 @@
 FROM jboss/keycloak-mysql:3.0.0.Final
 
 USER root
-RUN yum -y install p11-kit-nss-trust openssl ca-certificates bash && yum clean all
+RUN yum -y install p11-kit-nss-trust openssl ca-certificates bash which && yum clean all
 RUN curl https://curl.haxx.se/ca/cacert-2017-01-18.pem -o /etc/pki/tls/certs/ca-bundle.crt
 
 RUN mkdir -p /usr/share/ssl/certs
@@ -22,10 +22,16 @@ RUN chmod +x /tini
 RUN curl -o /wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
 	&& chmod +x /wait-for-it.sh
 
+ARG KEYCLOAK_ROOT_PASS
+ENV KEYCLOAK_ROOT_PASS ${KEYCLOAK_ROOT_PASS:-password12}
+
+RUN echo "root:$KEYCLOAK_ROOT_PASS" | chpasswd
+
 USER jboss
 
 EXPOSE 8080
 
-ENTRYPOINT ["/tini", "--", "/wait-for-it.sh", "mysql:3306", "-t", "60", "--", "/opt/jboss/docker-entrypoint.sh"]
+ENTRYPOINT ["/tini", "--", "/wait-for-it.sh", "mysql:3306", "-t", "60", "--"]
 
-CMD ["-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+CMD ["/opt/jboss/docker-entrypoint.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+
