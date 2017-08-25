@@ -1,3 +1,6 @@
 /accounts-api/target/ 
 /accounts-api/nb-configuration.xml
 /mysql-datadir
+m2
+/env/.envaccounts
+/env/.envmysql

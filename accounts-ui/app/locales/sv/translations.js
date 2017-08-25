@@ -1,78 +1,159 @@
 export default {
     blank: '',
     errors: {
-        blank: '{{description}} can\'t be blank',
-        email: 'Username must be a valid email address', 
+        blank: '{{description}} kan inte vara tom', 
+        username: 'Användarnamnet måste vara en giltig e-postadress',
+        email: 'Måste vara en giltig e-postadress', 
+        'invalid-credentials': 'Username or password is invalid',
     },
     definitions: {
         abort: 'Avbryt',
         continue: 'Fortsätt',
-        name: 'Namn',  
+        name: 'Namn',
         date: 'Datum',
-        'date-descriptive': 'Datum(åååå-mm-dd)',
+        'date-descriptive': 'Datum (åååå-mm-dd)',
         user: 'Användare',
         username: 'Användarnamn',
+        'username-email': 'Username/email',
+        email: 'Email',
         password: 'Lösenord',
+        confirmpassword: 'Confirm password',
         usernameOrPassword: 'Användarnamn eller lösenord',
         'sign-out': 'Logga ut',
         'sign-in': 'Logga in',
         'signing-in': 'Loggar in',
+        send: 'Send',
+        sending: 'Sending',
         next: 'Nästa',
-        previous: 'Föregående',   
+        previous: 'Föregående',
     },
     main: {
-        application_name: 'User management',
-        welcome: 'Välkommen till DINA User Management System!',
+        application_name: 'Användaradministration',
+        welcome: 'Välkommen till DINA användaradministration!',
         error: 'Ett fel uppstod, försök igen eller gå till startsidan.',
         'validation-message': {
             save: 'Det gick inte att spara',
         },
-    }, 
-    navigation: {
-        start: 'Start', 
-        'users': 'Användare',
-        'users.list': 'Lista alla användare',
-        'users.add': 'Registrera nytt',
     },
-    user: { 
+    navigation: { 
+        start: 'Start', 
+        password_recover: 'Forgot password?',
+        register: 'Register',
+        profile: 'Profile', 
+        users: 'Användare',
+        'users.list': 'Lista alla användare',
+        'users.add': 'Registrera ny',
+        clients: 'Klienter',
+        'clients.list': 'Lista alla klienter',
+        'clients.add': 'Skapa ny',
+    }, 
+    account: {
+        new: {
+            title: 'Create account',
+        }
+    },
+    user: {  
         list: {
-            header: 'Lista och söka efter användare',
+            header: 'Lista och sök efter användare',
         },
-        new: { 
-            title: 'Ny användare', 
+        new: {
+            title: 'Ny användare',
             toolbar: {
                 save: 'Spara',
-                saving: 'Sparar', 
+                saving: 'Sparar',
+                close: 'Stäng',
+                duplicate: 'Duplicera',
+            },
+        }, 
+        edit: {
+            'resign-roles': 'Resign roles:',
+        },
+        'user-account-filter': 'Filter by user account status: ',
+    },
+    'user-profile': 'Användarprofil',
+    'sign-up': "Registrera dig",
+    'edit-user': "Edit user account",
+    'register-new-account': 'Register new account',
+    fields: {
+        labels: {
+            user: {
+                'first-name': 'Förnamn',
+                'last-name': 'Efternamn',
+                name: 'Namn',
+                email: 'e-post',
+                username: 'Användarnamn', 
+                'username-email': 'Användarnamn',
+                purpose: 'Syfte',
+                'created-date': 'Skapad datum',
+                'user-enabled': 'Aktiverad',
+                'email-verified': 'E-postadressen har verifierats',
+                'account-status': 'Account status',
+            },
+            client: {
+                name: 'Klientnamn',
+            }, 
+            role: {
+                'realm-role': 'Realm role:',
+                'client-roles': 'Client roles'
+            }
+        },
+    },
+    buttons: {
+        labels: {
+            'enable-user': 'Enable user',
+            'disable-user': 'Disable user',
+            'reject-user': 'Reject user',
+            'view': 'View',
+            'edit-user': 'Edit user',
+            'cancel': 'Cancel',
+        }
+    },
+    'sweetalert': {
+        'are-you-sure': 'Are you sure?',
+        'reject-text': 'Are you sure that you want to reject this user?',
+        'reject-text-success': 'User was successfully rejected!',
+        'verification-email-text': 'Are you sure that you want to send verification email to this user?',
+        'verification-email-success': 'Verification email has been sent to user',
+        'email-sent': 'Email sent!',
+        'rejected': 'Rejected!',
+        'yes-button': 'Yes',
+        'cancel-button': 'Cancel',
+    },
+    client: {
+        list: {
+            header: 'Lista och sök efter klienter',
+        },
+        new: {
+            title: 'Ny klient',
+            toolbar: {
+                save: 'Spara',
+                saving: 'Sparar',
+                print: 'Skriv ut etikett',
                 close: 'Stäng',
                 duplicate: 'Duplicera',
             },
         },
-    }, 
-    'user-profile': 'User profile',
-    'sign_up': "Sign up",
-    fields: {
-        labels: {
-            user: {
-                first_name: 'Förnamn',
-                last_name: 'Efternamn',
-                name: 'Namn',
-                email: 'e-post',
-                username: 'Användarnamn',
-                purpose: 'Purpose',
-                created_date: 'Created date',
-                user_enabled: 'Enabled',
-                email_verified: 'Email verified',
-            }, 
+    },
+    messages: {
+        account: {
+            'create-account': 'Your User Management account is created.',
+            'verification-email': 'A verification email will be sent to: ',
+            'email-verification-action': 'Please click the activation link to verifiy your email address within 24 hours',
+        }, 
+        'password-recover': {
+            'password-recover': 'Recovery link has been sent to your email address: ', 
+            'update-email-action': 'Please click the recovery link to change password within 24 hours.',
         },
-    },   
+        'saving-account-inprocess': 'Registering user account, please wait!',
+    },
     beta: {
-        header: 'User management beta',
-        intro: ' is a test site to evaluate the new user management system. The site will be continuously updated with new features and fixes based on the internal priority and feedback from user testing.',
+        header: 'Användaradministration beta',
+        intro: ' är en webbplats för att testa och utvärdera det nya systemet för andvändaradministration. Webbplatsen kommer kontinuerligt att uppdateras med nya funktioner och förbättringar enligt interna prioriteringar och den återkoppling som ges efter användartester.',
         feedback: {
-            body: 'Use the feedback form if you find anything that is not working correctly or if you have suggestions on improvements.',
+            body: 'Använd feeedback-formuläret om du hittar någonting som inte fungerar korrekt eller om du har förbättringsförslag.',
             header: 'Feedback',
-            button: 'Send feedback',
-            'sign-in': 'Sign in to leave feedback.',
+            button: 'Skicka feedback',
+            'sign-in': 'Logga in för att lämna feedback.',
         },
     }
 };

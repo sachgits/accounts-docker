@@ -3,22 +3,35 @@ import config from './config/environment';
 
 const Router = Ember.Router.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL 
 });
 
 Router.map(function() {
   this.route('login');
-  this.route('users', function() {
-    this.route('new');
-    this.route('view');
-  });
-  this.route('users.view', {
-    path: 'users/:user_id',
-  });
-  this.route('users.new', {
-    path: 'users/new',
+  this.route('register'); 
+  this.route('password-recover');
+ 
+  this.route('admin', function() {
+    this.route('users', function() {
+      this.route('new');
+      this.route('view', {path: '/:id'});
+      this.route('edit', {path: '/:id/edit'});
+    });
   });
 
+  this.route('users', function() {
+    this.route('profile', {path: '/:id'});
+  });
+
+ 
+  this.route('clients', function() {
+    this.route('new');
+    this.route('view', {path: ':id'});
+  });
+
+  this.route('users.account', {
+    path: 'users/account',
+  }); 
 });
 
 export default Router;

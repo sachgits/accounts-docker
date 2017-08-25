@@ -1,12 +1,8 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('controller:login', 'Unit | Controller | login', {
+moduleFor('controller:users/index', 'Unit | Controller | users/index', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
-  needs: ['validator:presence', 
- 	'validator:valid-credentials',
- 	'validator:format' 
-  ] 
 });
 
 // Replace this with your real tests.

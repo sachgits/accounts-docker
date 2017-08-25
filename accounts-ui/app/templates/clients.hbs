@@ -1,0 +1,23 @@
+ <div class="container dwcm-collectionobject-view">
+    <div class="page-header">
+        <h1>
+            {{t 'client.list.header'}}
+        </h1>
+    </div>
+
+    <div class="row">
+      {{#each model as |client|}}  
+        <div class="col-md-12">
+          {{#client-item item=client}}
+            {{#link-to 'clients.view' client class='btn btn-success btn-xs'}}View{{/link-to}}
+            <button class="btn btn-danger btn-xs" {{action 'deleteLibrary' client}}>Delete</button>
+          {{/client-item}}
+        </div>  
+      {{/each}}
+    </div>
+</div>
+ 
+
+
+
+ 

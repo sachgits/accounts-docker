@@ -20,36 +20,35 @@ const Validations = buildValidations({
     }),
 });
 
-      
-export default Ember.Controller.extend(Validations, {
+export default Ember.Component.extend(Validations, {
 
     session: Ember.inject.service('session'),
-    validation: Ember.inject.service(), 
- 
+    validation: Ember.inject.service(),  
 
     actions: {
-
+  
         /** Authenticate and sign in with currently selected agent. */
         authenticate () {
             this.set('validation.isHidden', true);
             this.set('invalidCredentials', null);
             this.set('isValidating', true);
 
-            this.validate({}, true).then(({model, validations}) => {
-                if (validations.get('isValid')) {
-                    this.get('session').authenticate(
-                        'authenticator:oauth',
-                        this.get('username'), this.get('password')
-                    ).catch(() => {
-                        this.set('invalidCredentials', true);
+            this.validate({}, true)
+                .then(({model, validations}) => { 
+                    if (validations.get('isValid')) { 
+                        this.get('session').authenticate(
+                            'authenticator:oauth',
+                            this.get('username'), this.get('password')
+                        ).catch(() => { 
+                            this.set('invalidCredentials', true);
+                            this.set('validation.isHidden', false);
+                            this.set('isValidating', false);
+                        });   
+                    } else {
                         this.set('validation.isHidden', false);
                         this.set('isValidating', false);
-                    });   
-                } else {
-                    this.set('validation.isHidden', false);
-                    this.set('isValidating', false);
-                } 
-            }); 
+                    } 
+                }); 
         }
     }
 });

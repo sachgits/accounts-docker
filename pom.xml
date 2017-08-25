@@ -6,10 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
       
     <groupId>se.nrm.dina</groupId>
-    <artifactId>user-managememt</artifactId>
+    <artifactId>accounts-management</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>user-management</name>
+    <name>accounts-management</name>
   
     <organization>
         <name>Swedish Natural History of Museum</name>
@@ -26,20 +26,16 @@
     </developers>
   
     <properties> 
-        <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>  
-        <!--<version.wildfly.swarm>2017.7.0</version.wildfly.swarm>-->
+        <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>   
         <version.org.slf4j>1.7.25</version.org.slf4j>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <!--<version.swarm.fraction-plugin>40</version.swarm.fraction-plugin>-->  
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     </properties>
  
     <modules>   
-        <module>dina-user-management</module> 
-        <!--<module>dina-keycloak-management</module>--> 
+        <module>accounts-api</module>  
     </modules>
     
     <dependencyManagement>

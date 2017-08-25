@@ -1,0 +1,9 @@
+<div class="row">  
+  {{#each model as |user|}}
+    {{#user-account account=user}} 
+      <button class="btn btn-sm btn-success "  {{action "viewUsrDetail"  user}} disabled={{user.is_super_admin}}  > 
+        {{t 'buttons.labels.view'}} 
+      </button>  
+    {{/user-account}}
+  {{/each}} 
+</div> 

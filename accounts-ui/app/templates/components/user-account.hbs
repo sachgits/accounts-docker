@@ -1,0 +1,114 @@
+<div class="panel panel-default users-item"> 
+    <div class="panel-heading ">
+        <h3 class="panel-title">{{account.full_name}} <small><i>[{{account.formatted_date}}]</i></small></h3>   
+    </div>
+    <div class="{{account.view_color}}">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-4"> 
+                        <span>{{t 'fields.labels.user.username-email'}}:</span>  
+                    </div>
+                    <div class="col-xs-8">
+                        {{account.username}}
+                    </div>
+                </div>
+        	 		
+                <div class="row">
+    	           <div class="col-xs-4">
+    	    	      <span>{{t 'fields.labels.user.purpose'}}:</span>
+                    </div>
+                    <div class="col-xs-8">
+        	           {{account.purpose}}
+        	        </div>
+    	        </div> 
+        
+                <div class="row">
+    	           <div class="col-xs-4">
+    	    	       <span>{{t 'fields.labels.user.account-status'}}:</span>
+    	            </div>
+    	            <div class="col-xs-8">
+    	    	       {{account.status}}
+                    </div>
+                </div> 
+
+        	    {{#if account.is_pending_user }} 
+        	        <div class="row">
+    		            <div class="col-xs-4">
+    		    	 	    <span>{{t 'fields.labels.user.email-verified'}}:</span>
+    		            </div>
+    		            <div class="col-xs-8">
+    		              {{account.is_email_verified}}
+    		            </div>
+    	            </div>   
+        	    {{/if}} 
+
+                {{#if isAdmin}}   
+                    <hr>  
+                    <span>{{t 'fields.labels.role.realm-role'}}</span>
+                     {{#each account.realmRole as |role|}}    
+                            <div class="row"> 
+                                <div class="col-xs-4">
+                                    <span>{{role.role_belong_to}}</span>
+                                </div>
+                                <div class="col-xs-8">
+                                    {{role.role_name}}
+                                </div>
+                            </div>   
+                    {{/each}}  
+                    <hr>
+                    <span>{{t 'fields.labels.role.client-roles'}}:</span>       
+                    {{#each account.clientRole as |role|}}   
+                        {{#if role.is_client}} 
+                            <div class="row"> 
+                                <div class="col-xs-4">
+                                    <span>{{role.role_belong_to}}</span>
+                                </div>
+                                <div class="col-xs-8">
+                                  {{role.role_name}}
+                                </div>
+                            </div>   
+                        {{/if}}  
+                    {{/each}} 
+                {{/if}}
+ 
+                {{#if account.changePassword}}
+                    <hr>
+                    Change password
+
+                    {{input 
+                        value=account.password
+                        placeholder=(t 'definitions.password')
+                        type="password"
+                        autofocus = true
+                        class="form-control" 
+                        focus-out=(action (mut showPasswordError) true) }} 
+
+                        {{#if showPasswordError}}
+                          <div class="error">
+                            {{v-get account 'password' 'message'}}
+                          </div>
+                        {{/if}}
+                        
+                    {{input 
+                        value=account.passwordConfirmation
+                        placeholder="Confirm password" 
+                        class="form-control" 
+                        type="password"
+                        focus-out=(action (mut showPasswordConfirmationError) true) }} 
+
+                        {{#if showPasswordConfirmationError}}
+                          <div class="error"> 
+                            {{v-get account 'passwordConfirmation' 'message'}}
+                          </div>
+                        {{/if}} 
+                {{/if}}
+        	</div>  
+
+        </div> 
+    </div> 
+    <div class="panel-footer text-right">
+      {{yield}}
+    </div>
+</div>
+ 

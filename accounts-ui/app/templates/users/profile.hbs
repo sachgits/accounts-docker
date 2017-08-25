@@ -1,0 +1,19 @@
+<div class="container users-view"> 
+    
+    {{#if model.isEditing }} 
+        {{#user-account-form account=model title='edit-user'}} 
+            <button class="btn btn-success btn-sm" {{action 'cancelEditUser' model}}>Cancel</button>
+            <button class="btn btn-success btn-sm"   {{action 'updateUser' model}} >Update</button>
+        {{/user-account-form}}   
+    {{else}} 
+        {{#user-account account=model}} 
+            {{#if model.changePassword}} 
+                <button class="btn btn-warning btn-sm" {{action 'cancelUpdatePassword' model}}>Cancel</button>
+                <button class="btn btn-success btn-sm" {{action 'updatePassword' model}}>Update password</button>
+            {{else}}
+                <button class="btn btn-success btn-sm" {{action 'changePassword' model}}>Change password</button>
+                <button class="btn btn-success btn-sm" {{action 'editUser' model}}>Edit</button>
+            {{/if}} 
+        {{/user-account}}  
+    {{/if}} 
+</div> 

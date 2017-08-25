@@ -2,22 +2,30 @@
 @import "bootswatch/main.less";
 @import "bootswatch/variables.less";
 
+
+@import "ember-power-select";
+
+
+
 @import "ember-modal-dialog.less";
 
-
+@import "overrides.less";
 @import "util.less";
 @import "header.less";
 @import "footer.less";
 
 
 @import "components/dwum-language-selector.less";
+@import "components/dwum-spinner.less";
+
+@import "components/dwum-error.less";
 
 @import "components/field-group.less";
 @import "components/action-label.less";
 
 @import "components/form-component/users.less";
 
-
+ 
 
 body {
     background: @gray-lighter;
@@ -50,6 +58,11 @@ body {
 .form-signin {
     margin: 0 auto 20px;
 }
+
+.password-recover-link {
+    font-size: 12px;
+}
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
@@ -60,6 +73,14 @@ body {
     height: auto;
     margin-bottom: 15px;
     padding: 7px 9px;
+}
+
+.users-item client-item {
+  min-height: 150px;
+}
+
+.usrs-filter {
+    margin-left: 200px;
 }
 
 .capitalized {
@@ -75,3 +96,4 @@ body {
 
  
  
+
