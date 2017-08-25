@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
       
     <groupId>se.nrm.dina</groupId>
-    <artifactId>accounts-management</artifactId>
+    <artifactId>user-managememt</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>accounts-management</name>
+    <name>user-management</name>
   
     <organization>
         <name>Swedish Natural History of Museum</name>
@@ -24,7 +26,8 @@
     </developers>
   
     <properties> 
-        <version.wildfly.swarm>2017.4.0</version.wildfly.swarm>  
+        <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>  
+        <!--<version.wildfly.swarm>2017.7.0</version.wildfly.swarm>-->
         <version.org.slf4j>1.7.25</version.org.slf4j>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -35,8 +38,9 @@
     </properties>
  
     <modules>   
-        <module>accounts-api</module>
-  </modules>
+        <module>dina-user-management</module> 
+        <!--<module>dina-keycloak-management</module>--> 
+    </modules>
     
     <dependencyManagement>
         <dependencies>
@@ -68,6 +72,13 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${version.org.slf4j}</version>
         </dependency> 
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <build>
