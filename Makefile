@@ -1,7 +1,7 @@
 #!make
 
 PWD=$(shell pwd)
-include env/.envaccounts
+
 
 all: init build dotfiles sso-init up
 .PHONY: all
@@ -46,6 +46,8 @@ secrets:
 dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"
 	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
+
+-include env/.envaccounts
 
 up:
 	docker-compose up -d
