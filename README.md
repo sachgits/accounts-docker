@@ -15,7 +15,7 @@ Here is an attempt to provide a short recipe of commands you can use to get the 
 		cd accounts-docker
 	
 		# build and run
-    make dotfiles
+		make dotfiles
 		make
 
 		# acccess the UI

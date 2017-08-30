@@ -4,13 +4,7 @@ services:
 
   db:
     image: mysql:5.7
-    environment:
-      - TZ=Europe/Stockholm 
-      - MYSQL_ROOT_PASSWORD=password12
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=keycloak
-      - MYSQL_PASSWORD=keycloak 
-#    env_file: ./env/.envmysql
+    env_file: ./env/.envmysql
 #    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db_accounts:/var/lib/mysql
@@ -21,21 +15,15 @@ services:
       - TZ=Europe/Stockholm
       - MYSQL_PORT_3306_TCP_ADDR=mysql
       - MYSQL_PORT_3306_TCP_PORT=3306
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USERNAME=keycloak
-      - MYSQL_PASSWORD=keycloak 
-  #  env_file: ./env/.envmysql
-    ports:
-      - "8080:8080"
+    env_file: ./env/.envmysql
     links:
       - db:mysql 
  
   api:
     image: dina/accounts-api:v0.1
-    ports:
-      - "8181:8181"
-  #  links:
-  #    - db:mysql
+    env_file: ./env/.envaccounts
+    links:
+      - db:mysql
 
   ui:
     image: dina/accounts-ui:v0.1
