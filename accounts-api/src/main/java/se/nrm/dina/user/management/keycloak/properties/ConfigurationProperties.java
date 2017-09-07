@@ -97,6 +97,7 @@ public class ConfigurationProperties {
         this.passwordPolicies = passwordPolicies;
         
         log.info("test injection : {}", keycloakAuthURL);
+        log.info("email password : {}", emailPassword);
     }
  
     /**

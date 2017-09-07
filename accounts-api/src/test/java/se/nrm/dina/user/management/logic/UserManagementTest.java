@@ -63,6 +63,8 @@ public class UserManagementTest {
     private String id;
     private int usersCount;
     
+    private String jsonString;
+    
     public UserManagementTest() {
     }
  
@@ -90,6 +92,15 @@ public class UserManagementTest {
         Mockito.when(usersResource.get(id)).thenReturn(userResource);
         
         Mockito.when(json.converterUsers(anyObject())).thenReturn(jsonObj);
+        
+        jsonString = "{ \"data\": {\"type\": \"roles\", \"id\": \"9e5731e7-caeb-40d1-ab2e-a31bba8b4413\", \"attributes\": {" +
+"			\"role_name\": \"super admin\",\n" +
+"			\"description\": \"super admin\",\n" +
+"			\"is_client\": false,\n" +
+"			\"role_belong_to\": \"dina\"\n" +
+"		}\n" +
+"	}\n" +
+"}";
     }
     
     @After

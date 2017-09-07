@@ -36,6 +36,7 @@ import se.nrm.dina.user.management.logic.RealmManagement;
 import se.nrm.dina.user.management.logic.RoleManagement;
 import se.nrm.dina.user.management.logic.TsvUploader;
 import se.nrm.dina.user.management.logic.UserManagement; 
+import se.nrm.dina.user.management.utils.CommonString;
 import se.nrm.dina.user.management.utils.PATCH;
 
 /**
@@ -160,7 +161,7 @@ public class UserManagementServices implements Serializable {
             KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) userPrincipal;
             AccessToken token = kp.getKeycloakSecurityContext().getToken();        
             Map<String, Access> accessMap = token.getResourceAccess();
-            Access access = accessMap.get("user-management");
+            Access access = accessMap.get(CommonString.getInstance().getUserManagementClientId());
             return access.getRoles().toString().equals("[admin]"); 
         }
         return false;

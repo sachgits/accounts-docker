@@ -1,4 +1,5 @@
 /accounts-api/target/ 
+/accounts-api/project-initdata.yml
 /accounts-api/nb-configuration.xml
 /mysql-datadir
 m2
