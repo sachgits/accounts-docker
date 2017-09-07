@@ -62,7 +62,7 @@ public class CommonString {
     private static final String DINA_REST_CLIENT_ID = "dina-rest";
     private static final String DINA_REST_CLIENT_NAME = "dina rest endpoint";
     private static final String DINA_REST_CLIENT_DESCRIPTION = "Provides an entry point to authenticate user into DINA system.";
-    private static final String USER_MANAGEMENT_CLIENT_ID = "user-management"; 
+    private static final String USER_MANAGEMENT_CLIENT_ID = "dina-user-management"; 
     private static final String USER_MANAGEMENT_CLIENT_NAME = "User management";
     private static final String USER_MANAGEMENT_CLIENT_DESCRIPTION = "Management user accounts in keycloak";
     private static final String OPEN_ID_CONNECT_PROTOCOL = "openid-connect";
@@ -163,8 +163,8 @@ public class CommonString {
     private final String PROTOCOL_MAPPER_NAME_GIVEN_NAME = "given name";
     private final String PROTOCOL_MAPPER_CONSENT_TEXT_GIVEN_NAME = "${givenName}";
     
-    private final String OFFLINE_ACCESS_ROLE = "offline_access";
-    private final String UMA_AUTHORIZATION_ROLE = "uma_authorization";
+//    private final String OFFLINE_ACCESS_ROLE = "offline_access";
+//    private final String UMA_AUTHORIZATION_ROLE = "uma_authorization";
     
     private final String TYPE_ROLES = "roles";
     
@@ -196,13 +196,13 @@ public class CommonString {
         return INITIAL_SETUP;
     }
     
-    public String getUmaAuthorizationRole() {
-        return UMA_AUTHORIZATION_ROLE;
-    }
-    
-    public String getOfflineAccessRole() {
-        return OFFLINE_ACCESS_ROLE;
-    }
+//    public String getUmaAuthorizationRole() {
+//        return UMA_AUTHORIZATION_ROLE;
+//    }
+//    
+//    public String getOfflineAccessRole() {
+//        return OFFLINE_ACCESS_ROLE;
+//    }
     
     public String getProtocolMapperConsentTextGivenName() {
         return PROTOCOL_MAPPER_CONSENT_TEXT_GIVEN_NAME;

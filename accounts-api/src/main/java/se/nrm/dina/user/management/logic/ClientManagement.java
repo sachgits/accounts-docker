@@ -57,8 +57,7 @@ public class ClientManagement implements Serializable {
                 .forEach(c -> {
                     RolesResource rolesResource = dinaRealmResource.clients().get(c.getId()).roles(); 
                     map.put(c, rolesResource.list());
-                });
-          
+                }); 
         return json.converterClients(map); 
-    }   
+    }    
 }

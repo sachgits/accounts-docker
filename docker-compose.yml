@@ -16,12 +16,16 @@ services:
       - MYSQL_PORT_3306_TCP_ADDR=mysql
       - MYSQL_PORT_3306_TCP_PORT=3306
     env_file: ./env/.envmysql
+    ports:
+      - "8080:8080"
     links:
       - db:mysql 
  
   api:
     image: dina/accounts-api:v0.1
-    env_file: ./env/.envaccounts
+  #  env_file: ./env/.envaccounts
+    ports:
+      - "8181:8181"
     links:
       - db:mysql
 

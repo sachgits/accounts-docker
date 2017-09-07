@@ -9,8 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
+import java.util.Map; 
 import java.util.stream.Collectors; 
 import javax.inject.Inject;
 import javax.json.JsonObject;  
@@ -52,6 +51,14 @@ public class UserManagement implements Serializable {
     private RealmManagement realm;
      
     public UserManagement() {
+    }
+    
+    public UserManagement(Keycloak keycloakClient, ConfigurationProperties config, 
+                          RealmManagement realm, JsonConverter json) {
+        this.keycloakClient = keycloakClient;
+        this.config = config;
+        this.realm = realm;
+        this.json = json;
     }
      
     public JsonObject createUser(String jsonString, boolean createdByAdmin) {
@@ -317,9 +324,12 @@ public class UserManagement implements Serializable {
         log.info("getUserByAccountStatus : {}", status);
         List<UserRepresentation> list = getUsersRepresentation(null);
         
-        List<UserRepresentation> matchList = list.stream()
-                                                  .filter(u -> u.getAttributes().get("status").get(0).equals(status))
-                                                  .collect(Collectors.toList());
+        
+        List<UserRepresentation> matchList = KeycloakPredicates.filterUsers(list, KeycloakPredicates.filterUserByStatus(status));
+        
+//        List<UserRepresentation> matchList = list.stream()
+//                                                  .filter(u -> u.getAttributes().get("status").get(0).equals(status))
+//                                                  .collect(Collectors.toList());
         return json.converterUsers(matchList);
     }
 
@@ -330,6 +340,7 @@ public class UserManagement implements Serializable {
      */
     public JsonObject getUsers() {
         log.info("getUsers");
+         
         return json.converterUsers(getUsersRepresentation(null));
     }
 
@@ -341,14 +352,13 @@ public class UserManagement implements Serializable {
     public JsonObject getLoggedInUser() {
         log.info("getLoggedInUser");
 
-        UsersResource usersResource = getUsersResource();
+        UsersResource usersResource = realm.getDinaRealmResource().users();
         int count = usersResource.count();
         List<UserRepresentation> userRepresentations = usersResource.search(null, 0, count);
-        List<UserRepresentation> loggedInUsers = userRepresentations.stream()
-                .parallel()
-                .filter(isLoggedIn(usersResource))
-                .collect(Collectors.toList());
-
+        
+        List<UserRepresentation> loggedInUsers = KeycloakPredicates.filterUsers(userRepresentations, 
+                                                                                KeycloakPredicates.isLoggedIn(usersResource));
+ 
         return json.converterUsers(loggedInUsers);
     }
     
@@ -415,14 +425,19 @@ public class UserManagement implements Serializable {
 
     private void setRealmRole(UserResource userResource, String role) {
 
-        removeRealmRoles(userResource);
-        List<RoleRepresentation> dinaRealmRoles = getDinaRealmResource().roles().list();
-        List<RoleRepresentation> newRole = dinaRealmRoles.stream()
-                .filter(isNotDefaultRealmRole(CommonString.getInstance().getOfflineAccessRole()))
-                .filter(isNotDefaultRealmRole(CommonString.getInstance().getUmaAuthorizationRole()))
-                .filter(isRealmRole(role))
-                .collect(Collectors.toList());
-        userResource.roles().realmLevel().add(newRole);
+        removeRealmRoles(userResource); 
+        
+        List<RoleRepresentation> dinaRealmRoles = getDinaRealmResource().roles().list();  
+        List<RoleRepresentation> newRoles = KeycloakPredicates.filterRoles(KeycloakPredicates.filterRoles(dinaRealmRoles, 
+                                                                           KeycloakPredicates.isNotRealmDefaultRoles()), 
+                                                                           KeycloakPredicates.isRealmRole(role));
+                
+//        List<RoleRepresentation> newRole = dinaRealmRoles.stream() 
+//                .filter(isNotDefaultRealmRole(CommonString.getInstance().getOfflineAccessRole()))
+//                .filter(isNotDefaultRealmRole(CommonString.getInstance().getUmaAuthorizationRole()))
+//                .filter(isRealmRole(role))
+//                .collect(Collectors.toList());
+        userResource.roles().realmLevel().add(newRoles);
     }
 
     private void removeRealmRoles(UserResource userResource) {
@@ -433,16 +448,13 @@ public class UserManagement implements Serializable {
     private RealmResource getDinaRealmResource() {
         return keycloakClient.realm(config.getRealm());
     }
+//
+//    private static Predicate<RoleRepresentation> isRealmRole(String roleName) {
+//        return role -> role.getName().equals(roleName);
+//    }
+//
+//    private static Predicate<RoleRepresentation> isNotDefaultRealmRole(String realmRoleName) {
+//        return role -> !role.getName().equals(realmRoleName);
+//    }
 
-    private static Predicate<RoleRepresentation> isRealmRole(String roleName) {
-        return role -> role.getName().equals(roleName);
-    }
-
-    private static Predicate<RoleRepresentation> isNotDefaultRealmRole(String realmRoleName) {
-        return role -> !role.getName().equals(realmRoleName);
-    }
-
-    private static Predicate<UserRepresentation> isLoggedIn(UsersResource usersResource) {
-        return u -> !usersResource.get(u.getId()).getUserSessions().isEmpty();
-    } 
 } 

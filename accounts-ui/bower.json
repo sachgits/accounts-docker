@@ -1,5 +1,5 @@
 {
-  "name": "user-management-ui",
+  "name": "accounts-ui",
   "dependencies": {
     "sweetalert2": "^6.1.0"
   },

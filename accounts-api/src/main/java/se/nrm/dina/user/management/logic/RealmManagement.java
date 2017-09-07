@@ -7,18 +7,16 @@ package se.nrm.dina.user.management.logic;
 
 import java.io.Serializable;  
 import java.util.ArrayList; 
-import java.util.List; 
-import java.util.function.Predicate;
-import java.util.stream.Collectors;  
+import java.util.List;  
 import javax.inject.Inject; 
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
-import lombok.extern.slf4j.Slf4j; 
+import lombok.extern.slf4j.Slf4j;  
 import org.keycloak.admin.client.Keycloak;  
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.RealmsResource;
+import org.keycloak.admin.client.resource.RealmsResource; 
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.ClientRepresentation;   
 import org.keycloak.representations.idm.ProtocolMapperRepresentation;
@@ -55,8 +53,10 @@ public class RealmManagement implements Serializable {
     public RealmManagement() { 
     }
     
-    public RealmManagement(Keycloak keycloakClient) {
+    public RealmManagement(Keycloak keycloakClient, ConfigurationProperties config, JsonConverter json) {
         this.keycloakClient = keycloakClient;
+        this.config = config;
+        this.json = json;
     }
  
     public RealmResource getDinaRealmResource() {
@@ -68,7 +68,7 @@ public class RealmManagement implements Serializable {
     }
   
     public boolean isRealmExist() { 
-        return getRealmResources().findAll().stream().anyMatch(realmExist());  
+        return getRealmResources().findAll().stream().anyMatch(KeycloakPredicates.isDinaRealmExists(config.getRealm()));   
     }
     
     public void createClientRoles() {
@@ -91,6 +91,7 @@ public class RealmManagement implements Serializable {
         clientRoleRepresentation.setDescription(description);
         
         clientRoleRepresentation.setClientRole(true);
+      
         getDinaRealmResource().clients().findByClientId(clientId).forEach(clientRepresentation ->
             getDinaRealmResource().clients().get(clientRepresentation.getId()).roles().create(clientRoleRepresentation)
         ); 
@@ -201,14 +202,14 @@ public class RealmManagement implements Serializable {
         log.info("getRealmByRealmName");
         
         RealmResource realmResource = keycloakClient.realm(config.getRealm()); // TODO: use config property for now
-        List<ClientRepresentation> clientRepresentations = realmResource.clients().findAll().stream()
-                                                                        .filter(filterDefaultRealmClients())
-                                                                        .collect(Collectors.toList());
          
-        List<RoleRepresentation> roleRepresentations = realmResource.roles().list().stream()
-                                                                        .filter(filterDefaultRealmRoles())
-                                                                        .collect(Collectors.toList());
+        List<ClientRepresentation> clientRepresentations = KeycloakPredicates.filterClients(realmResource.clients().findAll(), 
+                                                                                            KeycloakPredicates.isDinaRealmClients());
+        
+        List<RoleRepresentation> roleRepresentations = KeycloakPredicates.filterRoles(realmResource.roles().list(), 
+                                                                                      KeycloakPredicates.isFiltoutRealmRoles());
          
+        System.out.println("json : " + json);
         return json.converterRealm(realmResource.toRepresentation(), roleRepresentations, clientRepresentations);  
     }
     
@@ -238,9 +239,7 @@ public class RealmManagement implements Serializable {
         String locationHeader = response.getHeaderString(CommonString.getInstance().getLocation());
         response.close();
 
-        if (locationHeader != null) {
-            log.info("locationHeader : {}", locationHeader);
-             
+        if (locationHeader != null) { 
             UserResource userResource = getDinaRealmResource().users().get(helper.extractUserIdFromString(locationHeader));   
             userResource.resetPassword(helper.buildCredentialRepresentation(password, false));
             
@@ -256,14 +255,16 @@ public class RealmManagement implements Serializable {
         List<RoleRepresentation> newRole = new ArrayList<>();
         
         String id = getClientRepresentationByClientId(clientId).getId();
-        List<RoleRepresentation> clientRoleRepresentation = getClientRolesById(id);
-        clientRoleRepresentation.stream()
-                                .forEach(rr -> {
-                                    if (rr.getName().equals(role)) {
+        List<RoleRepresentation> clientRoleRepresentations = getClientRolesById(id);  
+        clientRoleRepresentations.stream()
+                                 .forEach(rr -> {
+                                     if (rr.getName().equals(role)) {
                                         newRole.add(rr); 
-                                    }
-                                }); 
-        userResource.roles().clientLevel(id).add(newRole);
+                                     }
+                                 }); 
+        if(newRole.size() > 0) {
+            userResource.roles().clientLevel(id).add(newRole);
+        } 
     }
      
     public List<RoleRepresentation> getClientRolesById(String id) {
@@ -282,19 +283,12 @@ public class RealmManagement implements Serializable {
     public ClientsResource getDinaClientResources() {
         return getDinaRealmResource().clients();
     }
-    
-    public List<RoleRepresentation> getDinaRealmRoles() {
-        return getDinaRealmResource().roles().list().stream()
-                                                    .filter(drr -> !drr.getName().equals(CommonString.getInstance().getOfflineAccessRole()))
-                                                    .filter(drr -> !drr.getName().equals(CommonString.getInstance().getUmaAuthorizationRole()))
-                                                    .collect(Collectors.toList());
-    }
+
     
     public void removeRealmRolesFromUser(UserResource userResource) {
         log.info("removeRealmRolesFromUser");
-        
-        List<RoleRepresentation> rrs = userResource.roles().realmLevel().listAll();
-        userResource.roles().realmLevel().remove(rrs);
+          
+        userResource.roles().realmLevel().remove(userResource.roles().realmLevel().listAll());
     }
 
     public void addRealmRolesToUser(UserResource userResource, String role) { 
@@ -302,24 +296,41 @@ public class RealmManagement implements Serializable {
         
         removeRealmRolesFromUser(userResource); 
         List<RoleRepresentation> newRole = new ArrayList<>();
-        getDinaRealmRoles().stream()
-                .forEach(drr -> {
-                    if (drr.getName().equals(role)) {
-                        newRole.add(drr);
-                    }
-                });
+        
+        KeycloakPredicates.filterRoles( getDinaRealmResource().roles().list(), 
+                                        KeycloakPredicates.isNotRealmDefaultRoles())
+                                        .stream()
+                                            .forEach(drr -> {
+                                                if (drr.getName().equals(role)) {
+                                                    newRole.add(drr);
+                                                }
+                                            });
         userResource.roles().realmLevel().add(newRole);
     } 
-   
-    private Predicate<RealmRepresentation> realmExist() {
-        return r -> r.getDisplayName().equals(config.getRealm());
-    }
-     
-    private Predicate<ClientRepresentation> filterDefaultRealmClients() {
-        return c -> c.getName().startsWith("dina") || c.getName().startsWith("user");
-    }
+    
+    
+    
+    
+    
+    
+    
         
-    private Predicate<RoleRepresentation> filterDefaultRealmRoles() { 
-        return r -> !(r.getName().equals("uma_authorization") || r.getName().equals("offline_access") || r.getName().equals("disabled_user"));
-    } 
+//    private List<RoleRepresentation> getDinaRealmRoles() {
+//        return getDinaRealmResource().roles().list().stream()
+//                                                    .filter(drr -> !drr.getName().equals(CommonString.getInstance().getOfflineAccessRole()))
+//                                                    .filter(drr -> !drr.getName().equals(CommonString.getInstance().getUmaAuthorizationRole()))
+//                                                    .collect(Collectors.toList());
+//    }
+   
+//    private Predicate<RealmRepresentation> realmExist() {
+//        return r -> r.getDisplayName().equals(config.getRealm());
+//    }
+     
+//    private Predicate<ClientRepresentation> filterDefaultRealmClients() {
+//        return c -> c.getName().startsWith("dina") || c.getName().startsWith("user");
+//    }
+        
+//    private Predicate<RoleRepresentation> filterDefaultRealmRoles() { 
+//        return r -> !(r.getName().equals("uma_authorization") || r.getName().equals("offline_access") || r.getName().equals("disabled_user"));
+//    } 
 }

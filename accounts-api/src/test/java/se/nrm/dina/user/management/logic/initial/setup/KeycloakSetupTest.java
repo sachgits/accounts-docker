@@ -4,15 +4,11 @@
  * and open the template in the editor.
  */
 package se.nrm.dina.user.management.logic.initial.setup;
- 
-import org.junit.After; 
+  
+import org.junit.After;  
 import org.junit.Before; 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Ignore;
-import org.junit.runner.RunWith;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmsResource; 
+import org.junit.Test; 
+import org.junit.runner.RunWith; 
 import org.mockito.Mock; 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,7 +52,18 @@ public class KeycloakSetupTest {
         instance = new KeycloakSetup(realm); 
         when(realm.isRealmExist()).thenReturn(true); 
         instance.init();     
-        verify(realm, times(0)).createRealm();
+        verify(realm, times(0)).createRealm(); 
+        verify(realm, times(0)).createRealmRoles();
+        
+        verify(realm, times(0)).createRealmClient(  CommonString.getInstance().getDinaRestClientId(), 
+                                                    CommonString.getInstance().getDinaRestClientName(), 
+                                                    CommonString.getInstance().getDinaRestClientDescription(), true);
+        
+        verify(realm, times(0)).createRealmClient(  CommonString.getInstance().getUserManagementClientId(),
+                                                    CommonString.getInstance().getUserManagementClientName(),
+                                                    CommonString.getInstance().getUserManagementClientDescription(), false); 
+        verify(realm, times(0)).createClientRoles();
+        verify(realm, times(0)).createRealmInitialUsers();
     }
     
         /**
@@ -82,5 +89,5 @@ public class KeycloakSetupTest {
         verify(realm, times(1)).createClientRoles();
         verify(realm, times(1)).createRealmInitialUsers();
         
-    }
+    } 
 }

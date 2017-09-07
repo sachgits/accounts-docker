@@ -7,11 +7,10 @@ package se.nrm.dina.user.management.json.impl;
 
 import java.io.Serializable;
 import java.io.StringReader;
-import java.math.BigDecimal;
-import java.util.Date; 
+//import java.math.BigDecimal;
+//import java.util.Date; 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
+import java.util.Map; 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
@@ -26,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.nrm.dina.user.management.json.JsonConverter;
 import se.nrm.dina.user.management.utils.CommonString;
-import se.nrm.dina.user.management.utils.Util;
+//import se.nrm.dina.user.management.utils.Util;
 
 /**
  *
@@ -37,6 +36,8 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final JsonBuilderFactory JSON_FACTORY = Json.createBuilderFactory(null);
+    
+    private JsonConvertHelper helper;
 
     public JsonConverterImpl() {
 
@@ -106,7 +107,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
      
             roleRepresentations.stream()
                                 .forEach(r -> {  
-                                    buildRoleJson(r, subDataBuilder, false, "myrealm");
+                                    buildRoleJson(r, subDataBuilder, false, "dina");
                                     subDataArrBuilder.add(subDataBuilder);
                                 }); 
             subBuilder.add(CommonString.getInstance().getData(), subDataArrBuilder);
@@ -114,16 +115,20 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         }
     }
     
-    private void buildRoleJson(RoleRepresentation roleRepresentation, JsonObjectBuilder subDataBuilder, boolean addAttributes, String roleBelongTo) { 
+    private void buildRoleJson(RoleRepresentation roleRepresentation, 
+                               JsonObjectBuilder subDataBuilder, 
+                               boolean addAttributes, 
+                               String roleBelongTo) { 
         subDataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getTypeRoles());
         subDataBuilder.add(CommonString.getInstance().getId(), roleRepresentation.getId()); 
         
+        helper = new JsonConvertHelper();
         if(addAttributes) {
             JsonObjectBuilder attBuilder = Json.createObjectBuilder(); 
-            addAttributes(attBuilder, "role_name", roleRepresentation.getName()); 
-            addAttributes(attBuilder, "description", roleRepresentation.getDescription());
-            addAttributes(attBuilder, "is_client", roleRepresentation.getClientRole()); 
-            addAttributes(attBuilder, "role_belong_to", roleBelongTo); 
+            helper.addAttributes(attBuilder, "role_name", roleRepresentation.getName()); 
+            helper.addAttributes(attBuilder, "description", roleRepresentation.getDescription());
+            helper.addAttributes(attBuilder, "is_client", roleRepresentation.getClientRole()); 
+            helper.addAttributes(attBuilder, "role_belong_to", roleBelongTo); 
             subDataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
         }
     }
@@ -222,9 +227,10 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getRealmType());
         dataBuilder.add(CommonString.getInstance().getId(), realmRepresentation.getId());
         
-        addAttributes(attBuilder, "realm_name", realmRepresentation.getRealm());
-        addAttributes(attBuilder, "realm_id", realmRepresentation.getId());
-        addAttributes(attBuilder, "description", realmRepresentation.getDisplayName());
+        helper = new JsonConvertHelper();
+        helper.addAttributes(attBuilder, "realm_name", realmRepresentation.getRealm());
+        helper.addAttributes(attBuilder, "realm_id", realmRepresentation.getId());
+        helper.addAttributes(attBuilder, "description", realmRepresentation.getDisplayName());
         
         dataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
         
@@ -299,17 +305,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         subBuilder.add(CommonString.getInstance().getData(), subDataArrBuilder);
         relBuilder.add(CommonString.getInstance().getTypeRoles(), subBuilder); 
     }
-
-
-    private static Predicate<RoleRepresentation> filterDefaultRealmRoles() {
-        return r -> Util.getInstance().isNotDefaultRole(r.getName());
-     //   return r -> !r.getName().equals("uma_authorization") && !r.getName().equals("offline_access");
-    }
-    
-    
-    
-    
-    
+  
 
     private void buildClientData(ClientRepresentation clientRepresentation, JsonObjectBuilder dataBuilder) {
 
@@ -318,74 +314,73 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getTypeClients());
         dataBuilder.add(CommonString.getInstance().getId(), clientRepresentation.getId());
        
-        addAttributes(attBuilder, "client_name", clientRepresentation.getName());
-        addAttributes(attBuilder, "client_id", clientRepresentation.getClientId());
-        addAttributes(attBuilder, "descriptions", clientRepresentation.getDescription());
+        helper = new JsonConvertHelper();
+        helper.addAttributes(attBuilder, "client_name", clientRepresentation.getName());
+        helper.addAttributes(attBuilder, "client_id", clientRepresentation.getClientId());
+        helper.addAttributes(attBuilder, "descriptions", clientRepresentation.getDescription());
           
         dataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
     }
      
     private void buildUserData(UserRepresentation userRepresentation, JsonObjectBuilder dataBuilder) {
+        
+        
 
         JsonObjectBuilder attBuilder = Json.createObjectBuilder();
 
         dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getUsersType());
         dataBuilder.add(CommonString.getInstance().getId(), userRepresentation.getId());
 
-        addAttributes(attBuilder, CommonString.getInstance().getFirstName(), userRepresentation.getFirstName());
-        addAttributes(attBuilder, CommonString.getInstance().getLastName(), userRepresentation.getLastName());
-        addAttributes(attBuilder, CommonString.getInstance().getEmail(), userRepresentation.getEmail());
-        addAttributes(attBuilder, CommonString.getInstance().getUsername(), userRepresentation.getUsername());
-        addAttributes(attBuilder, CommonString.getInstance().getTimestampCreated(), userRepresentation.getCreatedTimestamp());
-        addAttributes(attBuilder, CommonString.getInstance().isUserEnabled(), userRepresentation.isEnabled());
-        addAttributes(attBuilder, CommonString.getInstance().isEmailVerified(), userRepresentation.isEmailVerified());
+        helper = new JsonConvertHelper();
+        helper.addAttributes(attBuilder, CommonString.getInstance().getFirstName(), userRepresentation.getFirstName());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getLastName(), userRepresentation.getLastName());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getEmail(), userRepresentation.getEmail());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getUsername(), userRepresentation.getUsername());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getTimestampCreated(), userRepresentation.getCreatedTimestamp());
+        helper.addAttributes(attBuilder, CommonString.getInstance().isUserEnabled(), userRepresentation.isEnabled());
+        helper.addAttributes(attBuilder, CommonString.getInstance().isEmailVerified(), userRepresentation.isEmailVerified());
 
         Map<String, List<String>> attrs = userRepresentation.getAttributes();
         if(attrs != null && !attrs.isEmpty()) {
             List<String> purposes = attrs.get(CommonString.getInstance().getPurpose());
             if (purposes != null && !purposes.isEmpty()) {
-                addAttributes(attBuilder, CommonString.getInstance().getPurpose(), purposes.get(0));
+                helper.addAttributes(attBuilder, CommonString.getInstance().getPurpose(), purposes.get(0));
             }
             List<String> status = attrs.get(CommonString.getInstance().getStatus());
             if (status != null && !status.isEmpty()) {
-                addAttributes(attBuilder, CommonString.getInstance().getStatus(), status.get(0));
-            }
-            
-//            List<String> descriptions = attrs.get(CommonString.getInstance().getDescriptions());
-//            if(descriptions != null && !descriptions.isEmpty()) {
-//                addAttributes(attBuilder, CommonString.getInstance().getDescriptions(), descriptions);
-//            }
+                helper.addAttributes(attBuilder, CommonString.getInstance().getStatus(), status.get(0));
+            } 
         }
          
         dataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
     }
 
-    private void addAttributes(JsonObjectBuilder attBuilder, String key, Object value) {
-
-        if (key != null && value != null) {
-            if (value instanceof Integer) {
-                attBuilder.add(key, (int) value);
-            } else if (value instanceof Short) {
-                attBuilder.add(key, (Short) value);
-            } else if (value instanceof Date) {
-                attBuilder.add(key, Util.getInstance().dateToString((Date) value));
-            } else if (value instanceof java.util.Date) {
-                attBuilder.add(key, Util.getInstance().dateToString((java.util.Date) value));
-            } else if (value instanceof BigDecimal) {
-                attBuilder.add(key, (BigDecimal) value);
-            } else if (value instanceof Boolean) { 
-                attBuilder.add(key, (Boolean) value);
-            } else if (value instanceof Double) {
-                attBuilder.add(key, (Double) value);
-            } else if (value instanceof Float) {
-                attBuilder.add(key, (Float) value);
-            } else if (value instanceof Long) {
-                attBuilder.add(key, (Long) value);
-            } else if(value instanceof java.util.LinkedList) {
-                attBuilder.add(key, value.toString());
-            } else {
-                attBuilder.add(key, (String) value);
-            }
-        } 
-    } 
+//    private void addAttributes(JsonObjectBuilder attBuilder, String key, Object value) {
+//
+//        if (key != null && value != null) {
+//            if (value instanceof Integer) {
+//                attBuilder.add(key, (int) value);
+//            } else if (value instanceof Short) {
+//                attBuilder.add(key, (Short) value);
+//            } else if (value instanceof Date) {
+//                attBuilder.add(key, Util.getInstance().dateToString((Date) value));
+//            } else if (value instanceof java.util.Date) {
+//                attBuilder.add(key, Util.getInstance().dateToString((java.util.Date) value));
+//            } else if (value instanceof BigDecimal) {
+//                attBuilder.add(key, (BigDecimal) value);
+//            } else if (value instanceof Boolean) { 
+//                attBuilder.add(key, (Boolean) value);
+//            } else if (value instanceof Double) {
+//                attBuilder.add(key, (Double) value);
+//            } else if (value instanceof Float) {
+//                attBuilder.add(key, (Float) value);
+//            } else if (value instanceof Long) {
+//                attBuilder.add(key, (Long) value);
+//            } else if(value instanceof java.util.LinkedList) {
+//                attBuilder.add(key, value.toString());
+//            } else {
+//                attBuilder.add(key, (String) value);
+//            }
+//        } 
+//    } 
 }

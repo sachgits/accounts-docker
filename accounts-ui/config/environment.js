@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'user-management-ui',
+    modulePrefix: 'accounts-ui',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
