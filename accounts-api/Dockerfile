@@ -1,7 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
 COPY target/accounts-api-swarm.jar /usr/src/myapp/
-COPY project-initdata.yml /usr/src/myapp/
 
 WORKDIR /usr/src/myapp
 

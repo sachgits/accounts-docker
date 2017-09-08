@@ -42,10 +42,16 @@ secrets:
 		$$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 50) >> $@
 	printf "export SECRET_MYSQL_PASSWORD=%b\n" \
 		$$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 50) >> $@
+	printf "export SECRET_API_EMAIL_HOST=\n" >> $@
+	printf "export SECRET_API_EMAIL_PORT=587\n" >> $@
+	printf "export SECRET_API_EMAIL_USER=\n" >> $@
+	printf "export SECRET_API_EMAIL_PASS=\n" >> $@
+	printf "export SECRET_API_EMAIL_FROM=\n" >> $@
 
 dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"
 	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
+	bash -c ". secrets && envsubst < env/envapi.template > env/.envapi"
 
 -include env/.envaccounts
 

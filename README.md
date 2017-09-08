@@ -24,8 +24,12 @@ Here is an attempt to provide a short recipe of commands you can use to get the 
 		git clone $THIS_REPO_SLUG
 		cd accounts-docker
 	
-		# build and run
+		# NB: before building and starting services, make sure to configure your email server settings
+		# configure settings and credentials to use
 		make dotfiles
+		# then please edit the "secrets" file
+
+		# build and run
 		make
 
 		# acccess the UI
@@ -33,7 +37,12 @@ Here is an attempt to provide a short recipe of commands you can use to get the 
 
 NB: A local build will initially pulls many dependencies (~150+M maven libs for the API, ~1.4G npm packages for the UI) and takes approx 20 minutes depending on Internet connection speed. Re-building is faster, approx a couple of minutes at the most.
 
+When building on MacOS, the "envsubst" command used in `make dotfiles` may not be available by default. It can be installed with:
 
+		brew install gettext
+		brew link --force gettext 
+
+To configure email server settings, please edit the "secrets" file and fill in the missing values after having run "make dotfiles"
 
 ### Other Settings
 

@@ -6,3 +6,4 @@ m2
 /env/.envaccounts
 /env/.envmysql
 /accounts-api/nbproject/
+secrets

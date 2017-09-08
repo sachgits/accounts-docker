@@ -1,0 +1,39 @@
+## YAML Template.
+---
+swarm:
+    keycloak:
+        url: http://sso:8080/auth  
+    realm:
+        name: dina
+        passwordpolicies: hashIterations and specialChars and length
+    ui:
+        url: http://beta-accounts.dina-web.net
+    email:
+        host: $SECRET_API_EMAIL_HOST
+        port: $SECRET_API_EMAIL_PORT
+        username: $SECRET_API_EMAIL_USER
+        password: "$SECRET_API_EMAIL_PASS"
+        from: $SECRET_API_EMAIL_FROM
+    user:
+        superadmin:
+            username: admin@nrm.se
+            password: admin#001
+            firstname: admin
+            lastname: admin
+        admin:
+            username: admin.dina@nrm.se
+            password: dina#admin
+            firstname: admin
+            lastname: dina
+        user:
+            username: user.dina@nrm.se
+            password: dina#user
+            firstname: user
+            lastname: dina
+    http:
+        port: 8181
+    management:
+        http:
+            port: 9191
+        
+        
