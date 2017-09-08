@@ -10,6 +10,6 @@ RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for
 	-O /wait-for-it.sh \
 	&& chmod +x /wait-for-it.sh
 
-ENTRYPOINT ["/sbin/tini", "--", "/wait-for-it.sh", "sso:8080", "-t", "60", "--"]
+ENTRYPOINT ["/sbin/tini", "--", "/wait-for-it.sh", "sso:8080", "-t", "90", "--"]
 
 CMD ["java", "-jar", "accounts-api-swarm.jar", "-Sinitdata" ]

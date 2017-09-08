@@ -25,9 +25,8 @@ Here is an attempt to provide a short recipe of commands you can use to get the 
 		cd accounts-docker
 	
 		# NB: before building and starting services, make sure to configure your email server settings
-		# configure settings and credentials to use
+		# to do this run "make secrets" and then add extra info to the "secrets" file and then run ...
 		make dotfiles
-		# then please edit the "secrets" file
 
 		# build and run
 		make
@@ -42,7 +41,9 @@ When building on MacOS, the "envsubst" command used in `make dotfiles` may not b
 		brew install gettext
 		brew link --force gettext 
 
-To configure email server settings, please edit the "secrets" file and fill in the missing values after having run "make dotfiles"
+To configure email server settings, please edit the "secrets" file and fill in the missing values after having run "make secrets", then run "make dotfiles"
+
+Once the services have launched, open up your browser at beta-accounts.dina-web.net and log in with the default Accounts API user credentials from the 'envapi.template' file that you have used, usually user: admin@nrm.se and pass: admin#001.
 
 ### Other Settings
 
