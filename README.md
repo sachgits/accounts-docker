@@ -59,7 +59,7 @@ NB: A local build will initially pulls many dependencies (~150+M maven libs for 
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
-		127.0.0.1	beta-accounts.dina-web.net
+		127.0.0.1	beta-accounts.dina-web.net beta-api.dina-web.net beta-sso.dina-web.net
 
 Then open up your browser at https://beta-accounts.dina-web.net
 
