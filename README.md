@@ -45,9 +45,11 @@ To configure email server settings, edit the "secrets" file and fill in the miss
 
 		make dotfiles
 
-**5\)** Set up reverse proxy
+**5\)** **Optional:** Set up reverse proxy
 
-See instructions on [bootstrap repository](https://github.com/DINA-Web/bootstrap)
+This is only needed if there are several modules running on same server (Docker host). Otherwise the proxy service that is set up on docker-compose.yml will take over.
+
+See instructions on [setting up reverse proxy on bootstrap repository](https://github.com/DINA-Web/bootstrap)
 
 **6\)** Build and run Docker containers
 
@@ -76,9 +78,9 @@ When building on MacOS, the "envsubst" command used in `make dotfiles` may not b
 
 ## Issues
 
-Currently these are some known issues that stops the system from being fully functional upon start. 
+Currently these are some known issues that stops the system from being fully functional upon start. Please see the Issues list of this repository for details.
 
-Please see the Issues list of this repository for details.
+This setup requires modifying the hosts file. Another option would be to include name server as a service.
 
 
 
