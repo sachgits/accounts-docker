@@ -49,9 +49,11 @@ To configure email server settings, edit the "secrets" file and fill in the miss
 
 		make dotfiles
 
-**5\)** **Optional:** Set up reverse proxy
+**5\)** Set up reverse proxy
 
 This is only needed if there are several modules running on same server (Docker host). Otherwise the proxy service that is set up on docker-compose.yml will take over.
+
+**TODO:** Add documentation on how to set up proxy with docker-compose.
 
 See instructions on [setting up reverse proxy on bootstrap repository](https://github.com/DINA-Web/bootstrap)
 
@@ -93,6 +95,6 @@ This setup requires modifying the hosts file. Another option would be to include
 1) Pull latest code from Github
 2) Use make to create random secrets (passwords) to access different services. Add external service passwords manually. Use make  to save these to dotfiles in the env-directory for later use. ()
 3) Build the system using make. This will read the Makefile in the root directory and will
-   a) Create containers for all the services (sso, api, db, ui) using external base images (from Docker Hub), code pulled from Github and settings in Makefile and each services's Dockerfile. (settings in root Makefile and each service's Dockerfile)
-   b) Save these containers into local images (settings in each service's Makefile)
-   c) Use docker-compose to start up the local images and connect them together using the same network, proxy and volumes. (settings in docker-compose.yml)
+   1) Create containers for all the services (sso, api, db, ui) using external base images (from Docker Hub), code pulled from Github and settings in Makefile and each services's Dockerfile. (settings in root Makefile and each service's Dockerfile)
+   2) Save these containers into local images (settings in each service's Makefile)
+   3) Use docker-compose to start up the local images and connect them together using the same network, proxy and volumes. (settings in docker-compose.yml)
