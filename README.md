@@ -61,6 +61,8 @@ See instructions on [setting up reverse proxy on bootstrap repository](https://g
 
 NB: A local build will initially pulls many dependencies (~150+M maven libs for the API, ~1.4G npm packages for the UI) and takes c. 20 minutes depending on Internet connection speed. Re-building is faster, a couple of minutes at the most.
 
+You can also use `make up`to start the system from pre-existing images. If these are not present locally, Docker will pull these from DINA's account on Docker Hub.
+
 **7\)** Acccess the UI
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
@@ -86,5 +88,11 @@ Currently these are some known issues that stops the system from being fully fun
 
 This setup requires modifying the hosts file. Another option would be to include name server as a service.
 
+# Technical overview of the build & deployment process
 
-
+1) Pull latest code from Github
+2) Use make to create random secrets (passwords) to access different services. Add external service passwords manually. Use make  to save these to dotfiles in the env-directory for later use. ()
+3) Build the system using make. This will read the Makefile in the root directory and will
+   a) Create containers for all the services (sso, api, db, ui) using external base images (from Docker Hub), code pulled from Github and settings in Makefile and each services's Dockerfile. (settings in root Makefile and each service's Dockerfile)
+   b) Save these containers into local images (settings in each service's Makefile)
+   c) Use docker-compose to start up the local images and connect them together using the same network, proxy and volumes. (settings in docker-compose.yml)
