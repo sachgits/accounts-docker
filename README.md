@@ -19,7 +19,6 @@ Requirements:
 - `docker-compose`
 - `make`
 - `git`
-- [DINA Reverse proxy](https://github.com/DINA-Web/proxy-docker) for web traffic routing and SSL termination.
 - Email server, eg. [DINA Mail-docker](https://github.com/DINA-Web/mail-docker)
 
 See bootstrap repository for [details about setting up your host](https://github.com/DINA-Web/bootstrap).
@@ -32,6 +31,11 @@ A recipe of commands to get the necessary parts in place, running on your host:
 
 		git clone $THIS_REPO_SLUG
 		cd accounts-docker
+
+To use branch other than master, type
+
+		git fetch
+		git checkout $BRANCH_NAME
 
 **2\)** Create secrets
 
