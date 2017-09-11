@@ -20,7 +20,7 @@ Requirements:
 - `make`
 - `git`
 - [DINA Reverse proxy](https://github.com/DINA-Web/proxy-docker) for web traffic routing and SSL termination.
-- [DINA Mailserver](https://github.com/DINA-Web/mail-docker)
+- Email server, eg. [DINA Mail-docker](https://github.com/DINA-Web/mail-docker)
 
 See bootstrap repository for [details about setting up your host](https://github.com/DINA-Web/bootstrap).
 
@@ -28,34 +28,38 @@ See bootstrap repository for [details about setting up your host](https://github
 
 A recipe of commands to get the necessary parts in place, running on your host:
 
-1\) Get latest version of the module
+**1\)** Get latest version of the module
 
 		git clone $THIS_REPO_SLUG
 		cd accounts-docker
 
-2\) Create secrets
+**2\)** Create secrets
 
 		make secrets
 
-3\) Configure email settings
+**3\)** Configure email settings
 
 To configure email server settings, edit the "secrets" file and fill in the missing values.
 
-4\) Make dotfiles, which will contain environment variables.
+**4\)** Make dotfiles, which will contain environment variables.
 
 		make dotfiles
 
-5\) Build and run Docker containers
+**5\)** Set up reverse proxy
+
+See instructions on [bootstrap repository](https://github.com/DINA-Web/bootstrap)
+
+**6\)** Build and run Docker containers
 
 		make
 
 NB: A local build will initially pulls many dependencies (~150+M maven libs for the API, ~1.4G npm packages for the UI) and takes c. 20 minutes depending on Internet connection speed. Re-building is faster, a couple of minutes at the most.
 
-6\) Acccess the UI
+**7\)** Acccess the UI
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
-		beta-accounts.dina-web.net
+		127.0.0.1	beta-accounts.dina-web.net
 
 Then open up your browser at https://beta-accounts.dina-web.net
 
@@ -75,5 +79,6 @@ When building on MacOS, the "envsubst" command used in `make dotfiles` may not b
 Currently these are some known issues that stops the system from being fully functional upon start. 
 
 Please see the Issues list of this repository for details.
+
 
 
