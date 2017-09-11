@@ -13,7 +13,7 @@ sso-init:
 	# this adds a master user to KeyCloak using environment settings from env/.envaccounts
 	docker-compose up -d sso
 	#docker-compose run sso keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
-  docker exec accountsdocker_sso_1 keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
+	docker exec accountsdocker_sso_1 keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
 	docker-compose restart sso
 
 build: build-api build-ui build-sso
