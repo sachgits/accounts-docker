@@ -19,7 +19,6 @@ Requirements:
 - `docker-compose`
 - `make`
 - `git`
-- Configuration to resolve names (in the simplest way just by editing `/etc/hosts`). 
 - [DINA Reverse proxy](https://github.com/DINA-Web/proxy-docker) for web traffic routing and SSL termination.
 - [DINA Mailserver](https://github.com/DINA-Web/mail-docker)
 
