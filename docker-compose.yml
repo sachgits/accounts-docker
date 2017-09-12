@@ -2,6 +2,13 @@ version: '3'
 
 services:
 
+#  fs-api:
+#    image: tianon/true
+#    volumes:
+#      - ./nginx-conf:/etc/nginx/conf.d
+#      - ./nginx-certs:/etc/nginx/ssl
+#      - ./nginx-logs:/etc/nginx/logs
+
   db:
     image: mysql:5.7
     env_file: ./env/.envmysql
@@ -15,13 +22,10 @@ services:
       - TZ=Europe/Stockholm
       - MYSQL_PORT_3306_TCP_ADDR=mysql
       - MYSQL_PORT_3306_TCP_PORT=3306
-      - VIRTUAL_HOST=beta-sso.dina-web.net
-      - VIRTUAL_PROTO=http
-      - VIRTUAL_PORT=8080
     env_file: ./env/.envmysql
     links:
       - db:mysql 
- 
+
   api:
     image: dina/accounts-api:v0.1
     environment:
@@ -30,6 +34,17 @@ services:
       - ./env/.envapi:/usr/src/myapp/project-initdata.yml
     ports:
       - "8181:8181"
+
+  ws:
+    image: nginx
+    container_name: beta-sso.dina-web.net
+    environment:
+      - VIRTUAL_HOST=beta-sso.dina-web.net
+  #  links:
+  #    - api 
+    volumes:
+      - ./nginx-conf/app.conf:/etc/nginx/conf.d/app.conf
+      - ./nginx-certs:/etc/nginx/ssl 
 
   ui:
     image: dina/accounts-ui:v0.1
@@ -52,4 +67,4 @@ services:
       - ./certs:/etc/nginx/certs
 
 volumes:
-  db_accounts:
+  db_accounts: 

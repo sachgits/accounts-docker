@@ -48,6 +48,8 @@ public class UserManagementUnsecureService implements Serializable {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public Response getUsers(@QueryParam("filter[email]") String email) {
         logger.info("getUsers : email :  {} ", email);
+        
+        
         return Response.ok(userManagement.getUserByUserName(email)).build();    
     }
 

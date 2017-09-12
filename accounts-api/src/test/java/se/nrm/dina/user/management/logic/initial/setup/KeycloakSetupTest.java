@@ -6,7 +6,7 @@
 package se.nrm.dina.user.management.logic.initial.setup;
   
 import org.junit.After;  
-import org.junit.Before; 
+import org.junit.Before;  
 import org.junit.Test; 
 import org.junit.runner.RunWith; 
 import org.mockito.Mock; 
@@ -66,9 +66,9 @@ public class KeycloakSetupTest {
         verify(realm, times(0)).createRealmInitialUsers();
     }
     
-        /**
-    * Test of init method, of class KeycloakSetup.
-     */
+    /**
+     * Test of init method, of class KeycloakSetup.
+     */ 
     @Test
     public void testInitRealmNotExists() {
         System.out.println("init"); 

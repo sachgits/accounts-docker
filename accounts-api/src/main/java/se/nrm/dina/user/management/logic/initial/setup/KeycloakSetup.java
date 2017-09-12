@@ -58,6 +58,7 @@ public class KeycloakSetup implements Serializable {
     public void init() {
         log.info("init");  
          
+        // realmManagement.deleteRealm();          // TODO: Only for development. Remove in production
         if(!realmManagement.isRealmExist()) {   
             realmManagement.createRealm(); 
             realmManagement.createRealmRoles();
@@ -71,6 +72,8 @@ public class KeycloakSetup implements Serializable {
             
             realmManagement.createClientRoles();
             realmManagement.createRealmInitialUsers(); 
+            
+            
         } 
     }     
 }

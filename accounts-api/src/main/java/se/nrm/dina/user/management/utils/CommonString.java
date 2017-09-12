@@ -173,7 +173,7 @@ public class CommonString {
     
     private final String REDIRECT_FRONT_END_URL = "http://localhost:4200";
     
-//    private final String REDIRECT_FRONT_END_URL_VIRTUALHOST = "http://beta-accounts.dina-web.net";
+    private final String REDIRECT_FRONT_END_URL_VIRTUALHOST = "https://beta-accounts.dina-web.net";
     
     private final String NONE = "none";
     
@@ -240,9 +240,9 @@ public class CommonString {
         return REDIRECT_FRONT_END_URL;
     }
     
-//    public String getRedirectFrontEndURLVirturalHost() {
-//        return REDIRECT_FRONT_END_URL_VIRTUALHOST;
-//    }
+    public String getRedirectFrontEndURLVirturalHost() {
+        return REDIRECT_FRONT_END_URL_VIRTUALHOST;
+    }
     
     public String getTokenFirstName() {
         return TOKEN_FIRST_NAME;

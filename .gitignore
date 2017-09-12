@@ -5,5 +5,9 @@
 m2
 /env/.envaccounts
 /env/.envmysql
+/env/.envapi
 /accounts-api/nbproject/
 secrets
+/certs/
+/nginx-certs/
+/nginx-logs/

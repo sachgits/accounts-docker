@@ -58,6 +58,13 @@ public class RealmManagement implements Serializable {
         this.config = config;
         this.json = json;
     }
+
+
+    public void deleteRealm() {
+        log.info("deleteRealm");
+        keycloakClient.realms().realm(config.getRealm()).remove();
+    }
+    
  
     public RealmResource getDinaRealmResource() {
         return getRealmResources().realm(config.getRealm());
@@ -143,10 +150,13 @@ public class RealmManagement implements Serializable {
             
             
             client.setProtocolMappers(protocolMappers);
-            List<String> redirectURIs = new ArrayList<>();
-            redirectURIs.add(CommonString.getInstance().getRedirectFrontEndURL());
-            redirectURIs.add(config.getUiURL());
-            client.setRedirectUris(redirectURIs);
+            List<String> redirectURIs = new ArrayList<>(); 
+            redirectURIs.add(CommonString.getInstance().getRedirectFrontEndURLVirturalHost());
+            client.setRedirectUris(redirectURIs);  
+            
+//            List<String> webOrigins = new ArrayList();
+//            webOrigins.add("https://beta-accounts.dina-web.net"); 
+            client.setWebOrigins(redirectURIs);
         }
         getDinaRealmResource().clients().create(client);
     }
@@ -307,7 +317,6 @@ public class RealmManagement implements Serializable {
                                             });
         userResource.roles().realmLevel().add(newRole);
     } 
-    
     
     
     
