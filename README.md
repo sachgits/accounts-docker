@@ -1,7 +1,7 @@
 # Accounts
 
-[![Build Status](https://travis-ci.org/DINA-Web/accounts-docker.svg?branch=all)](https://travis-ci.org/DINA-Web/accounts-docker)
-[![codecov.io](https://codecov.io/github/DINA-Web/accounts-docker/coverage.svg?branch=all)](https://codecov.io/github/DINA-Web/accounts-docker?branch=all)
+[![Build Status](https://travis-ci.org/DINA-Web/accounts-docker.svg?branch=development)](https://travis-ci.org/DINA-Web/accounts-docker)
+[![codecov.io](https://codecov.io/github/DINA-Web/accounts-docker/coverage.svg?branch=development)](https://codecov.io/github/DINA-Web/accounts-docker?branch=development)
 
 
 This project contains components for account management functionality.
