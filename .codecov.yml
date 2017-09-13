@@ -5,9 +5,4 @@ codecov:
 
 comment:
   layout: header, changes, diff
- 
-coverage:
-  ignore: 
   
-  status:
-    patch: false

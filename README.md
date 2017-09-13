@@ -1,6 +1,9 @@
 # Accounts
 
 [![Build Status](https://travis-ci.org/DINA-Web/accounts-docker.svg?branch=development)](https://travis-ci.org/DINA-Web/accounts-docker)
+
+[![codecov](https://codecov.io/gh/DINA-Web/accounts-docker/branch/development/graph/badge.svg)](https://codecov.io/gh/DINA-Web/accounts-docker)
+
 [![codecov.io](https://codecov.io/github/DINA-Web/accounts-docker/coverage.svg?branch=development)](https://codecov.io/github/DINA-Web/accounts-docker?branch=development)
 
 
