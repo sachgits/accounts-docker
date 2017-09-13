@@ -25,7 +25,13 @@ See bootstrap repository for [details about setting up your host](https://github
 
 ## Step-by-step instructions
 
-A recipe of commands to get the necessary parts in place, running on your host:
+A recipe of commands to get the necessary parts in place, running on your host.
+
+First add your user to the Docker group, so you can run Docker commands without sudoing..
+
+		sudo usermod -aG docker ${USER}
+		
+TODO: Check if this may cause security issues
 
 **1\)** Get latest version of the module
 
