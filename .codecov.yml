@@ -1,5 +1,7 @@
 codecov:
-  branch: master 
+  branch: all 
+ 
+  token: 386332d7-85a4-4feb-ac80-e0f4b80fb452
 
 comment:
   layout: header, changes, diff
