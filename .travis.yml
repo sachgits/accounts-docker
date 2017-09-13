@@ -2,20 +2,20 @@ language: java
   
 sudo: required
 services:
-- docker
+  - docker
 jdk:
-- oraclejdk8
+  - oraclejdk8
 install: true
 script:
-- mvn clean verify
+  - mvn clean verify 
  
 before_install:
 - pip install --user codecov
 after_success:
-- codecov
+  - bash <(curl -s https://codecov.io/bash)
 before_deploy:
-- docker build --tag dina/accounts-api:$TRAVIS_TAG .
-- docker build --tag dina/accounts-api .
+  - docker build --tag dina/accounts-api:$TRAVIS_TAG .
+  - docker build --tag dina/accounts-api .
 deploy:
   provider: releases
   api_key:
@@ -30,5 +30,5 @@ deploy:
     all_branches: true
 
 after_deploy:
-- docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push dina/accounts-api
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push dina/accounts-api
