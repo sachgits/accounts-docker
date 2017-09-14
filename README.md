@@ -99,8 +99,8 @@ This setup requires modifying the hosts file. Another option would be to include
 # Technical overview of the build & deployment process
 
 1) Pull latest code from Github
-2) Use make to create random secrets (passwords) to access different services. Add external service passwords manually. Use make  to save these to dotfiles in the env-directory for later use. ()
-3) Build the system using make. This will read the Makefile in the root directory and will
-   1) Create containers for all the services (sso, api, db, ui) using external base images (from Docker Hub), code pulled from Github and settings in Makefile and each services's Dockerfile. (settings in root Makefile and each service's Dockerfile)
-   2) Save these containers into local images (settings in each service's Makefile)
-   3) Use docker-compose to start up the local images and connect them together using the same network, proxy and volumes. (settings in docker-compose.yml)
+2) Use `make secrets` to create random secrets (passwords) to access different services. Add external service passwords manually. Use `make dotfiles` to save these to dotfiles in the env-directory for later use. ()
+3) Build the system using `make`. This will read the `Makefile` in the root directory and for each service (sso, api, db, ui) of the module and
+   1) Gets a Docker image from Docker Hub, and runs it as a Docker container (and installs proper tools). This is then uses to build the code into a working service.
+   2) Calls the service's `Makefile` to build the service into a Docker image. Settings for this come from the service's `Dockerfile`. Tags the image.
+4) Run the module by calling `docker-compose`. This starts all the services as Docker containers from their images (created on previous step), using settings from `docker-compose.yml`. (Currently this step is automatically included in the make command.)
