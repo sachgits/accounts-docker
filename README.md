@@ -101,12 +101,15 @@ This setup requires modifying the hosts file. Another option would be to include
 1) Pull latest code from Github
 2) Use `make secrets` to create random secrets (passwords) to access different services. Add external service passwords manually. Use `make dotfiles` to save these to dotfiles in the env-directory for later use. ()
 3) Build the system using `make`. This will read the `Makefile` in the root directory and for each service (sso, api, db, ui) of the module and
-   1) Gets a Docker image from Docker Hub, and runs it as a Docker container (and installs proper tools). This is then uses to build/package the code into a working service. [1]
-   2) Calls the service's `Makefile` to build the service into a Docker image. Settings for this come from the service's `Dockerfile`. Tags the image.
-4) Run the module by calling `docker-compose`. This starts all the services as Docker containers from their images (created on previous step), using settings from `docker-compose.yml`. (Currently this step is automatically included in the make command.)
-
+   1) Gets a Docker image from Docker Hub, and runs it as a Docker container (and installs build tools). This is then uses to build/package the code into a working service. [1]
+   2) Calls the service's `Makefile` to build the service into a Docker image. Settings for this come from the service's `Dockerfile`. Tags the image with "dina/$SERVICENAME:$VERSIONNAME"
+4) Run the module by calling `docker-compose`. This starts all the services as Docker containers from their images (created an tagged on previous step), using settings from `docker-compose.yml`. Docker-compose will also 
+   - Create a network (and links) betweeen the services, e.g. a backend application and it's database
+   - Set environment variables from dotfiles or from `docker-compose.yml` 
+   - Open ports between services and outside world
+   - Map volumes for ... **TODO**
+(Currently this step is automatically included in the make command.)
 
 [1] Building/packaging means e.g.
 - Packaging Java code into JAR-package
 - Building Ember project into minified files
-- 
