@@ -1,8 +1,12 @@
 codecov:
-  branch: all 
- 
-  token: 386332d7-85a4-4feb-ac80-e0f4b80fb452
+  branch: development
 
+coverage:
+  precision: 2
+  round: down
+  range: 70...100 
+   
 comment:
   layout: header, changes, diff
+  behavior: default
   
