@@ -2,16 +2,17 @@ language: java
 sudo: required
 services:
   - docker
-#jdk:
-#  - oraclejdk8
+jdk:
+  - oraclejdk8
 install: true
-script:
-  - mvn clean verify   
-before_install:
-  - pip install --user codecov
+
+script: "mvn cobertura:cobertura"
+# - mvn clean verify   
+#before_install:
+#  - pip install --user codecov
 after_success:
-  - codecov
-#  - bash <(curl -s https://codecov.io/bash) -t 386332d7-85a4-4feb-ac80-e0f4b80fb452
+#  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 before_deploy:
   - docker build --tag dina/accounts-api:$TRAVIS_TAG .
   - docker build --tag dina/accounts-api .
