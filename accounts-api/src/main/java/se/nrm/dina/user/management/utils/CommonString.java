@@ -440,7 +440,7 @@ public class CommonString {
         return USER_MANAGEMENT_CLIENT_DESCRIPTION;
     }
     
-    public String isUserEnabled() {
+    public String getIsUserEnabled() {
         return IS_USER_ENABLED;
     }
     

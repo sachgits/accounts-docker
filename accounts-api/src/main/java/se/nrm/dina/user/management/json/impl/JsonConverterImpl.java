@@ -335,7 +335,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         helper.addAttributes(attBuilder, CommonString.getInstance().getEmail(), userRepresentation.getEmail());
         helper.addAttributes(attBuilder, CommonString.getInstance().getUsername(), userRepresentation.getUsername());
         helper.addAttributes(attBuilder, CommonString.getInstance().getTimestampCreated(), userRepresentation.getCreatedTimestamp());
-        helper.addAttributes(attBuilder, CommonString.getInstance().isUserEnabled(), userRepresentation.isEnabled());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getIsUserEnabled(), userRepresentation.isEnabled());
         helper.addAttributes(attBuilder, CommonString.getInstance().getIsEmailVerified(), userRepresentation.isEmailVerified());
 
         Map<String, List<String>> attrs = userRepresentation.getAttributes();

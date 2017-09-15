@@ -6,6 +6,7 @@
 package se.nrm.dina.user.management.json.impl;
 
 import java.util.ArrayList; 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import se.nrm.dina.user.management.json.JsonConverter;
+import se.nrm.dina.user.management.utils.AccountStatus;
 import se.nrm.dina.user.management.utils.CommonString;
 
 /**
@@ -266,6 +268,115 @@ public class JsonConverterImplTest {
         assertEquals(subDataJson.getString(CommonString.getInstance().getType()), CommonString.getInstance().getTypeRoles());
         assertEquals(expId, subDataJson.getString(CommonString.getInstance().getId())); 
     }
+    
+    /**
+     * Test of converterClients method, of class JsonConverterImpl.
+     */ 
+    @Test
+    public void testConverterClientsWithNull() {
+        System.out.println("converterClients");
+          
+        result = instance.converterClients(null);
+        dataArrayJson = result.getJsonArray(CommonString.getInstance().getData());
+           
+        assertNotNull(dataArrayJson);
+        assertEquals(dataArrayJson.size(), 0); 
+    }
+
+    /**
+     * Test of converterClients method, of class JsonConverterImpl.
+     */ 
+    @Test
+    public void testConverterClientsWithEmptyValue() {
+        System.out.println("converterClients");
+         
+        Map<ClientRepresentation, List<RoleRepresentation>> clientRepresentationRolesMap = new LinkedHashMap<>();
+        result = instance.converterClients(clientRepresentationRolesMap);
+        dataArrayJson = result.getJsonArray(CommonString.getInstance().getData());
+           
+        assertNotNull(dataArrayJson);
+        assertEquals(dataArrayJson.size(), 0);
+    }
+
+    /**
+     * Test of converterClients method, of class JsonConverterImpl.
+     */
+    @Test
+    public void testConverterClientsWithNullRoles() {
+        System.out.println("converterClients");
+
+        Map<ClientRepresentation, List<RoleRepresentation>> clientRepresentationRolesMap = new LinkedHashMap<>();
+        
+        ClientRepresentation clienRepresentation = new ClientRepresentation(); 
+        clienRepresentation.setClientId(CommonString.getInstance().getUserManagementClientId());
+        clienRepresentation.setName(CommonString.getInstance().getUserManagementClientName());
+        clienRepresentation.setDescription(CommonString.getInstance().getUserManagementClientDescription());
+        clienRepresentation.setId(id);
+        
+        List<RoleRepresentation> roleRepresentations = new ArrayList();
+        clientRepresentationRolesMap.put(clienRepresentation, roleRepresentations);
+          
+        result = instance.converterClients(clientRepresentationRolesMap);
+        dataArrayJson = result.getJsonArray(CommonString.getInstance().getData());
+        
+        expType = CommonString.getInstance().getTypeClients();
+        expId = id;
+ 
+        assertNotNull(dataArrayJson);
+        assertEquals(dataArrayJson.size(), 1);  
+        dataJson = dataArrayJson.getJsonObject(0);
+        
+        assertEquals(expType, dataJson.getString(CommonString.getInstance().getType()));
+        assertEquals(expId, dataJson.getString(CommonString.getInstance().getId()));
+        
+        attrJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        assertNotNull(attrJson);
+        assertEquals(attrJson.getString(CommonString.getInstance().getClientId()), CommonString.getInstance().getUserManagementClientId());
+        assertEquals(attrJson.getString(CommonString.getInstance().getClientName()), CommonString.getInstance().getUserManagementClientName());
+        assertEquals(attrJson.getString(CommonString.getInstance().getDescriptions()), CommonString.getInstance().getUserManagementClientDescription()); 
+        
+        relJson = dataJson.getJsonObject(CommonString.getInstance().getRelationships()); 
+        assertNull(relJson.getJsonObject(CommonString.getInstance().getTypeRoles()));  
+    }
+    
+    /**
+     * Test of converterClients method, of class JsonConverterImpl.
+     */
+    @Test
+    public void testConverterClientsWithEmptyRoles() {
+        System.out.println("converterClients");
+
+        Map<ClientRepresentation, List<RoleRepresentation>> clientRepresentationRolesMap = new LinkedHashMap<>();
+        
+        ClientRepresentation clienRepresentation = new ClientRepresentation(); 
+        clienRepresentation.setClientId(CommonString.getInstance().getUserManagementClientId());
+        clienRepresentation.setName(CommonString.getInstance().getUserManagementClientName());
+        clienRepresentation.setDescription(CommonString.getInstance().getUserManagementClientDescription());
+        clienRepresentation.setId(id);
+        clientRepresentationRolesMap.put(clienRepresentation, null);
+          
+        result = instance.converterClients(clientRepresentationRolesMap);
+        dataArrayJson = result.getJsonArray(CommonString.getInstance().getData());
+        
+        expType = CommonString.getInstance().getTypeClients();
+        expId = id;
+ 
+        assertNotNull(dataArrayJson);
+        assertEquals(dataArrayJson.size(), 1);  
+        dataJson = dataArrayJson.getJsonObject(0);
+        
+        assertEquals(expType, dataJson.getString(CommonString.getInstance().getType()));
+        assertEquals(expId, dataJson.getString(CommonString.getInstance().getId()));
+        
+        attrJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        assertNotNull(attrJson);
+        assertEquals(attrJson.getString(CommonString.getInstance().getClientId()), CommonString.getInstance().getUserManagementClientId());
+        assertEquals(attrJson.getString(CommonString.getInstance().getClientName()), CommonString.getInstance().getUserManagementClientName());
+        assertEquals(attrJson.getString(CommonString.getInstance().getDescriptions()), CommonString.getInstance().getUserManagementClientDescription()); 
+        
+        relJson = dataJson.getJsonObject(CommonString.getInstance().getRelationships()); 
+        assertNull(relJson.getJsonObject(CommonString.getInstance().getTypeRoles()));  
+    }
 
     /**
      * Test of readInJson method, of class JsonConverterImpl.
@@ -320,8 +431,7 @@ public class JsonConverterImplTest {
 
     /**
      * Test of converterUser method, of class JsonConverterImpl.
-     */ 
-    @Ignore
+     */  
     @Test
     public void testConverterUser() {
         System.out.println("converterUser");
@@ -330,8 +440,7 @@ public class JsonConverterImplTest {
         String lastName = "User";
         String email = "test.user@test.se";
         String purpose = "test";
-        
-        
+         
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setFirstName(firstName);
         userRepresentation.setLastName(lastName);
@@ -339,13 +448,79 @@ public class JsonConverterImplTest {
         userRepresentation.setUsername(email);
         userRepresentation.setEmailVerified(Boolean.FALSE);
         userRepresentation.setId(id);
-        
-        
-        List<RoleRepresentation> realmRoles = null;
-        Map<String, List<RoleRepresentation>> clientRoles = null; 
+        userRepresentation.setEnabled(true);      
+          
+        String status = AccountStatus.Enabled.name();
+        userRepresentation.singleAttribute(CommonString.getInstance().getStatus(), status);
+        userRepresentation.singleAttribute(CommonString.getInstance().getPurpose(), purpose);
+         
+        List<RoleRepresentation> roleRepresentations = new ArrayList();
+        RoleRepresentation roleRepresentation = new RoleRepresentation();
+        roleRepresentation.setName(roleName);
+        roleRepresentation.setDescription(roleDescription);
+        roleRepresentation.setClientRole(Boolean.TRUE);
+        roleRepresentation.setId("abcd"); 
+        roleRepresentations.add(roleRepresentation);
+          
+        expType = CommonString.getInstance().getTypeUsers();
+        expId = id; 
+        Map<String, List<RoleRepresentation>> clientRoles = new HashMap<>(); 
+        clientRoles.put(CommonString.getInstance().getDinaRestClientId(), roleRepresentations);
+        clientRoles.put(CommonString.getInstance().getUserManagementClientId(), roleRepresentations);   
  
-        result = instance.converterUser(userRepresentation, realmRoles, clientRoles);
+        result = instance.converterUser(userRepresentation, roleRepresentations, clientRoles); 
+   
+        dataJson = result.getJsonObject(CommonString.getInstance().getData());
+        attrJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        relJson = dataJson.getJsonObject(CommonString.getInstance().getRelationships());
         
+        assertEquals(dataJson.getString(CommonString.getInstance().getType()), expType);
+        assertEquals(dataJson.getString(CommonString.getInstance().getId()), expId);
+        assertEquals(attrJson.getString(CommonString.getInstance().getFirstName()), firstName);
+        assertEquals(attrJson.getString(CommonString.getInstance().getLastName()), lastName);
+        assertEquals(attrJson.getString(CommonString.getInstance().getEmail()), email);
+        assertEquals(attrJson.getString(CommonString.getInstance().getUsername()), email);
+        assertEquals(attrJson.getString(CommonString.getInstance().getPurpose()), purpose);
+        assertEquals(attrJson.getString(CommonString.getInstance().getStatus()), AccountStatus.Enabled.name());
+        assertEquals(attrJson.getBoolean(CommonString.getInstance().getIsUserEnabled()), Boolean.TRUE);
+        assertEquals(attrJson.getBoolean(CommonString.getInstance().getIsEmailVerified()), Boolean.FALSE);
+        
+        relTypeJson = relJson.getJsonObject(CommonString.getInstance().getTypeRoles());
+        subDataArr = relTypeJson.getJsonArray(CommonString.getInstance().getData());
+        assertEquals(subDataArr.size(), 3);
+        
+        subDataJson = subDataArr.getJsonObject(0);
+        assertEquals(subDataJson.getString(CommonString.getInstance().getType()), CommonString.getInstance().getTypeRole());
+        assertEquals(subDataJson.getString(CommonString.getInstance().getId()), id);
+    }
+    
+    /**
+     * Test of converterUser method, of class JsonConverterImpl.
+     */  
+    @Test
+    public void testConverterUserWithNullValue() {
+        System.out.println("converterUser");
+        
+        List<RoleRepresentation> roleRepresentations = new ArrayList();
+        RoleRepresentation roleRepresentation = new RoleRepresentation();
+        roleRepresentation.setName(roleName);
+        roleRepresentation.setDescription(roleDescription);
+        roleRepresentation.setClientRole(Boolean.TRUE);
+        roleRepresentation.setId("abcd"); 
+        roleRepresentations.add(roleRepresentation);
+           
+        Map<String, List<RoleRepresentation>> clientRoles = new HashMap<>(); 
+        clientRoles.put(CommonString.getInstance().getDinaRestClientId(), roleRepresentations);
+        clientRoles.put(CommonString.getInstance().getUserManagementClientId(), roleRepresentations);   
+  
+        result = instance.converterUser(null, roleRepresentations, clientRoles); 
+   
+        dataJson = result.getJsonObject(CommonString.getInstance().getData());
+        attrJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        relJson = dataJson.getJsonObject(CommonString.getInstance().getRelationships());
+            
+        assertNull(attrJson);
+        assertNull(relJson);
     }
 
     /**
