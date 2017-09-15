@@ -20,15 +20,18 @@ public class UserManagementExceptionTest {
     
     private UserManagementException instance1;
     private UserManagementException instance2;
+    private int errorCode;
+    private String errorType;
+    private String errorMessage;
     
     public UserManagementExceptionTest() {
     }
  
     @Before
     public void setUp() {
-        int errorCode = 500;
-        String errorType = "Bad request";
-        String errorMessage = "Bad request from client";
+        errorCode = 500;
+        errorType = "Bad request";
+        errorMessage = "Bad request from client";
         
         List<String> errormessages = new ArrayList();
         errormessages.add(errorMessage);
@@ -48,10 +51,11 @@ public class UserManagementExceptionTest {
     @Test
     public void testGetErrorCode() {
         System.out.println("getErrorCode"); 
-        
-        int expResult = 500;
-        int result = instance1.getErrorCode();
-        assertEquals(expResult, result); 
+         
+        int result1 = instance1.getErrorCode();
+        int result2 = instance2.getErrorCode();
+        assertEquals(errorCode, result1); 
+        assertEquals(errorCode, result2);
     }
 
     /**
@@ -60,10 +64,11 @@ public class UserManagementExceptionTest {
     @Test
     public void testGetErrorType() {
         System.out.println("getErrorType"); 
-        
-        String expResult = "Bad request";
-        String result = instance1.getErrorType();
-        assertEquals(expResult, result); 
+         
+        String result1 = instance1.getErrorType();
+        String result2 = instance2.getErrorType();
+        assertEquals(errorType, result1); 
+        assertEquals(errorType, result2); 
     }
 
     /**
@@ -75,17 +80,53 @@ public class UserManagementExceptionTest {
         
         int expResult = 1;
         List<String> result = instance2.getErrorMessages();
+        
         assertEquals(expResult, result.size()); 
+        assertEquals(errorMessage, result.get(0));  
+    }
+    
+    
+    /**
+     * Test of getErrorMessageList method, of class UserManagementException.
+     */
+    @Test
+    public void testGetErrorMessageList() {
+        System.out.println("getErrorMessageList");    
+        
+        List<String> result = instance2.getErrorMessageList();
+        assertNotNull(result); 
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0), errorMessage);
+    }
+    
+    
+    /**
+     * Test of getErrorMessageList method, of class UserManagementException.
+     */
+    @Test
+    public void testGetErrorMessageListWithEmptyList() {
+        System.out.println("getErrorMessageList");  
+        
+        List<String> list = new ArrayList();
+        instance2 = new UserManagementException(errorCode, errorType, list);
+        List<String> result = instance2.getErrorMessageList();
+        assertNotNull(result); 
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0), null);
     }
 
     /**
      * Test of getErrorMessageList method, of class UserManagementException.
      */
     @Test
-    public void testGetErrorMessageList() {
+    public void testGetErrorMessageListWithNull() {
         System.out.println("getErrorMessageList");  
+        List<String> nullList = null;
+        instance2 = new UserManagementException(errorCode, errorType, nullList);
         List<String> result = instance2.getErrorMessageList();
         assertNotNull(result); 
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0), null);
     }
     
 }

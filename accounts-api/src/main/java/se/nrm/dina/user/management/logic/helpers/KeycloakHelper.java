@@ -112,7 +112,7 @@ public class KeycloakHelper {
         protocolMap.put(CommonString.getInstance().getUserAttribute(), attribute);
         protocolMap.put(CommonString.getInstance().getIdTokenClaim(), Boolean.TRUE.toString());
         protocolMap.put(CommonString.getInstance().getAccessTokenClaim(), Boolean.TRUE.toString());
-        protocolMap.put(CommonString.getInstance().getClientName(), claimName);
+        protocolMap.put(CommonString.getInstance().getClaimName(), claimName);
         protocolMap.put(CommonString.getInstance().getJsonTypeLabel(), CommonString.getInstance().getStringDataFormat());
 
         return protocolMap;

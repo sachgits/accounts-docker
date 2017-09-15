@@ -340,7 +340,7 @@ public class UserManagement implements Serializable {
      */
     public JsonObject getUsers() {
         log.info("getUsers");
-         
+          
         return json.converterUsers(getUsersRepresentation(null));
     }
 
@@ -373,21 +373,21 @@ public class UserManagement implements Serializable {
     }
  
     private List<UserRepresentation> getUsersRepresentation(String email) {
-        UsersResource usersResource = getUsersResource(); 
+        UsersResource usersResource = getUsersResource();   
         return usersResource.search(email, 0, usersResource.count());
     }
 
-    private UserRepresentation getUserRepresentationById(String id) {
-        UserResource userResource = getUserResourceById(id);
-        
-        return userResource != null ? userResource.toRepresentation() : null;
-    }
+//    private UserRepresentation getUserRepresentationById(String id) {
+//        UserResource userResource = getUserResourceById(id);
+//        
+//        return userResource != null ? userResource.toRepresentation() : null;
+//    }
 
     private UserResource getUserResourceById(String id) {
         return getUsersResource().get(id);
     }
     
-    private UsersResource getUsersResource() {
+    private UsersResource getUsersResource() {  
         return getDinaRealmResource().users();
     }
 

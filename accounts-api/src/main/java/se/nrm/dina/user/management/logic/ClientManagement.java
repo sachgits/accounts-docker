@@ -39,8 +39,9 @@ public class ClientManagement implements Serializable {
         log.info("getClientById");
 
         ClientResource clientResource = realmManagement.getDinaRealmResource().clients().get(id);
-         
+        
         ClientRepresentation clientRepresentation = clientResource.toRepresentation();
+  
         List<RoleRepresentation> roleRepresentations = clientResource.roles().list();
         
         return json.converterClient(clientRepresentation, roleRepresentations);

@@ -47,7 +47,7 @@ public class CommonString {
     
     private static final String LOCATION = "Location";
     
-    private static final String CLIENT_NAME = "claim.name";
+    private static final String CLAIM_NAME = "claim.name";
     // End of keycloak constant
     
     // Realm
@@ -66,6 +66,8 @@ public class CommonString {
     private static final String USER_MANAGEMENT_CLIENT_NAME = "User management";
     private static final String USER_MANAGEMENT_CLIENT_DESCRIPTION = "Management user accounts in keycloak";
     private static final String OPEN_ID_CONNECT_PROTOCOL = "openid-connect";
+    private static final String CLIENT_NAME = "client_name";
+    private static final String CLIENT_ID = "client_id";
     // End of client
     
     
@@ -102,6 +104,7 @@ public class CommonString {
     
     private final static String PURPOSE = "purpose";
     private final static String DESCRIPTIONS = "descriptions";
+    private final static String DESCRIPTION = "description";
     private final static String TIME_CREATED = "timestamp_created";
     private final static String IS_USER_ENABLED = "is_enabled";
     private final static String IS_EMAIL_VERIFIED = "is_email_verified";
@@ -162,13 +165,14 @@ public class CommonString {
     
     private final String PROTOCOL_MAPPER_NAME_GIVEN_NAME = "given name";
     private final String PROTOCOL_MAPPER_CONSENT_TEXT_GIVEN_NAME = "${givenName}";
-    
-//    private final String OFFLINE_ACCESS_ROLE = "offline_access";
-//    private final String UMA_AUTHORIZATION_ROLE = "uma_authorization";
-    
+     
     private final String TYPE_ROLES = "roles";
+    private final String ROLE_NAME = "role_name";
+    private final String IS_CLIENT = "is_client";
+    private final String ROLE_BELONG_TO = "role_belong_to";
     
     private final String RELATIONSHIPS = "relationships";
+     
     
     
     private final String REDIRECT_FRONT_END_URL = "http://localhost:4200";
@@ -195,15 +199,7 @@ public class CommonString {
     public String getInitialSetup() {
         return INITIAL_SETUP;
     }
-    
-//    public String getUmaAuthorizationRole() {
-//        return UMA_AUTHORIZATION_ROLE;
-//    }
-//    
-//    public String getOfflineAccessRole() {
-//        return OFFLINE_ACCESS_ROLE;
-//    }
-    
+      
     public String getProtocolMapperConsentTextGivenName() {
         return PROTOCOL_MAPPER_CONSENT_TEXT_GIVEN_NAME;
     }
@@ -448,7 +444,7 @@ public class CommonString {
         return IS_USER_ENABLED;
     }
     
-    public String isEmailVerified() {
+    public String getIsEmailVerified() {
         return IS_EMAIL_VERIFIED;
     }
     
@@ -500,8 +496,8 @@ public class CommonString {
         return TYPE_CLIENTS;
     }
     
-    public String getClientName() {
-        return CLIENT_NAME;
+    public String getClaimName() {
+        return CLAIM_NAME;
     }
     
     public String getRealmType() {
@@ -572,7 +568,7 @@ public class CommonString {
         return ATTRIBUTES;
     }
     
-    public String getUsersType() {
+    public String getTypeUsers() {
         return TYPE_USERS;
     }
      
@@ -634,5 +630,29 @@ public class CommonString {
     
     public String getRelationships() {
         return RELATIONSHIPS;
+    }
+    
+    public String getRoleName() {
+        return ROLE_NAME;
+    }
+    
+    public String getDescription() {
+        return DESCRIPTION;
+    }
+    
+    public String getIsClient() {
+        return IS_CLIENT;
+    }
+    
+    public String getRoleBelongTo() {
+        return ROLE_BELONG_TO;
+    }
+    
+    public String getClientName() {
+        return CLIENT_NAME;
+    }
+    
+    public String getClientId() {
+        return CLIENT_ID;
     }
 }

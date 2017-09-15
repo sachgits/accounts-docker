@@ -6,9 +6,7 @@
 package se.nrm.dina.user.management.json.impl;
 
 import java.io.Serializable;
-import java.io.StringReader;
-//import java.math.BigDecimal;
-//import java.util.Date; 
+import java.io.StringReader; 
 import java.util.List;
 import java.util.Map; 
 import javax.json.Json;
@@ -24,8 +22,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.nrm.dina.user.management.json.JsonConverter;
-import se.nrm.dina.user.management.utils.CommonString;
-//import se.nrm.dina.user.management.utils.Util;
+import se.nrm.dina.user.management.utils.CommonString; 
 
 /**
  *
@@ -88,7 +85,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
                     .forEach(c -> {
                         buildClientData(c.getKey(), dataBuilder);
                         buildClientRoles(c.getValue(), relBuilder);
-                        dataBuilder.add("relationships", relBuilder); 
+                        dataBuilder.add(CommonString.getInstance().getRelationships(), relBuilder);  
                         dataArrBuilder.add(dataBuilder);  
                     }); 
         }
@@ -119,16 +116,17 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
                                JsonObjectBuilder subDataBuilder, 
                                boolean addAttributes, 
                                String roleBelongTo) { 
+        
         subDataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getTypeRoles());
         subDataBuilder.add(CommonString.getInstance().getId(), roleRepresentation.getId()); 
         
         helper = new JsonConvertHelper();
         if(addAttributes) {
             JsonObjectBuilder attBuilder = Json.createObjectBuilder(); 
-            helper.addAttributes(attBuilder, "role_name", roleRepresentation.getName()); 
-            helper.addAttributes(attBuilder, "description", roleRepresentation.getDescription());
-            helper.addAttributes(attBuilder, "is_client", roleRepresentation.getClientRole()); 
-            helper.addAttributes(attBuilder, "role_belong_to", roleBelongTo); 
+            helper.addAttributes(attBuilder, CommonString.getInstance().getRoleName(), roleRepresentation.getName()); 
+            helper.addAttributes(attBuilder, CommonString.getInstance().getDescription(), roleRepresentation.getDescription());
+            helper.addAttributes(attBuilder, CommonString.getInstance().getIsClient(), roleRepresentation.getClientRole()); 
+            helper.addAttributes(attBuilder, CommonString.getInstance().getRoleBelongTo(), roleBelongTo); 
             subDataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
         }
     }
@@ -173,7 +171,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
 
         if (userList != null && !userList.isEmpty()) {
             userList.stream()
-                    .forEach(u -> {
+                    .forEach(u -> { 
                         buildUserData(u, dataBuilder);
                         dataArrBuilder.add(dataBuilder);
                     });
@@ -258,7 +256,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         JsonObjectBuilder subDataBuilder = Json.createObjectBuilder();
         JsonArrayBuilder subDataArrBuilder = Json.createArrayBuilder();
   
-        String type = CommonString.getInstance().getTypeRole();  
+        String type = CommonString.getInstance().getTypeRoles();  
         
         if(clientRoles != null) {
             clientRoles.stream() 
@@ -315,9 +313,9 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         dataBuilder.add(CommonString.getInstance().getId(), clientRepresentation.getId());
        
         helper = new JsonConvertHelper();
-        helper.addAttributes(attBuilder, "client_name", clientRepresentation.getName());
-        helper.addAttributes(attBuilder, "client_id", clientRepresentation.getClientId());
-        helper.addAttributes(attBuilder, "descriptions", clientRepresentation.getDescription());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getClientName(), clientRepresentation.getName());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getClientId(), clientRepresentation.getClientId());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getDescriptions(), clientRepresentation.getDescription());
           
         dataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
     }
@@ -328,7 +326,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
 
         JsonObjectBuilder attBuilder = Json.createObjectBuilder();
 
-        dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getUsersType());
+        dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getTypeUsers());
         dataBuilder.add(CommonString.getInstance().getId(), userRepresentation.getId());
 
         helper = new JsonConvertHelper();
@@ -338,7 +336,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         helper.addAttributes(attBuilder, CommonString.getInstance().getUsername(), userRepresentation.getUsername());
         helper.addAttributes(attBuilder, CommonString.getInstance().getTimestampCreated(), userRepresentation.getCreatedTimestamp());
         helper.addAttributes(attBuilder, CommonString.getInstance().isUserEnabled(), userRepresentation.isEnabled());
-        helper.addAttributes(attBuilder, CommonString.getInstance().isEmailVerified(), userRepresentation.isEmailVerified());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getIsEmailVerified(), userRepresentation.isEmailVerified());
 
         Map<String, List<String>> attrs = userRepresentation.getAttributes();
         if(attrs != null && !attrs.isEmpty()) {

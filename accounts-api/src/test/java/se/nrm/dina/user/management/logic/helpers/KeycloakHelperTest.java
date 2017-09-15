@@ -160,7 +160,7 @@ public class KeycloakHelperTest {
         assertEquals(result.keySet().size(), 7);
         assertEquals(result.values().size(), 7);
          
-        assertEquals(claimName, result.get(CommonString.getInstance().getClientName()));
+        assertEquals(claimName, result.get(CommonString.getInstance().getClaimName()));
         assertEquals(attribute, result.get(CommonString.getInstance().getUserAttribute()));
         assertEquals("true", result.get(CommonString.getInstance().getUserInfoTokenClaim()));
         assertEquals("true", result.get(CommonString.getInstance().getIdTokenClaim()));   
