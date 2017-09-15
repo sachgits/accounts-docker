@@ -5,8 +5,7 @@
  */
 package se.nrm.dina.user.management.json.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.ArrayList; 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -322,6 +321,7 @@ public class JsonConverterImplTest {
     /**
      * Test of converterUser method, of class JsonConverterImpl.
      */ 
+    @Ignore
     @Test
     public void testConverterUser() {
         System.out.println("converterUser");
@@ -331,12 +331,14 @@ public class JsonConverterImplTest {
         String email = "test.user@test.se";
         String purpose = "test";
         
+        
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setFirstName(firstName);
         userRepresentation.setLastName(lastName);
         userRepresentation.setEmail(email);
         userRepresentation.setUsername(email);
         userRepresentation.setEmailVerified(Boolean.FALSE);
+        userRepresentation.setId(id);
         
         
         List<RoleRepresentation> realmRoles = null;
