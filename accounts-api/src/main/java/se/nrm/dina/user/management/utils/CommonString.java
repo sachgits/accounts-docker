@@ -51,7 +51,8 @@ public class CommonString {
     // End of keycloak constant
     
     // Realm
-    private static final String REALM_NAME = "realmName";
+    private static final String REALM_NAME = "realm_name";
+    private static final String REALM_ID = "realm_id";
     private static final String SUPER_USERNAME = "superUsername";
     private static final String SUPER_PASSWORD = "superPassword";
     private static final String SUPER_USER_FIRST_NAME = "Admin";
@@ -172,8 +173,10 @@ public class CommonString {
     private final String ROLE_BELONG_TO = "role_belong_to";
     
     private final String RELATIONSHIPS = "relationships";
-     
     
+    private final String RESPONSE = "response";
+     
+    private final String ERROR_MSGS = "errormsgs";
     
     private final String REDIRECT_FRONT_END_URL = "http://localhost:4200";
     
@@ -654,5 +657,17 @@ public class CommonString {
     
     public String getClientId() {
         return CLIENT_ID;
+    }
+    
+    public String getRealmId() {
+        return REALM_ID;
+    }
+    
+    public String getResponse() {
+        return RESPONSE;
+    }
+    
+    public String getErrorMsgs() {
+        return ERROR_MSGS;
     }
 }

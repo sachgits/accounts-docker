@@ -449,9 +449,8 @@ public class JsonConverterImplTest {
         userRepresentation.setEmailVerified(Boolean.FALSE);
         userRepresentation.setId(id);
         userRepresentation.setEnabled(true);      
-          
-        String status = AccountStatus.Enabled.name();
-        userRepresentation.singleAttribute(CommonString.getInstance().getStatus(), status);
+           
+        userRepresentation.singleAttribute(CommonString.getInstance().getStatus(), AccountStatus.Enabled.name());
         userRepresentation.singleAttribute(CommonString.getInstance().getPurpose(), purpose);
          
         List<RoleRepresentation> roleRepresentations = new ArrayList();
@@ -525,58 +524,164 @@ public class JsonConverterImplTest {
 
     /**
      * Test of converterUsers method, of class JsonConverterImpl.
-     */
-    @Ignore
+     */ 
     @Test
     public void testConverterUsers() {
         System.out.println("converterUsers");
-        List<UserRepresentation> userList = null;
-    
-        JsonObject expResult = null;
-        result = instance.converterUsers(userList);
-        assertEquals(expResult, result); 
+        
+        List<UserRepresentation> userList = new ArrayList<>();
+        
+        String firstName = "Test";
+        String lastName = "User";
+        String email = "test.user@test.se";
+        String purpose = "test";
+         
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setFirstName(firstName);
+        userRepresentation.setLastName(lastName);
+        userRepresentation.setEmail(email);
+        userRepresentation.setUsername(email);
+        userRepresentation.setEmailVerified(Boolean.FALSE);
+        userRepresentation.setId(id);
+        userRepresentation.setEnabled(true);      
+           
+        userRepresentation.singleAttribute(CommonString.getInstance().getStatus(), AccountStatus.Enabled.name());
+        userRepresentation.singleAttribute(CommonString.getInstance().getPurpose(), purpose);
+        
+        userList.add(userRepresentation);
+          
+        expType = CommonString.getInstance().getTypeUsers();
+        expId = id; 
+         
+        result = instance.converterUsers(userList);  
+        dataArrayJson = result.getJsonArray(CommonString.getInstance().getData());
+        assertEquals(dataArrayJson.size(), 1);
+        
+        subDataJson = dataArrayJson.getJsonObject(0); 
+        attrJson = subDataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        assertEquals(subDataJson.getString(CommonString.getInstance().getType()), expType);
+        assertEquals(subDataJson.getString(CommonString.getInstance().getId()), expId);
+     
+        assertEquals(subDataJson.getString(CommonString.getInstance().getType()), expType);
+        assertEquals(subDataJson.getString(CommonString.getInstance().getId()), expId);
+        assertEquals(attrJson.getString(CommonString.getInstance().getFirstName()), firstName);
+        assertEquals(attrJson.getString(CommonString.getInstance().getLastName()), lastName);
+        assertEquals(attrJson.getString(CommonString.getInstance().getEmail()), email);
+        assertEquals(attrJson.getString(CommonString.getInstance().getUsername()), email);
+        assertEquals(attrJson.getString(CommonString.getInstance().getPurpose()), purpose);
+        assertEquals(attrJson.getString(CommonString.getInstance().getStatus()), AccountStatus.Enabled.name());
+        assertEquals(attrJson.getBoolean(CommonString.getInstance().getIsUserEnabled()), Boolean.TRUE);
+        assertEquals(attrJson.getBoolean(CommonString.getInstance().getIsEmailVerified()), Boolean.FALSE);
     }
 
     /**
      * Test of converterRealm method, of class JsonConverterImpl.
-     */
-    @Ignore
+     */ 
     @Test
     public void testConverterRealm() {
         System.out.println("converterRealm");
-        RealmRepresentation realmRepresentation = null;
-        List<RoleRepresentation> roleRepresentations = null;
-        List<ClientRepresentation> clientRepresentations = null; 
-        JsonObject expResult = null;
+        
+        String realmName = "dina";
+        
+        RealmRepresentation realmRepresentation = new RealmRepresentation(); 
+        realmRepresentation.setRealm(realmName);
+        realmRepresentation.setDisplayName(realmName);
+        realmRepresentation.setId(id);
+        
+        List<RoleRepresentation> roleRepresentations = new ArrayList();
+        RoleRepresentation roleRepresentation = new RoleRepresentation();
+        roleRepresentation.setName(roleName);
+        roleRepresentation.setDescription(roleDescription);
+        roleRepresentation.setClientRole(Boolean.TRUE);
+        roleRepresentation.setId("abcd"); 
+        roleRepresentations.add(roleRepresentation);
+        roleRepresentations.add(roleRepresentation);
+        
+        List<ClientRepresentation> clientRepresentations = new ArrayList<>(); 
+        ClientRepresentation clienRepresentation = new ClientRepresentation(); 
+        clienRepresentation.setClientId(CommonString.getInstance().getUserManagementClientId());
+        clienRepresentation.setName(CommonString.getInstance().getUserManagementClientName());
+        clienRepresentation.setDescription(CommonString.getInstance().getUserManagementClientDescription());
+        clienRepresentation.setId(id);
+        clientRepresentations.add(clienRepresentation);
+         
+        clienRepresentation = new ClientRepresentation();
+        clienRepresentation.setClientId(CommonString.getInstance().getDinaRestClientId());
+        clienRepresentation.setName(CommonString.getInstance().getDinaRestClientName());
+        clienRepresentation.setDescription(CommonString.getInstance().getDinaRestClientDescription());
+        clienRepresentation.setId(id);
+        clientRepresentations.add(clienRepresentation);
+         
+        expType = "realms";
+        expId = id;
         result = instance.converterRealm(realmRepresentation, roleRepresentations, clientRepresentations);
-        assertEquals(expResult, result); 
+ 
+        dataJson = result.getJsonObject(CommonString.getInstance().getData());
+        attrJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        relJson = dataJson.getJsonObject(CommonString.getInstance().getRelationships());
+        
+        assertEquals(expType, dataJson.getString(CommonString.getInstance().getType()));
+        assertEquals(expId, dataJson.getString(CommonString.getInstance().getId()));
+        assertEquals(realmName, attrJson.getString(CommonString.getInstance().getRealmName()));
+        assertEquals(id, attrJson.getString(CommonString.getInstance().getRealmId()));
+        assertEquals(realmName, attrJson.getString(CommonString.getInstance().getDescription()));
+        
+        assertTrue(relJson.containsKey(CommonString.getInstance().getTypeRoles()));
+        assertTrue(relJson.containsKey(CommonString.getInstance().getTypeClients()));
     }
 
     /**
      * Test of successJson method, of class JsonConverterImpl.
-     */
-    @Ignore
+     */ 
     @Test
     public void testSuccessJson() {
         System.out.println("successJson");
-        String message = ""; 
-        JsonObject expResult = null;
+        
+        String message = "success";  
         result = instance.successJson(message);
-        assertEquals(expResult, result); 
+         
+        assertEquals(message, result.getString(CommonString.getInstance().getResponse())); 
     }
 
     /**
      * Test of buildErrorMessages method, of class JsonConverterImpl.
-     */
-    @Ignore
+     */ 
     @Test
     public void testBuildErrorMessages() {
         System.out.println("buildErrorMessages");
-        String error = "";
-        List<String> errMsgs = null;
-        instance = new JsonConverterImpl();
-        JsonObject expResult = null;
-        result = instance.buildErrorMessages(error, errMsgs);
-        assertEquals(expResult, result); 
+        
+        String error = "error";
+        
+        List<String> errMsgs = new ArrayList();
+        errMsgs.add(error); 
+      
+        result = instance.buildErrorMessages(error, errMsgs);  
+        assertEquals(result.getString(CommonString.getInstance().getErrorMsgs()), "[error]");
+    } 
+    
+    
+    /**
+     * Test of buildErrorMessages method, of class JsonConverterImpl.
+     */ 
+    @Test
+    public void testBuildErrorMessagesNull() {
+        System.out.println("buildErrorMessages");
+        
+        String error = "error"; 
+        result = instance.buildErrorMessages(error, null); 
+        assertEquals(result.getString(CommonString.getInstance().getErrorMsgs()), error);
+    } 
+    
+    /**
+     * Test of buildErrorMessages method, of class JsonConverterImpl.
+     */ 
+    @Test
+    public void testBuildErrorMessagesEmpty() {
+        System.out.println("buildErrorMessages");
+        
+        String error = "error"; 
+        List<String> errMsgs = new ArrayList();
+        result = instance.buildErrorMessages(error, errMsgs); 
+        assertEquals(result.getString(CommonString.getInstance().getErrorMsgs()), error);
     } 
 }

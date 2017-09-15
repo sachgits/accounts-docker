@@ -202,7 +202,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
     @Override
     public JsonObject successJson(String message) {
         JsonObjectBuilder jsonBuilder = JSON_FACTORY.createObjectBuilder();
-        jsonBuilder.add("response", message);
+        jsonBuilder.add(CommonString.getInstance().getResponse(), message);
         return jsonBuilder.build(); 
     }
     
@@ -211,9 +211,9 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         JsonObjectBuilder jsonBuilder = JSON_FACTORY.createObjectBuilder();
         
         if(errMsgs != null && !errMsgs.isEmpty()) {
-            jsonBuilder.add("errormsgs", errMsgs.toString());
+            jsonBuilder.add(CommonString.getInstance().getErrorMsgs(), errMsgs.toString());
         } else {
-            jsonBuilder.add("errormsgs", error);
+            jsonBuilder.add(CommonString.getInstance().getErrorMsgs(), error);
         }
         
         return jsonBuilder.build(); 
@@ -226,9 +226,9 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
         dataBuilder.add(CommonString.getInstance().getId(), realmRepresentation.getId());
         
         helper = new JsonConvertHelper();
-        helper.addAttributes(attBuilder, "realm_name", realmRepresentation.getRealm());
-        helper.addAttributes(attBuilder, "realm_id", realmRepresentation.getId());
-        helper.addAttributes(attBuilder, "description", realmRepresentation.getDisplayName());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getRealmName(), realmRepresentation.getRealm());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getRealmId(), realmRepresentation.getId());
+        helper.addAttributes(attBuilder, CommonString.getInstance().getDescription(), realmRepresentation.getDisplayName());
         
         dataBuilder.add(CommonString.getInstance().getAttributes(), attBuilder);
         
