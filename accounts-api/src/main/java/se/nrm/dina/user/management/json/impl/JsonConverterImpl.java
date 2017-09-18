@@ -321,9 +321,7 @@ public class JsonConverterImpl implements Serializable, JsonConverter {
     }
      
     private void buildUserData(UserRepresentation userRepresentation, JsonObjectBuilder dataBuilder) {
-        
-        
-
+         
         JsonObjectBuilder attBuilder = Json.createObjectBuilder();
 
         dataBuilder.add(CommonString.getInstance().getType(), CommonString.getInstance().getTypeUsers());
