@@ -73,7 +73,7 @@ Copy \*.dina-web.net certificate files to the directories indicated in `docker-c
 
 This is needed if there are several modules running on same server (Docker host).
 
-See instructions on **prody-docker** repository.
+See instructions on **proxy-docker** repository.
 
 **TODO:** Add instructions on proxy-docker repository. Link to correct branch there. (Remove unneeded branches?) Link also from bootstrap repo, in order to avoid duplicate instructions.
 
