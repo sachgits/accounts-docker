@@ -32,7 +32,7 @@ build-api:
 build-ui:
 	docker run -it --rm --name my-ember-project \
 		-v $(PWD)/accounts-ui:/myapp \
-		danlynn/ember-cli:2.15.0 \
+		danlynn/ember-cli:2.11.1 \
       sh -c "npm install && bower --allow-root install && ember build" 
 	make -C accounts-ui
 
