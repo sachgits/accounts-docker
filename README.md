@@ -10,7 +10,7 @@ Back-end services include:
 - MySQL database for Keycloak
 - Frontend UI in Ember.js
 
-## Bootstrapping
+## Building the module locally from scratch
 
 To build from source and run the system locally you need a \*nix host - your own computer, a virtual machine or a server. 
 
@@ -61,7 +61,7 @@ To configure email server settings, edit the "secrets" file and fill in the miss
 
 There are two ways of setting up reverse proxy to handle HTTPS traffic to the module:
 
-**A)** Using the proxy that is set up using docker-compose
+**A)** Use the proxy that is set up using docker-compose
 
 This can be used if only this module is run on the server (Docker host). 
 
@@ -77,7 +77,14 @@ See instructions on **prody-docker** repository.
 
 **TODO:** Add instructions on proxy-docker repository. Link to correct branch there. (Remove unneeded branches?) Link also from bootstrap repo, in order to avoid duplicate instructions.
 
-### **6\)** Build and run Docker containers
+### **6\)** Initialize Keycloak
+
+Add user to Keycloak's MySQL database: first startup the db service, then insert an user.
+
+		docker-compose db up -d
+		make sso-init
+
+### **7\)** Build and run Docker containers
 
 		make
 
@@ -85,7 +92,7 @@ NB: A local build will initially pulls many dependencies (~150+M maven libs for 
 
 You can also use `make up`to start the system from pre-existing images. If these are not present locally, Docker will pull these from DINA's account on Docker Hub.
 
-### **7\)** Acccess the UI
+### **8\)** Acccess the UI
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
@@ -96,6 +103,12 @@ Then open up your browser at https://beta-accounts.dina-web.net
 		firefox https://beta-accounts.dina-web.net
 
 Log in with the default Accounts API user credentials from the 'envapi.template' file that you have used, usually user: admin@nrm.se and pass: admin#001.
+
+## Upgrading the module locally
+
+		git pull
+
+**TODO**: Add instructions: should you build services using `--no-cache`, to avoid using old intermediate images from Docker's cache? Or force copying source files without using the cache at all?
 
 ## Building on Mac
 
