@@ -77,14 +77,7 @@ See instructions on **prody-docker** repository.
 
 **TODO:** Add instructions on proxy-docker repository. Link to correct branch there. (Remove unneeded branches?) Link also from bootstrap repo, in order to avoid duplicate instructions.
 
-### **6\)** Initialize Keycloak
-
-Add user to Keycloak's MySQL database: first startup the db service, then insert an user.
-
-		docker-compose db up -d
-		make sso-init
-
-### **7\)** Build and run Docker containers
+### **6\)** Build and run Docker containers
 
 		make
 
@@ -92,7 +85,7 @@ NB: A local build will initially pulls many dependencies (~150+M maven libs for 
 
 You can also use `make up`to start the system from pre-existing images. If these are not present locally, Docker will pull these from DINA's account on Docker Hub.
 
-### **8\)** Acccess the UI
+### **7\)** Acccess the UI
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
@@ -106,9 +99,18 @@ Log in with the default Accounts API user credentials from the 'envapi.template'
 
 ## Upgrading the module locally
 
-		git pull
+To use branch other than master, type
 
-**TODO**: Add instructions: should you build services using `--no-cache`, to avoid using old intermediate images from Docker's cache? Or force copying source files without using the cache at all?
+		git fetch
+		git checkout $BRANCH_NAME
+
+Pull latest changes, regenerate dotfiles from your local secrets and rebuild & start the services. 
+
+		git pull
+		make dotfiles
+		make
+		
+Some things might require manual upgrades (e.g. regenerating secrets file, if new random secrets are needed somewhere) - check these from release notes.
 
 ## Building on Mac
 
