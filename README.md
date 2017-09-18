@@ -57,11 +57,25 @@ To configure email server settings, edit the "secrets" file and fill in the miss
 
 **5\)** Set up reverse proxy
 
-This is only needed if there are several modules running on same server (Docker host). Otherwise the proxy service that is set up on docker-compose.yml will take over.
+**TBD:** This steps needs decision on how we are going to work for local builds, and then documenting this decision here in such a detail, that module can be set up. Using star certificate (probably not), self-signed certs (overhead of adding the cert locally?) or letsencrypt.
 
-**TODO:** Add documentation on how to set up proxy with docker-compose.
+There are two ways of setting up reverse proxy to handle HTTPS traffic to the module:
 
-See instructions on [setting up reverse proxy on bootstrap repository](https://github.com/DINA-Web/bootstrap)
+**A)** Using the proxy that is set up using docker-compose
+
+This can be used if only this module is run on the server (Docker host). 
+
+Copy \*.dina-web.net certificate files to the directories indicated in `docker-compose.yml`.
+
+**TODO:** Update instructions regarding how certs are used, and where to put them.
+
+**B)** Set up separate proxy-docker
+
+This is needed if there are several modules running on same server (Docker host).
+
+See instructions on **prody-docker** repository.
+
+**TODO:** Add instructions on proxy-docker repository. Link to correct branch there. (Remove unneeded branches?) Link also from bootstrap repo, in order to avoid duplicate instructions.
 
 **6\)** Build and run Docker containers
 
