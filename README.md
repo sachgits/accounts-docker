@@ -12,7 +12,7 @@ Back-end services include:
 
 ## Bootstrapping
 
-To build from source and run the system locally you need a *nix host - your own computer, a virtual machine or a server. 
+To build from source and run the system locally you need a \*nix host - your own computer, a virtual machine or a server. 
 
 Requirements:
 - `docker`
@@ -33,7 +33,7 @@ First add your user to the Docker group, so you can run Docker commands without 
 		
 TODO: Check if this may cause security issues
 
-**1\)** Get latest version of the module
+### **1\)** Get latest version of the module
 
 		git clone $THIS_REPO_SLUG
 		cd accounts-docker
@@ -43,19 +43,19 @@ To use branch other than master, type
 		git fetch
 		git checkout $BRANCH_NAME
 
-**2\)** Create secrets
+### **2\)** Create secrets
 
 		make secrets
 
-**3\)** Configure email settings
+### **3\)** Configure email settings
 
 To configure email server settings, edit the "secrets" file and fill in the missing values.
 
-**4\)** Make dotfiles, which will contain environment variables.
+### **4\)** Make dotfiles, which will contain environment variables.
 
 		make dotfiles
 
-**5\)** Set up reverse proxy
+### **5\)** Set up reverse proxy
 
 **TBD:** This steps needs decision on how we are going to work for local builds, and then documenting this decision here in such a detail, that module can be set up. Using star certificate (probably not), self-signed certs (overhead of adding the cert locally?) or letsencrypt.
 
@@ -77,7 +77,7 @@ See instructions on **prody-docker** repository.
 
 **TODO:** Add instructions on proxy-docker repository. Link to correct branch there. (Remove unneeded branches?) Link also from bootstrap repo, in order to avoid duplicate instructions.
 
-**6\)** Build and run Docker containers
+### **6\)** Build and run Docker containers
 
 		make
 
@@ -85,7 +85,7 @@ NB: A local build will initially pulls many dependencies (~150+M maven libs for 
 
 You can also use `make up`to start the system from pre-existing images. If these are not present locally, Docker will pull these from DINA's account on Docker Hub.
 
-**7\)** Acccess the UI
+### **7\)** Acccess the UI
 
 Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
@@ -97,7 +97,7 @@ Then open up your browser at https://beta-accounts.dina-web.net
 
 Log in with the default Accounts API user credentials from the 'envapi.template' file that you have used, usually user: admin@nrm.se and pass: admin#001.
 
-### Building on Mac
+## Building on Mac
 
 When building on MacOS, the "envsubst" command used in `make dotfiles` may not be available by default. It can be installed with:
 
