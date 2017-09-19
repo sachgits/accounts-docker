@@ -3,7 +3,7 @@
 PWD=$(shell pwd)
 
 
-all: init build dotfiles sso-init up
+all: init build dotfiles up
 .PHONY: all
 
 init:
@@ -49,6 +49,8 @@ secrets:
 	printf "export SECRET_API_EMAIL_USER=\n" >> $@
 	printf "export SECRET_API_EMAIL_PASS=\n" >> $@
 	printf "export SECRET_API_EMAIL_FROM=\n" >> $@
+	printf "export ACCOUNTS_ROOT=admin\n" >> $@
+	printf "export ACCOUNTS_PASS=dina\n" >> $@
 
 dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"

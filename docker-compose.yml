@@ -18,13 +18,16 @@ services:
    
   sso:
     image: dina/keycloak:v0.1
+    env_file: 
+      - ./env/.envmysql
+      - ./env/.envaccounts
     environment:
       - TZ=Europe/Stockholm
       - MYSQL_PORT_3306_TCP_ADDR=mysql
       - MYSQL_PORT_3306_TCP_PORT=3306
-    env_file: ./env/.envmysql
+      - PROXY_ADDRESS_FORWARDING=true
     links:
-      - db:mysql 
+      - db:mysql
 
   api:
     image: dina/accounts-api:v0.1
