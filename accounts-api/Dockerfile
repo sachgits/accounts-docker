@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8u111-jdk-alpine
 
 COPY target/accounts-api-swarm.jar /usr/src/myapp/
 
