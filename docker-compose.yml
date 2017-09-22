@@ -47,7 +47,9 @@ services:
   #    - api 
     volumes:
       - ./nginx-conf/app.conf:/etc/nginx/conf.d/app.conf
-      - ./nginx-certs:/etc/nginx/ssl 
+      - ./nginx-certs:/etc/nginx/ssl
+    depends_on:
+      - sso
 
   ui:
     image: dina/accounts-ui:v0.1
