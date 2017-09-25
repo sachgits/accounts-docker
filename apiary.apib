@@ -7,14 +7,14 @@ Accounts management api for managing user account in Keycloak to access resource
 
 ## User /users/search [/user/api/v01/secure/users/search]
 
-### Get user accounts by queries
+### Get user accounts by queries [GET]
 Retrieves a list of user accounts by *search queries*
 
->### Request: /user/api/v01/users/search
+>#### Request: /user/api/v01/secure/users/search
  + Query parameters:
-  + offset - Paging offset [int Default = 0]
-  + limit - The maximum number of records to return [int Default = 50]
-  + sort - Sort order [ASC or DESC Default = ASC]
+    + offset - Paging offset [int Default = 0]
+    + limit - The maximum number of records to return [int Default = 50]
+    + sort - Sort order [ASC or DESC Default = ASC]
   
  + Response 200 (application/json) 
  
@@ -159,6 +159,8 @@ Create an user account into Keycloak
                     }
                 }
             }
+            
+
 
 
 ## User /users/{id} [/user/api/v01/secure/users/{id}]
