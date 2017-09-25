@@ -237,7 +237,7 @@ public class RealmManagement implements Serializable {
         
         createRealmInitialUser(config.getUserUsername(), config.getUserPassword(), config.getUserFirstname(), 
                                config.getUserLastname(), PURPOSE, CommonString.getInstance().getUserRole(), 
-                               CommonString.getInstance().getAdminRole());
+                               CommonString.getInstance().getUserRole());
     }
     
         
