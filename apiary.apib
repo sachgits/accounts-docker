@@ -3,36 +3,98 @@ HOST: http://polls.apiblueprint.org/
 
 # accounts-api specification
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Accounts management api for managing users to access to resources within DINA Collections
 
-## Questions Collection [/questions]
+## User /users [/user/api/v0/secure/users/{id}]
 
-### List All Questions [GET]
+### Get user account by user's account id [GET]
+Retrieves single user account from Keycloak database by the *user account id*
 
-+ Response 200 (application/json)
+> ### Request: /user/api/v0/secure/users/{id}
+  + Path paraments:
+    + id - String [User account ]
+    
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
+ + Response 200 (application/json)
+ 
+        {
+            "meta" : {
+                "call_endpoint" : "https://beta-api.dina-web.net/user/api/v01/secure/users/c06e900f-1f8e-4cc6-8c3a-3741ab687969",
+                "content_licenses" : null,
+                "call_date" : "September 25, 2017 at 09.25.20",
+                "status_code" : 200,
+                "api_version" : 0,
+                "sort_order" : null,
+                "maintenance_contact" : "admin@dina-system.org",
+                "message" : null,
+                "result_languages" : "en",
+                "result_count" : 1,
+                "previous" : null,
+                "next" : null,
+                "order_by" null,
+                "supported_languages" : [
+                    "GB_en",
+                    "SE_sv"
                 ]
+            },
+            "data" : {
+                "type" : "users",
+                "id" : "dc21accc-2282-4228-8772-7d43bbcf4a02",
+                "attributes" : {
+                    "first_name" : "user",
+                    "last_name" : "dina",
+                    "email" : "user.dina@nrm.se",
+                    "username" : "user.dina@nrm.se",
+                    "timestamp_created" : 1506321135796,
+                    "is_enabled" : true,
+                    "is_email_verified" : true,
+                    "purpose" : "Testing", 
+                    "status" : "Enabled"
+                },
+                "relationships" : {
+                    "roles" : {
+                        "data" : [
+                            {   
+                                "type" : "role",
+                                "id" : "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
+                            },
+                            {
+                                "type" : "role",
+                                "id" : "2c768c08-9e33-4912-8703-80f0084910b7"
+                            },
+                            {
+                                "type" : "role",
+                                "id" : "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
+                            }
+                        ]
+                    }
+                }
             }
-        ]
-
+        }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 ### Create a New Question [POST]
 
 You may create your own question using this action. It takes a JSON
