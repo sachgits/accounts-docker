@@ -5,12 +5,132 @@ HOST: http://polls.apiblueprint.org/
 
 Accounts management api for managing users to access to resources within DINA Collections
 
-## User /users [/user/api/v0/secure/users/{id}]
+## User /users/search [/user/api/v01/secure/users/search]
+
+### Get user accounts by queries
+Retrieves a list of user accounts by *search queries*
+
+>### Request: /user/api/v01/users/search
+ + Query parameters:
+  + offset - Paging offset [int Default = 0]
+  + limit - The maximum number of records to return [int Default = 50]
+  + sort - Sort order [ASC or DESC Default = ASC]
+  
+ + Response 200 (application/json) 
+ 
+        {
+            "meta" : {
+                "call_endpoint" : "https://beta-api.dina-web.net/user/api/v01/secure/users/search?filter[status]=Enabled",
+                "content_licenses" : null,
+                "call_date" : "September 25, 2017 at 09.25.20",
+                "status_code" : 200,
+                "api_version" : 01,
+                "sort_order" : ASC,
+                "maintenance_contact" : "admin@dina-system.org",
+                "message" : null,
+                "result_languages" : "en",
+                "result_count" : 2,
+                "offset" : 0,
+                "previous" : null,
+                "next" : null,
+                "order_by" null,
+                "supported_languages" : [
+                    "GB_en",
+                    "SE_sv"
+                ]
+            },
+            "data" : [
+                {
+                    "type" : "users", 
+                    "id" : "e60a8efd-18cc-4408-a494-500777a67070", 
+                    "attributes" : {
+                        "first_name" : "User",
+                        "last_name" : "Dina",
+                        "email" : "user.dina@dina.se"
+                        "username" : "user.dina@dina.se",
+                        "timestamp_created" : 1506321135199,
+                        "is_enabled" : true,
+                        "is_email_verified" : true,
+                        "purpose" : "Testing",
+                        "status" : "Enabled" 
+                    } 
+                }, 
+                {
+                    "type" : "users",
+                    "id": "1c4115a4-e934-4300-8d40-0b3b9c4970e1",
+                    "attributes" : {
+                        "first_name" : "Test",
+                        "last_name" : "Dina",
+                        "email" : "test.dina@nrm.se",
+                        "username" : "test.dina@nrm.se",
+                        "timestamp_created" : 1506321134118,
+                        "is_enabled" : true,
+                        "is_email_verified" : true,
+                        "purpose" : "Testing",
+                        "status" : "Enabled" 
+                    }
+                }
+            ]
+        }  
+  
+  
+  
+  
+  
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+
+
+## User /users/{id} [/user/api/v01/secure/users/{id}]
 
 ### Get user account by user's account id [GET]
 Retrieves single user account from Keycloak database by the *user account id*
 
-> ### Request: /user/api/v0/secure/users/{id}
+> ### Request: /user/api/v01/secure/users/{id}
   + Path paraments:
     + id - String [User account ]
     
@@ -23,7 +143,7 @@ Retrieves single user account from Keycloak database by the *user account id*
                 "content_licenses" : null,
                 "call_date" : "September 25, 2017 at 09.25.20",
                 "status_code" : 200,
-                "api_version" : 0,
+                "api_version" : 01,
                 "sort_order" : null,
                 "maintenance_contact" : "admin@dina-system.org",
                 "message" : null,
@@ -71,72 +191,3 @@ Retrieves single user account from Keycloak database by the *user account id*
                 }
             }
         }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
