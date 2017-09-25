@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'accounts-ui',
     environment: environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
 
     i18n: {
       defaultLocale: 'en',
