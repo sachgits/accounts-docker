@@ -5,92 +5,27 @@ HOST: http://polls.apiblueprint.org/
 
 Accounts management api for managing user account in Keycloak to access resources within DINA Collections
 
-## User /users/search [/user/api/v01/secure/users/search]
 
-### Get user accounts by queries [GET]
-Retrieves a list of user accounts by *search queries*
 
->#### Request: /user/api/v01/secure/users/search
- + Query parameters:
-    + offset - Paging offset [int Default = 0]
-    + limit - The maximum number of records to return [int Default = 50]
-    + sort - Sort order [ASC or DESC Default = ASC]
-  
- + Response 200 (application/json) 
- 
-        {
-            "meta" : {
-                "call_endpoint" : "https://beta-api.dina-web.net/user/api/v01/secure/users/search?filter[status]=Enabled",
-                "content_licenses" : null,
-                "call_date" : "September 25, 2017 at 09.25.20",
-                "status_code" : 200,
-                "api_version" : 01,
-                "sort_order" : ASC,
-                "maintenance_contact" : "admin@dina-system.org",
-                "message" : null,
-                "result_languages" : "en",
-                "result_count" : 2,
-                "offset" : 0,
-                "previous" : null,
-                "next" : null,
-                "order_by" null,
-                "supported_languages" : [
-                    "GB_en",
-                    "SE_sv"
-                ]
-            },
-            "data" : [
-                {
-                    "type" : "users", 
-                    "id" : "e60a8efd-18cc-4408-a494-500777a67070", 
-                    "attributes" : {
-                        "first_name" : "User",
-                        "last_name" : "Dina",
-                        "email" : "user.dina@dina.se"
-                        "username" : "user.dina@dina.se",
-                        "timestamp_created" : 1506321135199,
-                        "is_enabled" : true,
-                        "is_email_verified" : true,
-                        "purpose" : "Testing",
-                        "status" : "Enabled" 
-                    } 
-                }, 
-                {
-                    "type" : "users",
-                    "id": "1c4115a4-e934-4300-8d40-0b3b9c4970e1",
-                    "attributes" : {
-                        "first_name" : "Test",
-                        "last_name" : "Dina",
-                        "email" : "test.dina@dina.se",
-                        "username" : "test.dina@dina.se",
-                        "timestamp_created" : 1506321134118,
-                        "is_enabled" : true,
-                        "is_email_verified" : true,
-                        "purpose" : "Testing",
-                        "status" : "Enabled" 
-                    }
-                }
-            ]
-        }  
-   
-### Create user account [POST]
+## User /users [/user/api/v01/secure/users]
 
+### Create user account [POST] 
 Create an user account into Keycloak
-
+ 
 + Request (application/json)
 
         {
-            "data" : {
-                "type" : "users",
-                "attributes" : { 
-                    "first_name" : "User",
-                    "last_name" : "Dina",
-                    "email" : "user.dina@dina.se",
-                    "purpose" : "demo",
-                    "is_email_verified" : false, 
+            "data": {
+                "type": "users",
+                "attributes": { 
+                    "first_name": "User",
+                    "last_name": "Dina",
+                    "email": "user.dina@dina.se",
+                    "purpose": "demo",
+                    "is_email_verified": false, 
                 }, 
-                "relationships" : {
-                    "roles" : {
+                "relationships": {
+                    "roles": {
                         "data" : []
                     }
                 },
@@ -106,69 +41,135 @@ Create an user account into Keycloak
     + Body
 
             {
-                "meta" : {
-                    "call_endpoint" : "https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109",
-                    "content_licenses" : null,
-                    "call_date" : "September 25, 2017 at 09.25.20",
-                    "status_code" : 201,
-                    "api_version" : 01,
-                    "sort_order" : null,
-                    "maintenance_contact" : "admin@dina-system.org",
-                    "message" : null,
-                    "result_languages" : "en",
-                    "result_count" : 1,
-                    "previous" : null,
-                    "next" : null,
-                    "order_by" null,
-                    "supported_languages" : [
+                "meta": {
+                    "call_endpoint": "https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109",
+                    "content_licenses": null,
+                    "call_date": "September 25, 2017 at 09.25.20",
+                    "status_code": 201,
+                    "api_version": 01,
+                    "sort_order": null,
+                    "maintenance_contact": "admin@dina-system.org",
+                    "message": null,
+                    "result_languages": "en",
+                    "result_count": 1,
+                    "previous": null,
+                    "next": null,
+                    "order_by": null,
+                    "supported_languages": [
                         "GB_en",
                         "SE_sv"
                     ]
                 },
-                "data" : {
-                    "type" : "users",
-                    "id" : "dc21accc-2282-4228-8772-7d43bbcf4a02",
-                    "attributes" : {
-                        "first_name" : "user",
-                        "last_name" : "dina",
-                        "email" : "user.dina@nrm.se",
-                        "username" : "user.dina@dina.se",
-                        "timestamp_created" : 1506321135796,
-                        "is_enabled" : true,
-                        "is_email_verified" : true,
-                        "purpose" : "Demo", 
-                        "status" : "Enabled"
+                "data": {
+                    "type": "users",
+                    "id": "dc21accc-2282-4228-8772-7d43bbcf4a02",
+                    "attributes": {
+                        "first_name": "user",
+                        "last_name": "dina",
+                        "email": "user.dina@nrm.se",
+                        "username": "user.dina@dina.se",
+                        "timestamp_created": 1506321135796,
+                        "is_enabled": true,
+                        "is_email_verified": true,
+                        "purpose": "Demo", 
+                        "status": "Enabled"
                     },
-                    "relationships" : {
-                        "roles" : {
-                            "data" : [
+                    "relationships": {
+                        "roles": {
+                            "data": [
                                 {   
-                                    "type" : "role",
-                                    "id" : "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
+                                    "type": "role",
+                                    "id": "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
                                 },
                                 {
-                                    "type" : "role",
-                                    "id" : "2c768c08-9e33-4912-8703-80f0084910b7"
+                                    "type": "role",
+                                    "id": "2c768c08-9e33-4912-8703-80f0084910b7"
                                 },
                                 {
-                                    "type" : "role",
-                                    "id" : "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
+                                    "type": "role",
+                                    "id": "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
                                 }
                             ]
                         }
                     }
                 }
             }
-            
+ 
+## User /users/search [/user/api/v01/secure/users/search]
 
+### Get user accounts by queries [GET]
+Retrieves a list of user accounts by *search queries*
 
-
-## User /users/{id} [/user/api/v01/secure/users/{id}]
+>#### Request: /user/api/v01/secure/users/search
+ + Query parameters:
+    + offset - Paging offset [int Default = 0]
+    + limit - The maximum number of records to return [int Default = 50]
+    + sort - Sort order [ASC or DESC Default = ASC]
+  
+ + Response 200 (application/json) 
+ 
+        {
+            "meta": {
+                "call_endpoint": "https://beta-api.dina-web.net/user/api/v01/secure/users/search?filter[status]=Enabled",
+                "content_licenses": null,
+                "call_date": "September 25, 2017 at 09.25.20",
+                "status_code": 200,
+                "api_version": 01,
+                "sort_order": ASC,
+                "maintenance_contact": "admin@dina-system.org",
+                "message": null,
+                "result_languages": "en",
+                "result_count": 2,
+                "offset": 0,
+                "previous": null,
+                "next": null,
+                "order_by": null,
+                "supported_languages": [
+                    "GB_en",
+                    "SE_sv"
+                ]
+            },
+            "data": [
+                {
+                    "type": "users", 
+                    "id": "e60a8efd-18cc-4408-a494-500777a67070", 
+                    "attributes": {
+                        "first_name": "User",
+                        "last_name": "Dina",
+                        "email": "user.dina@dina.se"
+                        "username": "user.dina@dina.se",
+                        "timestamp_created": 1506321135199,
+                        "is_enabled": true,
+                        "is_email_verified": true,
+                        "purpose": "Testing",
+                        "status": "Enabled" 
+                    } 
+                }, 
+                {
+                    "type": "users",
+                    "id": "1c4115a4-e934-4300-8d40-0b3b9c4970e1",
+                    "attributes": {
+                        "first_name": "Test",
+                        "last_name": "Dina",
+                        "email": "test.dina@dina.se",
+                        "username": "test.dina@dina.se",
+                        "timestamp_created": 1506321134118,
+                        "is_enabled": true,
+                        "is_email_verified": true,
+                        "purpose": "Testing",
+                        "status": "Enabled" 
+                    }
+                }
+            ]
+        }  
+   
+ 
+## User /users/{id} [/user/api/v01/secure/users/{id}]       
 
 ### Get user account by user's account id [GET]
 Retrieves single user account from Keycloak database by the *user account id*
 
-> ### Request: /user/api/v01/secure/users/{id}
+>### Request: /user/api/v01/secure/users/{id}
   + Path paraments:
     + id - String [User account ]
     
@@ -229,3 +230,115 @@ Retrieves single user account from Keycloak database by the *user account id*
                 }
             }
         }
+
+### Edit an user [PATCH]
+Edit user account
+ 
++ Request (application/json)
+ 
+        {
+            "data" : {
+                "type": "users",
+                "id": "dc21accc-2282-4228-8772-7d43bbcf4a02",
+                "attributes": {
+                    "username": "user.dina@nrm.se",
+                    "first_name": "user",
+                    "last_name": "dina",
+                    "email": "user.dina@nrm.se",
+                    "purpose": "For test",
+                    "password": null,
+                    "timestamp_created": 1506321135796",
+                    "is_email_verified": true,
+                    "status": "Enabled"
+                },
+                "relationships": {
+                    "roles": {
+                        "data": [{
+                            "type": "roles",
+                            "id": "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
+                        },
+                        {
+                            "type": "roles",
+                            "id": "2c768c08-9e33-4912-8703-80f0084910b7"
+                        },
+                        {
+                            "type": "roles",
+                            "id": "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
+                        }]
+                    }
+                }
+            }
+        }
+
++ Response 200
+
+    + Headers
+        
+            Location: https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109
+            
+    
+    + Body
+            
+            {
+                "meta": {
+                    "call_endpoint": "https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109",
+                    "content_licenses": null,
+                    "call_date": "September 25, 2017 at 09.25.20",
+                    "status_code": 201,
+                    "api_version": 01,
+                    "sort_order": null,
+                    "maintenance_contact": "admin@dina-system.org",
+                    "message": null,
+                    "result_languages": "en",
+                    "result_count": 1,
+                    "previous": null,
+                    "next": null,
+                    "order_by": null,
+                    "supported_languages": [
+                        "GB_en",
+                        "SE_sv"
+                    ]
+                },
+                "data" : {
+                    "type": "users",
+                    "id": "dc21accc-2282-4228-8772-7d43bbcf4a02",
+                    "attributes": {
+                        "username": "user.dina@nrm.se",
+                        "first_name": "user",
+                        "last_name": "dina",
+                        "email": "user.dina@nrm.se",
+                        "purpose": "For test",
+                        "password": null,
+                        "timestamp_created": 1506321135796",
+                        "is_email_verified": true,
+                        "status": "Enabled"
+                    },
+                    "relationships": {
+                        "roles": {
+                            "data": [{
+                                "type": "roles",
+                                "id": "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
+                            },
+                            {
+                                "type": "roles",
+                                "id": "2c768c08-9e33-4912-8703-80f0084910b7"
+                            },
+                            {
+                                "type": "roles",
+                                "id": "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
+                            }]
+                        }
+                    }
+                }
+            }
+            
+            
+### Logout [PUT]
+Logout user and delete session from Keycloak
+ 
++ Response 200 (application/json) 
+            
+### Delete an user account [DELETE]
+Delete an user account from Keycloak by account id
+ 
++ Response 204 (application/json)
