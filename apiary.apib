@@ -3,7 +3,7 @@ HOST: http://polls.apiblueprint.org/
 
 # accounts-api specification
 
-Accounts management api for managing users to access to resources within DINA Collections
+Accounts management api for managing user account in Keycloak to access resources within DINA Collections
 
 ## User /users/search [/user/api/v01/secure/users/search]
 
@@ -61,8 +61,8 @@ Retrieves a list of user accounts by *search queries*
                     "attributes" : {
                         "first_name" : "Test",
                         "last_name" : "Dina",
-                        "email" : "test.dina@nrm.se",
-                        "username" : "test.dina@nrm.se",
+                        "email" : "test.dina@dina.se",
+                        "username" : "test.dina@dina.se",
                         "timestamp_created" : 1506321134118,
                         "is_enabled" : true,
                         "is_email_verified" : true,
@@ -72,56 +72,92 @@ Retrieves a list of user accounts by *search queries*
                 }
             ]
         }  
-  
-  
-  
-  
-  
+   
+### Create user account [POST]
 
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Create an user account into Keycloak
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+            "data" : {
+                "type" : "users",
+                "attributes" : { 
+                    "first_name" : "User",
+                    "last_name" : "Dina",
+                    "email" : "user.dina@dina.se",
+                    "purpose" : "demo",
+                    "is_email_verified" : false, 
+                }, 
+                "relationships" : {
+                    "roles" : {
+                        "data" : []
+                    }
+                },
+            }
+        } 
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                "meta" : {
+                    "call_endpoint" : "https://beta-api.dina-web.net/user/api/v01/users/f5782f93-1341-45c3-9a93-71ff3b54e109",
+                    "content_licenses" : null,
+                    "call_date" : "September 25, 2017 at 09.25.20",
+                    "status_code" : 201,
+                    "api_version" : 01,
+                    "sort_order" : null,
+                    "maintenance_contact" : "admin@dina-system.org",
+                    "message" : null,
+                    "result_languages" : "en",
+                    "result_count" : 1,
+                    "previous" : null,
+                    "next" : null,
+                    "order_by" null,
+                    "supported_languages" : [
+                        "GB_en",
+                        "SE_sv"
+                    ]
+                },
+                "data" : {
+                    "type" : "users",
+                    "id" : "dc21accc-2282-4228-8772-7d43bbcf4a02",
+                    "attributes" : {
+                        "first_name" : "user",
+                        "last_name" : "dina",
+                        "email" : "user.dina@nrm.se",
+                        "username" : "user.dina@dina.se",
+                        "timestamp_created" : 1506321135796,
+                        "is_enabled" : true,
+                        "is_email_verified" : true,
+                        "purpose" : "Demo", 
+                        "status" : "Enabled"
+                    },
+                    "relationships" : {
+                        "roles" : {
+                            "data" : [
+                                {   
+                                    "type" : "role",
+                                    "id" : "b9f1ca65-c74a-416e-9f5f-abd47f51d5c3"
+                                },
+                                {
+                                    "type" : "role",
+                                    "id" : "2c768c08-9e33-4912-8703-80f0084910b7"
+                                },
+                                {
+                                    "type" : "role",
+                                    "id" : "c06e900f-1f8e-4cc6-8c3a-3741ab687969"
+                                }
+                            ]
+                        }
                     }
-                ]
+                }
             }
 
 
@@ -163,8 +199,8 @@ Retrieves single user account from Keycloak database by the *user account id*
                 "attributes" : {
                     "first_name" : "user",
                     "last_name" : "dina",
-                    "email" : "user.dina@nrm.se",
-                    "username" : "user.dina@nrm.se",
+                    "email" : "user.dina@dina.se",
+                    "username" : "user.dina@dina.se",
                     "timestamp_created" : 1506321135796,
                     "is_enabled" : true,
                     "is_email_verified" : true,
