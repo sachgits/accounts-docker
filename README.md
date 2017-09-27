@@ -54,9 +54,8 @@ A recipe of commands to get the necessary parts in place, running on your host.
 		# generate 'dotfiles' using the secret credentials above
 		make dotfiles
 
-		# set up reverse proxy with self-signed certs
+		# set self-signed-certs for the reverse proxy (for SSL)
 		# follow instructions at https://github.com/dina-web/proxy-docker/tree/self-signed-certs
-
 
 		# build locally and launch services
 		make
@@ -66,16 +65,17 @@ A recipe of commands to get the necessary parts in place, running on your host.
 
 You can also use `make up` to start the system from pre-existing images. If these are not present locally, Docker will pull these from DINA's account on Docker Hub, provided that relevant versions have been released there.
 
-**Note**: Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
+**Note**: The `secrets` file contain environment variables such as `ACCOUNTS_FQDN_UI`, `ACCOUNTS_FQDN_API` and `ACCOUNTS_FQDN_SSO` which have default values of beta-accounts.dina-web.net, beta-api.dina-web.net and beta-sso.dina-web.net respectively. 
 
-		127.0.0.1	beta-accounts.dina-web.net beta-api.dina-web.net beta-sso.dina-web.net
+This documentation assumes usage of the default values, but those environment variables can be changed if you need to use other fully qualified domain names for the various services. Remember to run `make dotfiles` to regenerate if you have changed values in `secrets`.
+
+A singleton name resolver component `dnsmasq` is used that makes these names available locally on the host. For details of how to configure name resolution on the host, please see https://github.com/mskyttner/dns-test-docker.
 
 # Logging in
 
 Open up your browser at https://beta-accounts.dina-web.net, remember to install any self-signed certs first, see https://github.com/dina-web/proxy-docker/tree/self-signed-certs
 
 		firefox https://beta-accounts.dina-web.net
-
 
 Log in with the default Accounts API user credentials from the 'envapi.template' file that you have used, usually user: admin@nrm.se and pass: admin#001.
 
