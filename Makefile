@@ -36,7 +36,21 @@ build-ui:
 		danlynn/ember-cli:2.11.1 \
       sh -c "npm install && bower --allow-root install && ember build" 
 	make -C accounts-ui
- 
+
+clean:
+	# remove all maven libs, js modules
+	#rm -f $(PWD)/m2 $(PWD)/accounts-ui/node_modules \
+
+	# remove binaries from build
+	rm -rf $(PWD)/accounts-ui/dist \
+		$(PWD)/accounts-api/target/accounts-api-swarm.jar
+
+	# remove docker images that were built
+	docker rmi dina/keycloak:v0.1 dina/accounts-api:v0.1 dina/accounts-ui:v0.1
+
+	# remove dotfiles
+	rm -rf $(PWD)/env/{.envaccounts,.envapi,.envmysql}
+
 
 dox:
 	@echo "Rendering API Blueprint into HTLM documentation using aglio"
@@ -60,6 +74,9 @@ secrets:
 	printf "export SECRET_API_EMAIL_FROM=\n" >> $@
 	printf "export ACCOUNTS_ROOT=admin\n" >> $@
 	printf "export ACCOUNTS_PASS=dina\n" >> $@
+	printf "export ACCOUNTS_FQDN_UI=beta-accounts.dina-web.net\n" >> $@
+	printf "export ACCOUNTS_FQDN_API=beta-api.dina-web.net\n" >> $@
+	printf "export ACCOUNTS_FQDN_SSO=beta-sso.dina-web.net\n" >> $@
 
 dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"
@@ -69,7 +86,8 @@ dotfiles: secrets
 -include env/.envaccounts
 
 up:
-	docker-compose up -d
+	@echo "Using env variables in secrets file and starting all services"
+	set -a && . secrets && docker-compose up -d
 
 down:
 	docker-compose down
@@ -78,4 +96,7 @@ release:
 	docker push dina/keycloak:v0.1
 	docker push dina/accounts-api:v0.1
 	docker push dina/accounts-ui:v0.1
+
+ls-hardcorded-fqdns:
+	grep -l -r -E "(beta-sso|beta-accounts|beta-api)\.dina-web\.net"
 
