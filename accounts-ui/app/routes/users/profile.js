@@ -4,6 +4,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
+    notifications: Ember.inject.service('notification-messages'),
+
     model(params) { 
         console.log("model");
         return this.store.findRecord('user', params.id );
@@ -11,9 +13,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
  	beforeModel () {  
         console.log("beforeModel"); 
+        
         this.store.adapterFor('application').set('namespace', "user/api/v01/secure");  
     },
  
+  
     validation: Ember.inject.service(),  
  	actions: {
 		editUser(user) {
@@ -80,13 +84,18 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                             .then((record) => {   
                                 console.log("record : " + record);
                                 this.set('showSaved', true);  
-                                this.controller.set('responseMessage', true);
+                                controller.set('updatePasswordResponseMessage', true);
+
 
                                 user.set('changePassword', false);
                                 user.set('password', null);
                                 user.set('passwordConfirmation', null);
                                 user.set('old_password', null);
-                                this.refresh();
+
+                                this.get('notifications').success(this.get('i18n').t('messages.password-update-success'), {
+                                  autoClear: false,
+                                }); 
+                   
                             }).finally(()=>{
                                 controller.set('isSaving', false);
                             });

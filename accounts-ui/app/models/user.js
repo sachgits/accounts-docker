@@ -31,7 +31,8 @@ const Validations = buildValidations({
         validator('presence', { 
             presence: true,
             descriptionKey: 'fields.labels.user.purpose'
-        }), validator('length', {
+        }),
+        validator('length', {
             min: 2,
             descriptionKey: 'fields.labels.user.purpose'
         }),
@@ -49,6 +50,11 @@ const Validations = buildValidations({
 	],
 
     old_password: [ 
+        validator('presence', { 
+            disabled: Ember.computed.not('model.passwordValidationRequired'),
+            presence: true,
+            descriptionKey: 'fields.labels.user.current-password'
+        }),
         validator('format', { 
         //    disabled: true,
             disabled: Ember.computed.not('model.passwordValidationRequired'),

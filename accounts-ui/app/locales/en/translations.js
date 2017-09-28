@@ -16,8 +16,9 @@ export default {
         username: 'Username',
         'username-email': 'Username/email',
         email: 'Email',
-        'old-password': 'Old password',
+        'current-password': 'Current password',
         password: 'Password',
+        'new-password': 'New password',
         confirmpassword: 'Confirm password',
         usernameOrPassword: 'Username or password',
         'sign-out': 'Sign out',
@@ -92,6 +93,9 @@ export default {
                 'email-verified': 'Email verified',
                 'account-status': 'Account status',
                 'change-password': 'Change password',
+                'current-password': 'Current password',
+                'new-password': 'New password',
+                'confirm-password': 'Confirm password',
             }, 
             client: { 
                 name: 'Client name', 
@@ -149,7 +153,7 @@ export default {
             'update-email-action': 'Please click the recovery link to change password within 24 hours.',
         },
         'saving-account-inprocess': 'Registering user account, please wait!',
-
+        'password-update-success': 'Password update successfully',
     },
     beta: {
         header: 'User management beta',

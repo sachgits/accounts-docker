@@ -16,7 +16,7 @@ export default {
         username: 'Användarnamn',
         'username-email': 'Username/email',
         email: 'Email',
-        'old-password': 'Old password',
+        'current-password': 'Current password',
         password: 'Lösenord',
         confirmpassword: 'Confirm password',
         usernameOrPassword: 'Användarnamn eller lösenord',
@@ -90,6 +90,9 @@ export default {
                 'email-verified': 'E-postadressen har verifierats',
                 'account-status': 'Account status',
                 'change-password': 'Change password',
+                'current-password': 'Current password',
+                'new-password': 'New password',
+                'confirm-password': 'Confirm password',
             },
             client: {
                 name: 'Klientnamn',
@@ -147,6 +150,7 @@ export default {
             'update-email-action': 'Please click the recovery link to change password within 24 hours.',
         },
         'saving-account-inprocess': 'Registering user account, please wait!',
+        'password-update-success': 'Password update successfully',
     },
     beta: {
         header: 'Användaradministration beta',

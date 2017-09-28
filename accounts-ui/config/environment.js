@@ -12,11 +12,16 @@ module.exports = function(environment) {
       allowedLocales: ['en', 'sv']
     },
 
+    'ember-cli-notifications': {
+      includeFontAwesome: true
+    },
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       },
+
       EXTEND_PROTOTYPES: {
        // Array: true,
         // Prevent Ember Data from overriding Date.parse.
