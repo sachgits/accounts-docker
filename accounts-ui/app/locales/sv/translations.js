@@ -16,6 +16,7 @@ export default {
         username: 'Användarnamn',
         'username-email': 'Username/email',
         email: 'Email',
+        'old-password': 'Old password',
         password: 'Lösenord',
         confirmpassword: 'Confirm password',
         usernameOrPassword: 'Användarnamn eller lösenord',
@@ -88,6 +89,7 @@ export default {
                 'user-enabled': 'Aktiverad',
                 'email-verified': 'E-postadressen har verifierats',
                 'account-status': 'Account status',
+                'change-password': 'Change password',
             },
             client: {
                 name: 'Klientnamn',

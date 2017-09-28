@@ -11,7 +11,9 @@
                 <button class="btn btn-warning btn-sm" {{action 'cancelUpdatePassword' model}}>Cancel</button>
                 <button class="btn btn-success btn-sm" {{action 'updatePassword' model}}>Update password</button>
             {{else}}
-                <button class="btn btn-success btn-sm" {{action 'changePassword' model}}>Change password</button>
+                <button class="btn btn-success btn-sm" {{action 'changePassword' model}}>
+                    {{t 'fields.labels.user.change-password'}}
+                </button>
                 <button class="btn btn-success btn-sm" {{action 'editUser' model}}>Edit</button>
             {{/if}} 
         {{/user-account}}  

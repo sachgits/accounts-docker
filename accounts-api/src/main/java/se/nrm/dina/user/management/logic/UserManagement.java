@@ -19,7 +19,8 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.UsersResource; 
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -252,6 +253,7 @@ public class UserManagement implements Serializable {
         UserResource userResource = getUsersResource().get(id);
         
         String jsonPassword = attributesJson.get(CommonString.getInstance().getPassword()).toString();
+        String oldPassword = attributesJson.get("old_password").toString();
         if(!jsonPassword.equals("null") && !jsonPassword.isEmpty()) {
             String password = attributesJson.getString(CommonString.getInstance().getPassword());
             resetCredential(userResource, password);   
@@ -333,6 +335,21 @@ public class UserManagement implements Serializable {
         return json.converterUsers(matchList);
     }
 
+    public JsonObject verifyPassword(String username, String password) {
+        log.info("verifyPassword : {} -- {}", username, password);
+
+        try { 
+            Keycloak keycloak = Keycloak.getInstance(config.getKeycloakAuthURL(), config.getRealm(), 
+                                        username, password, CommonString.getInstance().getDinaRestClientId());
+            AccessTokenResponse token = keycloak.tokenManager().getAccessToken(); 
+            token.getTokenType();
+            return getUserByUserName(username);
+        } catch (javax.ws.rs.NotAuthorizedException ex) { 
+            return getUserByUserName("unknow");
+        }
+        
+    }
+
     /**
      * Return a list of all the users registered in Keycloak
      *
@@ -374,6 +391,7 @@ public class UserManagement implements Serializable {
  
     private List<UserRepresentation> getUsersRepresentation(String email) {
         UsersResource usersResource = getUsersResource();   
+      
         return usersResource.search(email, 0, usersResource.count());
     }
 

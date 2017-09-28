@@ -70,10 +70,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   
         updatePassword(user) {
-        	console.log("uppdatePassword: " + user);
+        	console.log("uppdatePassword: " + user.password);
 
             let controller = this.controller; 
-            user.validate({ on: ['password', 'passwordConfirmation' ] }) 
+            user.validate({ on: ['password', 'passwordConfirmation', 'old_password' ] }) 
                 .then(({ validations }) => {
                     if (validations.get('isValid')) {  
                         user.save()
@@ -85,6 +85,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                                 user.set('changePassword', false);
                                 user.set('password', null);
                                 user.set('passwordConfirmation', null);
+                                user.set('old_password', null);
                                 this.refresh();
                             }).finally(()=>{
                                 controller.set('isSaving', false);

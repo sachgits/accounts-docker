@@ -48,13 +48,25 @@ const Validations = buildValidations({
         })
 	],
 
+    old_password: [ 
+        validator('format', { 
+        //    disabled: true,
+            disabled: Ember.computed.not('model.passwordValidationRequired'),
+            regex: /^(?=.*?[#?!@$%^&*-]).{8,}$/,
+            message: 'Password must has minimum 8 charaters and include at least one Special Characters', 
+        }), 
+        validator('password-valid', {  
+            disabled: Ember.computed.not('model.passwordValidationRequired'),
+            debounce: 300 
+        })
+    ],
+
   	password: [ 
         validator('format', { 
         //    disabled: true,
             disabled: Ember.computed.not('model.passwordValidationRequired'),
             regex: /^(?=.*?[#?!@$%^&*-]).{8,}$/,
-            message: 'Password must has minimum 8 charaters and include at least one Special Characters',
-  
+            message: 'Password must has minimum 8 charaters and include at least one Special Characters', 
         }), 
  	],
 
@@ -73,12 +85,15 @@ export default DS.Model.extend(Validations, {
  	email: attr('string'),
  	purpose: attr('string'), 
  	password: attr('string'),
+    old_password: attr('string'),
 	timestamp_created: attr('number'),
 // 	is_enabled: DS.attr('boolean'),
  	is_email_verified: DS.attr('boolean'),
- 	status: DS.attr('string'),
+ 	status: attr('string'),
 
+ //   account: DS.belongsTo('account'), 
     roles: DS.hasMany('role', {async: true}),
+
  
  	formatted_date: Ember.computed('timestamp_created', function () {
      	return moment(this.get('timestamp_created')).format('Do MMMM YYYY');

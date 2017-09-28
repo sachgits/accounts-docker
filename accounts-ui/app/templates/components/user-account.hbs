@@ -74,13 +74,26 @@
  
                 {{#if account.changePassword}}
                     <hr>
-                    Change password
+                    <span>{{t 'fields.labels.user.change-password'}}</span>
+
+                    {{input 
+                        value=account.old_password
+                        placeholder=(t 'definitions.old-password')
+                        type="password" 
+                        autofocus = true
+                        class="form-control" 
+                        focus-out=(action (mut showPasswordError) true) }} 
+
+                        {{#if showPasswordError}}
+                          <div class="error">
+                            {{v-get account 'old_password' 'message'}}
+                          </div>
+                        {{/if}}
 
                     {{input 
                         value=account.password
                         placeholder=(t 'definitions.password')
-                        type="password"
-                        autofocus = true
+                        type="password" 
                         class="form-control" 
                         focus-out=(action (mut showPasswordError) true) }} 
 

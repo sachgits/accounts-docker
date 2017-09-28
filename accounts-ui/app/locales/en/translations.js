@@ -16,6 +16,7 @@ export default {
         username: 'Username',
         'username-email': 'Username/email',
         email: 'Email',
+        'old-password': 'Old password',
         password: 'Password',
         confirmpassword: 'Confirm password',
         usernameOrPassword: 'Username or password',
@@ -25,7 +26,7 @@ export default {
         send: 'Send',
         sending: 'Sending',
         next: 'Next',
-        previous: 'Previous',   
+        previous: 'Previous',    
     },
     main: {
         application_name: 'User management',
@@ -90,6 +91,7 @@ export default {
                 'user-enabled': 'Enabled',
                 'email-verified': 'Email verified',
                 'account-status': 'Account status',
+                'change-password': 'Change password',
             }, 
             client: { 
                 name: 'Client name', 
