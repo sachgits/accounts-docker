@@ -116,11 +116,17 @@ public class UserManagementServices implements Serializable {
                 return Response.ok(userManagement.getUserByUserName(username)).build();
             } else if(action.equals(ClientAction.filterStatus.name())) {
                 String status = map.getFirst("filter[status]"); 
-                StringBuilder sb = new StringBuilder(status);
-                sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-                status = sb.toString();
-                return Response.ok(userManagement.getUserByAccountStatus(status)).build();
-            }
+                if(status.equals("loggedIn")) {
+                    return Response.ok(userManagement.getLoggedInUser()).build(); 
+                } else {
+                    StringBuilder sb = new StringBuilder(status);
+                    sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+                    status = sb.toString();
+                    return Response.ok(userManagement.getUserByAccountStatus(status)).build(); 
+                } 
+            }    
+                
+                
             return Response.ok(userManagement.getUsers()).build();
         }
         

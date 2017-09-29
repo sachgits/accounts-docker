@@ -16,6 +16,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.core.Response; 
 import lombok.extern.slf4j.Slf4j; 
 import org.keycloak.admin.client.Keycloak;  
+import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
@@ -324,15 +325,23 @@ public class UserManagement implements Serializable {
     
     public JsonObject getUserByAccountStatus(String status) {
         log.info("getUserByAccountStatus : {}", status);
-        List<UserRepresentation> list = getUsersRepresentation(null);
-        
-        
-        List<UserRepresentation> matchList = KeycloakPredicates.filterUsers(list, KeycloakPredicates.filterUserByStatus(status));
-        
-//        List<UserRepresentation> matchList = list.stream()
-//                                                  .filter(u -> u.getAttributes().get("status").get(0).equals(status))
-//                                                  .collect(Collectors.toList());
+        List<UserRepresentation> list = getUsersRepresentation(null); 
+        List<UserRepresentation> matchList = KeycloakPredicates.filterUsers(list, KeycloakPredicates.filterUserByStatus(status)); 
+
         return json.converterUsers(matchList);
+    }
+
+    public JsonObject getLoggedInUsers() {
+        log.info("getLoggedInUsers");
+        List<UserRepresentation> list = getUsersRepresentation(null);
+        List<UserRepresentation> loggedInUsers = new ArrayList();
+        list.stream().forEach(u -> {
+            UserResource user = getUserResourceById(u.getId());
+            if (user.getUserSessions().size() > 0) {
+                loggedInUsers.add(u);
+            }
+        }); 
+        return json.converterUsers(loggedInUsers);
     }
 
     public JsonObject verifyPassword(String username, String password) {

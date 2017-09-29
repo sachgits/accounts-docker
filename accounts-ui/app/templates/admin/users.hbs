@@ -21,7 +21,18 @@
         <div class="col-xs-3">
         </div> 
       </div>  
+
+      <br >
+      <div class="row">
+        <div class="col-xs-4">
+          Find all logged in user: 
+        </div>
+        <div class="col-xs-5"> 
+          {{input type="checkbox" checked=isLoggedIn click=(action "loggedInUser")}}
+        </div>
+      </div>
     {{/if}}
+
   </div>
  
   {{outlet}}

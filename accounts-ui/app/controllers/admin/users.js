@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
             refreshModel:true
         }
     },
-    status: null,
+    status: null, 
 
 
     filteredUsers: Ember.computed('status', 'model', function() {
@@ -28,6 +28,19 @@ export default Ember.Controller.extend({
     }),
 
     actions: {  
+        loggedInUser() {
+            console.log("loggedInUser " + this.get('isLoggedIn'));
+
+
+            if( this.toggleProperty('isLoggedIn')) {
+                console.log("true");
+                this.set('status', "loggedIn");    
+            } else {
+                console.log("false");
+                this.set('status', null);    
+            }
+        },
+
         statusChange(filter) {
             console.log("statusChange : "  + filter);
             
