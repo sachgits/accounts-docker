@@ -11,7 +11,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
             scope: 'controller',
         }
     },
-    status: null,
+ //   status: null,
     isList: true,
     isDetail: false,
 
@@ -26,7 +26,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     },
  
     activate () { 
-        console.log("activate");
+        console.log("activate users : " + status);
         this.controllerFor('admin.users').set('isList', true);   
         this.controllerFor('admin.users').set('isDetail', false);   
     },

@@ -29,8 +29,7 @@ export default Ember.Controller.extend({
 
     actions: {  
         loggedInUser() {
-            console.log("loggedInUser " + this.get('isLoggedIn'));
-
+            console.log("loggedInUser " ); 
 
             if( this.toggleProperty('isLoggedIn')) {
                 console.log("true");

@@ -43,13 +43,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, SweetAlertMixin,  {
 
 
     activate () { 
-        console.log("activate");
+        console.log("activate users.view");
         this.controllerFor('admin.users').set('isList', false);  
-        this.controllerFor('admin.users').set('status', null);  
+    //    this.controllerFor('admin.users').set('status', null);  
     },
 
     deactivate () { 
-        console.log("deactivate");
+        console.log("deactivate users.view");
         this.controllerFor('admin.users').set('isList', true); 
     },
 
