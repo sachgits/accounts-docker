@@ -85,6 +85,7 @@ export default {
                 name: 'Name',
                 email: 'email',
                 username: 'Username',
+                password: 'Password',
                 'username-email': 'Username/Email',
                 purpose: 'Purpose',
                 descriptions: 'Descriptions',

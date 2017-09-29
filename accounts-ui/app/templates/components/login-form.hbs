@@ -1,18 +1,37 @@
 <div class="container">
     <form class="form-signin panel signin" {{action 'authenticate' on='submit'}}>
-        {{#validation/form-group
-            isValid=(v-get this 'username' 'isValid')
-            message=(v-get this 'username' 'message')
-        }}
-            {{input value=username  class="form-control" placeholder=(t 'definitions.username') autofocus=true }}
-        {{/validation/form-group}}
+
  
-        {{#validation/form-group
-            isValid=(v-get this 'password' 'isValid')
-            message=(v-get this 'password' 'message')
-        }}
-            {{input value=password type="password" class="form-control" placeholder=(t 'definitions.password' )}}
-        {{/validation/form-group}}
+
+         <div class="form-group row">
+            <div class="col-sm-3 col-form-label col-form-label-lg">
+                <label for="username" style="padding-top: 8px;">{{t 'fields.labels.user.username'}}:</label>
+            </div>
+            <div class="col-sm-9">
+                {{#validation/form-group
+                    isValid=(v-get this 'username' 'isValid')
+                    message=(v-get this 'username' 'message')
+                }}
+                    {{input class="form-control form-control-sm" value=username placeholder="email@example.com" autofocus=true id="username" }}
+               {{/validation/form-group}} 
+            </div>
+         </div>
+
+ 
+         <div class="form-group row">
+            <div class="col-sm-3 col-form-label col-form-label-lg">
+                <label for="username" style="padding-top: 8px;">{{t 'fields.labels.user.password'}}:</label>
+            </div>
+            <div class="col-sm-9">
+                {{#validation/form-group
+                    isValid=(v-get this 'password' 'isValid')
+                    message=(v-get this 'password' 'message')
+                }}
+                    {{input value=password type="password" class="form-control" placeholder=(t 'definitions.password' )}}
+                {{/validation/form-group}}
+            </div>
+         </div>
+ 
     
         {{#validation/form-group
             isValid=(v-get this 'invalidCredentials' 'isValid')
@@ -21,7 +40,7 @@
   
         {{/validation/form-group}}
  
-        {{#link-to 'password-recover' class="pull-right password-recover-link" tabindex=20 }}
+        {{#link-to 'password-recover' class="pull-right password-recover-link" tabindex=20 }} 
             {{t 'navigation.password_recover'}}
         {{/link-to}}  
          
