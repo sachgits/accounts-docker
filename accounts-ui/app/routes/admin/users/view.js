@@ -44,8 +44,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, SweetAlertMixin,  {
 
     activate () { 
         console.log("activate");
-        this.controllerFor('admin.users').set('isList', false); 
-        this.controllerFor('admin.users').set('status', null); 
+        this.controllerFor('admin.users').set('isList', false);  
+        this.controllerFor('admin.users').set('status', null);  
     },
 
     deactivate () { 
@@ -81,7 +81,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, SweetAlertMixin,  {
              //   this.transitionTo('users');
             }); 
         },
-
+ 
         rejectUser(user) {
             console.log('rejectUser');
         

@@ -14,7 +14,7 @@
                 <p>{{t 'messages.account.email-verification-action'}}</p> 
             </div>
         {{/if}}
-        {{#user-account account=model.user  isAdmin=true}}  
+        {{#user-account account=model.user  isDetail=true}}   
             {{#link-to 'admin.users' class="btn btn-warning btn-sm"  tagName='button'}}{{t 'buttons.labels.cancel'}}{{/link-to}}   
 
             {{#if model.user.is_disabled_user}}

@@ -13,6 +13,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     },
     status: null,
     isList: true,
+    isDetail: false,
 
     model(params) {
         console.log("params : " + params.status);  
@@ -27,6 +28,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     activate () { 
         console.log("activate");
         this.controllerFor('admin.users').set('isList', true);   
+        this.controllerFor('admin.users').set('isDetail', false);   
     },
 
     beforeModel () {   
