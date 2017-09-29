@@ -29,9 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.representations.AccessToken;
-import org.keycloak.representations.AccessToken.Access;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.keycloak.representations.AccessToken.Access; 
 import se.nrm.dina.user.management.logic.ClientManagement;
 import se.nrm.dina.user.management.logic.RealmManagement;
 import se.nrm.dina.user.management.logic.RoleManagement;
@@ -74,6 +72,17 @@ public class UserManagementServices implements Serializable {
         return Response.ok("Hello from WildFly Swarm!").build();
     }
      
+    @GET    
+    @Path("/users")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})     
+    public Response getUsers(@Context HttpServletRequest req) {
+        log.info("getUsers"); 
+        
+        return Response.ok(userManagement.getUsers()).build();
+    } 
+      
+    
   
     @GET    
     @Path("/users/{id}")
@@ -95,27 +104,45 @@ public class UserManagementServices implements Serializable {
         MultivaluedMap<String, String> map = info.getQueryParameters();
         String action = map.getFirst("filter[action]");
         log.info("action : {}", action);
-        if (action.equals(ClientAction.validatePassword.name())) {
-            
-            String username = map.getFirst("filter[email]");
-            String password = map.getFirst("filter[password]");
-            
-            return Response.ok(userManagement.verifyPassword(username, password)).build();
+        
+        String username = map.getFirst("filter[email]");
+        if(action == null) {
+            return Response.ok(userManagement.getUsers()).build();
         } else {
-            String status = map.getFirst("filter[status]");
-            String username = map.getFirst("filter[email]");
-                
-            if (username != null) {
+            if(action.equals(ClientAction.validatePassword.name())) { 
+                String password = map.getFirst("filter[password]"); 
+                return Response.ok(userManagement.verifyPassword(username, password)).build();
+            } else if(action.equals(ClientAction.validateAccount.name())) { 
                 return Response.ok(userManagement.getUserByUserName(username)).build();
-            } else if (status != null && !status.isEmpty()) {
+            } else if(action.equals(ClientAction.filterStatus.name())) {
+                String status = map.getFirst("filter[status]"); 
                 StringBuilder sb = new StringBuilder(status);
                 sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
                 status = sb.toString();
                 return Response.ok(userManagement.getUserByAccountStatus(status)).build();
-            } else {
-                return Response.ok(userManagement.getUsers()).build();
             }
-        } 
+            return Response.ok(userManagement.getUsers()).build();
+        }
+        
+        
+//        if (action != null && action.equals(ClientAction.validatePassword.name())) {  
+//            String password = map.getFirst("filter[password]");
+//            
+//            return Response.ok(userManagement.verifyPassword(username, password)).build();
+//        } else {
+//            String status = map.getFirst("filter[status]"); 
+//                
+//            if (username != null) {
+//                return Response.ok(userManagement.getUserByUserName(username)).build();
+//            } else if (status != null && !status.isEmpty()) {
+//                StringBuilder sb = new StringBuilder(status);
+//                sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+//                status = sb.toString();
+//                return Response.ok(userManagement.getUserByAccountStatus(status)).build();
+//            } else {
+//                return Response.ok(userManagement.getUsers()).build();
+//            }
+//        } 
     }
 
     @GET    

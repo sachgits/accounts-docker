@@ -7,7 +7,9 @@ const AccountExist = BaseValidator.extend({
 
   validate(value) {
     return this.get('store').query('user', { 
-      filter: { email: value }
+      filter: { email: value,
+                action: 'validateAccount'
+              }
     }).then((result) => { 
       return Ember.isEmpty(result) ? 'The username ${value} not exist' : true; 
    //   if(result.get('length') === 0) {

@@ -13,7 +13,5 @@ public enum ClientAction {
     
     filterStatus,
     validatePassword,
-    
-    
-    
+    validateAccount 
 }

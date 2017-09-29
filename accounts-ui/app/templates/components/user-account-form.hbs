@@ -4,57 +4,76 @@
       {{#field-group title=title collapsable=false as |fg|}}
         {{#fg.content}}  
           {{#if isNew}} 
-            {{input 
-              value=account.email 
-              placeholder=(t 'fields.labels.user.username-email')
-              class="form-control" 
-              autofocus="autofocus" 
-              focus-out=(action (mut showEmailError) true) }} 
+            <div class="form-group" style=" padding-bottom: 8px;">
+              <label for="current-password">{{t 'fields.labels.user.username-email'}}:</label>
+              {{input 
+                value=account.email 
+                placeholder=(t 'fields.labels.user.username-email')
+                class="form-control" 
+                autofocus="autofocus" 
+                focus-out=(action (mut showEmailError) true) }} 
  
               {{#if showEmailError}} 
                 <div class="error"> 
                   {{v-get account 'email' 'message'}}
                 </div> 
               {{/if}}  
+            </div> 
           {{else}}
             {{account.username}}
           {{/if}}
 
-          {{input 
-            value=account.first_name 
-            placeholder=(t 'fields.labels.user.first-name')
-            class="form-control"   
-            focus-out=(action (mut showFirstNameError) true) }} 
+          <div class="form-group" style=" padding-bottom: 8px;">
+            <label for="current-password">{{t 'fields.labels.user.first-name'}}:</label>
+          
+            {{input 
+              value=account.first_name 
+              placeholder=(t 'fields.labels.user.first-name')
+              class="form-control"   
+              focus-out=(action (mut showFirstNameError) true) }} 
                             
-            {{#if showFirstNameError}}
-              <div class="error">
-                {{v-get account 'first_name' 'message'}}
-              </div>
-            {{/if}}
+              {{#if showFirstNameError}}
+                <div class="error">
+                  {{v-get account 'first_name' 'message'}}
+                </div>
+              {{/if}}
+          </div> 
+
+          <div class="form-group" style=" padding-bottom: 8px;">
+            <label for="current-password">{{t 'fields.labels.user.last-name'}}:</label>
+          
+            {{input 
+              value=account.last_name 
+              placeholder=(t 'fields.labels.user.last-name')
+              class="form-control" 
+              focus-out=(action (mut showLastNameError) true) }} 
+
+              {{#if showLastNameError}}
+                <div class="error">
+                  {{v-get account 'last_name' 'message'}}
+                </div>
+              {{/if}}
+          </div> 
+
+          <div class="form-group" style=" padding-bottom: 8px;">
+            <label for="current-password">{{t 'fields.labels.user.purpose'}}:</label>
+          
+             
+            {{input 
+              value=account.purpose 
+              placeholder=(t 'fields.labels.user.purpose')
+              class="form-control" 
+              focus-out=(action (mut showPurposeError) true) }} 
+
+              {{#if showPurposeError}} 
+                <div class="error"> 
+                  {{v-get account 'purpose' 'message'}}
+                </div> 
+              {{/if}}  
+          </div> 
                         
-          {{input 
-            value=account.last_name 
-            placeholder=(t 'fields.labels.user.last-name')
-            class="form-control" 
-            focus-out=(action (mut showLastNameError) true) }} 
+          
 
-            {{#if showLastNameError}}
-              <div class="error">
-                {{v-get account 'last_name' 'message'}}
-              </div>
-            {{/if}}
- 
-          {{input 
-            value=account.purpose 
-            placeholder=(t 'fields.labels.user.purpose')
-            class="form-control" 
-            focus-out=(action (mut showPurposeError) true) }} 
-
-            {{#if showPurposeError}} 
-              <div class="error"> 
-                {{v-get account 'purpose' 'message'}}
-              </div> 
-            {{/if}}  
 
             {{#unless isNew}}
               {{#if isAdmin}} 

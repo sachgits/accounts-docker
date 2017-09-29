@@ -1,4 +1,8 @@
 <div class="panel panel-default users-item"> 
+
+
+
+
     <div class="panel-heading ">
         <h3 class="panel-title">{{account.full_name}} <small><i>[{{account.formatted_date}}]</i></small></h3>   
     </div>
@@ -74,47 +78,60 @@
  
                 {{#if account.changePassword}}
                     <hr>
-                    <span>{{t 'fields.labels.user.change-password'}}</span>
+                    <h3><b>{{t 'fields.labels.user.change-password'}}</b></h3>
+                    <br > 
+                    <div class="form-group" style=" padding-bottom: 8px;">
+                        <label for="current-password">{{t 'fields.labels.user.current-password'}}:</label>
+                        {{input 
+                                value=account.old_password
+                                placeholder=(t 'definitions.current-password')
+                                type="password" 
+                                autofocus = true  
+                                class="form-control" 
+                                focus-out=(action (mut showPasswordError) true) }} 
 
-                    {{input 
-                        value=account.old_password
-                        placeholder=(t 'definitions.old-password')
-                        type="password" 
-                        autofocus = true
-                        class="form-control" 
-                        focus-out=(action (mut showPasswordError) true) }} 
+                                {{#if showPasswordError}}
+                                  <div class="error">
+                                    {{v-get account 'old_password' 'message'}}
+                                  </div>
+                                {{/if}}
+                    </div>
+                    <div class="form-group" style=" padding-bottom: 8px;">
+                        <label for="pwd">{{t 'fields.labels.user.new-password'}}:</label>
+                        {{input 
+                            value=account.password
+                            placeholder=(t 'definitions.new-password')
+                            type="password" 
+                            class="form-control" 
+                            focus-out=(action (mut showPasswordError) true) }} 
 
-                        {{#if showPasswordError}}
-                          <div class="error">
-                            {{v-get account 'old_password' 'message'}}
-                          </div>
-                        {{/if}}
+                            {{#if showPasswordError}}
+                              <div class="error">
+                                {{v-get account 'password' 'message'}}
+                              </div>
+                            {{/if}}
+                    </div> 
+ 
 
-                    {{input 
-                        value=account.password
-                        placeholder=(t 'definitions.password')
-                        type="password" 
-                        class="form-control" 
-                        focus-out=(action (mut showPasswordError) true) }} 
+                    <div class="form-group">
+                        <label for="pwd">{{t 'fields.labels.user.confirm-password'}}:</label>
+                        {{input 
+                            value=account.passwordConfirmation
+                            placeholder=(t 'definitions.confirmpassword')
+                            class="form-control" 
+                            type="password"
+                            focus-out=(action (mut showPasswordConfirmationError) true) }} 
 
-                        {{#if showPasswordError}}
-                          <div class="error">
-                            {{v-get account 'password' 'message'}}
-                          </div>
-                        {{/if}}
+                            {{#if showPasswordConfirmationError}}
+                              <div class="error"> 
+                                {{v-get account 'passwordConfirmation' 'message'}}
+                              </div>
+                            {{/if}} 
+                    </div> 
+
+                   
                         
-                    {{input 
-                        value=account.passwordConfirmation
-                        placeholder="Confirm password" 
-                        class="form-control" 
-                        type="password"
-                        focus-out=(action (mut showPasswordConfirmationError) true) }} 
-
-                        {{#if showPasswordConfirmationError}}
-                          <div class="error"> 
-                            {{v-get account 'passwordConfirmation' 'message'}}
-                          </div>
-                        {{/if}} 
+                    
                 {{/if}}
         	</div>  
 

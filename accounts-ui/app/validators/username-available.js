@@ -4,9 +4,11 @@ import Ember from 'ember';
 const UsernameAvaliable = BaseValidator.extend({
   store: Ember.inject.service(),
 
-  validate(value) {
+  validate(value) { 
     return this.get('store').query('user', { 
-      filter: { email: value }
+      filter: { email: value,
+                action: 'validateAccount'
+              }
     })
     .then((result) => {  
       return Ember.isEmpty(result) ? true : `The username ${value} already exists`; 

@@ -7,7 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
 
     queryParams:{
         status: {
-            refreshModel:true,
+            refreshModel: true,
             scope: 'controller',
         }
     },
@@ -15,11 +15,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     isList: true,
 
     model(params) {
-        console.log("params : " + params);  
-        if(params === null) {
+        console.log("params : " + params.status);  
+        if(params.status === null) {
             return this.store.findAll('user');
         }
-        return  this.store.query('user', { filter: { status: params.status}  });
+        return  this.store.query('user', { filter: { status: params.status,
+                                                     action: 'filterStatus' }  });
    //     return  this.store.query('user', { filter: { status: params.status}, reload: true });
     },
  
