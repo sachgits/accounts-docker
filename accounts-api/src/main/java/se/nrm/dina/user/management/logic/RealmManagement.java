@@ -151,12 +151,11 @@ public class RealmManagement implements Serializable {
             
             client.setProtocolMappers(protocolMappers);
             List<String> redirectURIs = new ArrayList<>(); 
-            redirectURIs.add(CommonString.getInstance().getRedirectFrontEndURLVirturalHost());
+            redirectURIs.add(config.getUiURL());
      //       redirectURIs.add("http://localhost:4200");      // for development only
             client.setRedirectUris(redirectURIs);  
             
-//            List<String> webOrigins = new ArrayList();
-//            webOrigins.add("https://beta-accounts.dina-web.net"); 
+//            List<String> webOrigins = new ArrayList(); 
             client.setWebOrigins(redirectURIs);
         }
         getDinaRealmResource().clients().create(client);

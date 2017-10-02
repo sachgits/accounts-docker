@@ -23,7 +23,7 @@ public class ConfigurationProperties {
     
     private final static String CONFIG_INITIALLISING_ERROR = "config property not initialised";
  
-    private String keycloakAuthURL;
+    private String keycloakAuthURL; 
     private String dinaRealm;
     private String emailHost;
     private String emailPort;
@@ -57,7 +57,7 @@ public class ConfigurationProperties {
     }
 
     @Inject
-    public ConfigurationProperties(@ConfigurationValue("swarm.keycloak.url") String keycloakAuthURL,
+    public ConfigurationProperties(@ConfigurationValue("swarm.keycloak.url") String keycloakAuthURL, 
                                    @ConfigurationValue("swarm.realm.name") String  dinaRealm,
                                    @ConfigurationValue("swarm.email.host") String emailHost,
                                    @ConfigurationValue("swarm.email.port") String emailPort,
@@ -78,7 +78,7 @@ public class ConfigurationProperties {
                                    @ConfigurationValue("swarm.user.user.lastname") String userLastname,
                                    @ConfigurationValue("swarm.ui.url") String uiUrl,
                                    @ConfigurationValue("swarm.realm.passwordpolicies") String passwordPolicies) {
-        this.keycloakAuthURL = keycloakAuthURL; 
+        this.keycloakAuthURL = keycloakAuthURL;  
         this.dinaRealm = dinaRealm;
         this.emailHost = emailHost;
         this.emailPort = emailPort;
@@ -317,7 +317,7 @@ public class ConfigurationProperties {
      * @return String
      */
     public String getUiURL() {
-        if(userLastname == null) {
+        if(uiUrl == null) {
             throw new RuntimeException(CONFIG_INITIALLISING_ERROR);
         }
         return uiUrl;
@@ -365,5 +365,6 @@ public class ConfigurationProperties {
     
     public String getMasterPassword() {
         return masterPassword;
-    }
+    } 
+ 
 }
