@@ -25,12 +25,14 @@ services:
       - TZ=Europe/Stockholm
       - MYSQL_PORT_3306_TCP_ADDR=mysql
       - MYSQL_PORT_3306_TCP_PORT=3306
-      - PROXY_ADDRESS_FORWARDING=true
+      - PROXY_ADDRESS_FORWARDING=true 
     links:
       - db:mysql
 
   api:
     image: dina/accounts-api:v0.1
+    env_file:  
+      - ./env/.envaccounts
     environment:
       - VIRTUAL_HOST=beta-api.dina-web.net
     volumes:

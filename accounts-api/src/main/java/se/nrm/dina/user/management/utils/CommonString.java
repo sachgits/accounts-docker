@@ -27,8 +27,11 @@ public class CommonString {
     
     private static final String KEYCLOAK_AUTH_URL = "keycloakAuthURL";
 
-    private static final String MASTER_ADMIN_USERNAME = "admin";
-    private static final String MASTER_ADMIN_PASSWORD = "dina";
+//    private static final String MASTER_ADMIN_USERNAME = "admin";
+//    private static final String MASTER_ADMIN_PASSWORD = "dina";
+    
+    private static final String KEYCLOAK_USER = "KEYCLOAK_USER";
+    private static final String KEYCLOAK_PASSWORD = "KEYCLOAK_PASSWORD";
      
     private static final String REGEX = ".*/(.*)$";
     private static final String REGEX_1 = "$1";
@@ -402,14 +405,22 @@ public class CommonString {
     public String getAdminClientId() {
         return ADMIN_CLIENT_ID;
     }
- 
-    public String getMasterAdminUsrname() {
-        return MASTER_ADMIN_USERNAME;
+    
+    public String getKeycloakUser() {
+        return KEYCLOAK_USER;
     }
     
-    public String getMasterAdminPassword() {
-        return MASTER_ADMIN_PASSWORD;
+    public String getKeycloakPassword() {
+        return KEYCLOAK_PASSWORD;
     }
+ 
+//    public String getMasterAdminUsrname() {
+//        return MASTER_ADMIN_USERNAME;
+//    }
+//    
+//    public String getMasterAdminPassword() {
+//        return MASTER_ADMIN_PASSWORD;
+//    }
     
     public String getREGEX() {
         return REGEX;

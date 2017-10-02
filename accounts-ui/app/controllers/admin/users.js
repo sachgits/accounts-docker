@@ -14,6 +14,7 @@ export default Ember.Controller.extend({
         }
     },
     status: null, 
+    isLoggedIn: false,
 
 
     filteredUsers: Ember.computed('status', 'model', function() {
@@ -29,13 +30,14 @@ export default Ember.Controller.extend({
 
     actions: {  
         loggedInUser() {
-            console.log("loggedInUser " ); 
-
-            if( this.toggleProperty('isLoggedIn')) {
-                console.log("true");
-                this.set('status', "loggedIn");    
-            } else {
-                console.log("false");
+            console.log("loggedInUser " + this.get('status')); 
+ 
+            let isLoggedIn = false;
+            if( this.toggleProperty('isLoggedIn')) {  
+                this.set('status',  "loggedIn");     
+                status = null;
+                this.set('selectedFilter', null); 
+            } else { 
                 this.set('status', null);    
             }
         },
@@ -43,6 +45,7 @@ export default Ember.Controller.extend({
         statusChange(filter) {
             console.log("statusChange : "  + filter);
             
+
             let status = null;
             this.set('selectedFilter', filter); 
  
@@ -51,6 +54,10 @@ export default Ember.Controller.extend({
             } 
   
             this.set('status', status);   
+
+            if(this.get('isLoggedIn')) {
+                this.toggleProperty('isLoggedIn');
+            }
 
           //  let controller = this.controllerFor('user.status');
           //  controller.set("status", status);

@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
+import se.nrm.dina.user.management.utils.CommonString;
 
 /**
  *
@@ -47,7 +48,10 @@ public class ConfigurationProperties {
     
     private String uiUrl;
     private String passwordPolicies;
-    
+     
+    private String masterAdmin;
+    private String masterPassword; 
+     
     public ConfigurationProperties() {
         
     }
@@ -95,6 +99,10 @@ public class ConfigurationProperties {
         this.userLastname = userLastname;
         this.uiUrl = uiUrl;
         this.passwordPolicies = passwordPolicies;
+        
+                
+        this.masterAdmin = System.getenv(CommonString.getInstance().getKeycloakUser());
+        this.masterPassword = System.getenv(CommonString.getInstance().getKeycloakPassword());
         
         log.info("test injection : {}", keycloakAuthURL);
     }
@@ -350,4 +358,12 @@ public class ConfigurationProperties {
         }
         return dinaRealm;
     } 
+    
+    public String getMasterUser() {
+        return masterAdmin;
+    }
+    
+    public String getMasterPassword() {
+        return masterPassword;
+    }
 }

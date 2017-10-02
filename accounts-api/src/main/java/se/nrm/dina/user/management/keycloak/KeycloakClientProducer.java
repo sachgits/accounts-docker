@@ -35,7 +35,7 @@ public class KeycloakClientProducer {
   
     @Inject
     private ConfigurationProperties config;
-    
+
     public KeycloakClientProducer() {
         
     }
@@ -51,15 +51,15 @@ public class KeycloakClientProducer {
     @PostConstruct
     public void init() { 
         log.info("init" );   
-        
+ 
         keycloakClient = KeycloakBuilder.builder()
                                         .serverUrl(config.getKeycloakAuthURL())
                                         .realm(CommonString.getInstance().getMastRealm())
-                                        .username(CommonString.getInstance().getMasterAdminUsrname())
-                                        .password(CommonString.getInstance().getMasterAdminPassword())
+                                        .username(config.getMasterUser())
+                                        .password(config.getMasterPassword())
                                         .clientId(CommonString.getInstance().getAdminClientId())
                                         .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
-                                        .build();   
+                                        .build();    
     }
     
     /**

@@ -41,6 +41,9 @@ public class KeycloakClientProducerTest {
         System.out.println("config : " + config);
          
         when(config.getKeycloakAuthURL()).thenReturn("http://localhost:8080/auth"); 
+        when(config.getMasterUser()).thenReturn("admin"); 
+        when(config.getMasterPassword()).thenReturn("secret"); 
+        
         instance = new KeycloakClientProducer(config, keycloakClient); 
     }
     
