@@ -1,7 +1,10 @@
 /* jshint node: true */
-
+ 
 module.exports = function(environment) {
   var ENV = {
+    API_URL: process.env.API_URL,
+    SSO_URL: process.env.SSO_URL,
+
     modulePrefix: 'accounts-ui',
     environment: environment,
     rootURL: '/',
@@ -48,8 +51,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.HOST = 'https://beta-api.dina-web.net';
-    ENV.AUTHENTICATION_HOST = 'https://beta-sso.dina-web.net/auth/realms/dina/protocol/openid-connect';
+    ENV.HOST = ENV.API_URL;
+    ENV.AUTHENTICATION_HOST = ENV.SSO_URL;
+ //   ENV.HOST = 'https://beta-api.dina-web.net';
+ //   ENV.AUTHENTICATION_HOST = 'https://beta-sso.dina-web.net/auth/realms/dina/protocol/openid-connect';
     //ENV.HOST = 'http://api:8181';
     //ENV.AUTHENTICATION_HOST = 'http://sso:8080/auth/realms/dina/protocol/openid-connect';
    // ENV.AUTHENTICATION_HOST = 'http://localhost:8080/auth/realms/dina/protocol/openid-connect';

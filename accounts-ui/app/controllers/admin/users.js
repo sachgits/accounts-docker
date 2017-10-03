@@ -32,10 +32,10 @@ export default Ember.Controller.extend({
         loggedInUser() {
             console.log("loggedInUser " + this.get('status')); 
  
-            let isLoggedIn = false;
+        //    let isLoggedIn = false;
             if( this.toggleProperty('isLoggedIn')) {  
                 this.set('status',  "loggedIn");     
-                status = null;
+           //     status = null;
                 this.set('selectedFilter', null); 
             } else { 
                 this.set('status', null);    
