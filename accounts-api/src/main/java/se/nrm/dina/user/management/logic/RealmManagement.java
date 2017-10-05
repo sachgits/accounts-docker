@@ -58,8 +58,10 @@ public class RealmManagement implements Serializable {
         this.config = config;
         this.json = json;
     }
-
-
+ 
+    /**
+     * Delete dina realm
+     */
     public void deleteRealm() {
         log.info("deleteRealm");
         keycloakClient.realms().realm(config.getRealm()).remove();
@@ -109,7 +111,7 @@ public class RealmManagement implements Serializable {
         
         helper = new KeycloakHelper();
         ClientRepresentation client = helper.buildClientRepresentation(clientId, clientName, clientDescription, directAccessGrantsEnabled);
-         
+          
         if(directAccessGrantsEnabled) {
             List<ProtocolMapperRepresentation> protocolMappers = new ArrayList();  
             
@@ -150,13 +152,14 @@ public class RealmManagement implements Serializable {
             
             
             client.setProtocolMappers(protocolMappers);
-            List<String> redirectURIs = new ArrayList<>(); 
-            redirectURIs.add(config.getUiURL());
-     //       redirectURIs.add("http://localhost:4200");      // for development only
-            client.setRedirectUris(redirectURIs);  
-            
-//            List<String> webOrigins = new ArrayList(); 
-            client.setWebOrigins(redirectURIs);
+            setRedirectUris(client);
+//            List<String> redirectURIs = new ArrayList<>(); 
+//            redirectURIs.add(config.getUiURL());
+//     //       redirectURIs.add("http://localhost:4200");      // for development only
+//            client.setRedirectUris(redirectURIs);  
+//            
+////            List<String> webOrigins = new ArrayList(); 
+//            client.setWebOrigins(redirectURIs);
         }
         getDinaRealmResource().clients().create(client);
     }
@@ -183,43 +186,80 @@ public class RealmManagement implements Serializable {
     
     public void createRealm() {
         log.info("createRealm");
-        
-        helper = new KeycloakHelper();
          
-        RealmRepresentation realmRepresenttion = new RealmRepresentation();
-        realmRepresenttion.setRealm(config.getRealm());
-        realmRepresenttion.setDisplayName(config.getRealm());
-        realmRepresenttion.setSslRequired(CommonString.getInstance().getNone()); 
-        realmRepresenttion.setDuplicateEmailsAllowed(false);
+        RealmRepresentation realmRepresentation = new RealmRepresentation();
+        realmRepresentation.setRealm(config.getRealm());
+        realmRepresentation.setDisplayName(config.getRealm());
+        realmRepresentation.setSslRequired(CommonString.getInstance().getNone()); 
+        realmRepresentation.setDuplicateEmailsAllowed(false);
+   
         
-        realmRepresenttion.setEventsEnabled(true);
-        realmRepresenttion.setAdminEventsDetailsEnabled(Boolean.TRUE);
-        realmRepresenttion.setAdminEventsEnabled(Boolean.TRUE);
-        realmRepresenttion.setEditUsernameAllowed(Boolean.TRUE);
+        realmRepresentation.setEventsEnabled(true);
+        realmRepresentation.setAdminEventsDetailsEnabled(Boolean.TRUE);
+        realmRepresentation.setAdminEventsEnabled(Boolean.TRUE);
+        realmRepresentation.setEditUsernameAllowed(Boolean.TRUE);
         
-        realmRepresenttion.setAccessCodeLifespanUserAction(90000); 
+        realmRepresentation.setAccessCodeLifespanUserAction(90000); 
+        setRealmEmailServer(realmRepresentation);
         
-        realmRepresenttion.setSmtpServer(helper.buildSMTPMailMap(config.getEmailHost(), config.getEmilPort(), 
-                                                                 config.getEmailFrom(), config.getEmailUsername(), 
-                                                                 config.getEmailPassword())); 
-        realmRepresenttion.setPasswordPolicy(config.getPasswordPolicies());
-        realmRepresenttion.setEnabled(true);
+//        realmRepresenttion.setSmtpServer(helper.buildSMTPMailMap(config.getEmailHost(), config.getEmilPort(), 
+//                                                                 config.getEmailFrom(), config.getEmailUsername(), 
+//                                                                 config.getEmailPassword())); 
+        realmRepresentation.setPasswordPolicy(config.getPasswordPolicies());
+        realmRepresentation.setEnabled(true);
          
-        getRealmResources().create(realmRepresenttion);  
+        getRealmResources().create(realmRepresentation);
+    }
+
+    public void editDinaRestClient() {
+        log.info("editDinaRestClient");
+        
+        ClientRepresentation clientRepresentation = getClientRepresentationByClientId(CommonString.getInstance().getDinaRestClientId());
+        setRedirectUris(clientRepresentation);
+        
+        getClientResourceById(clientRepresentation.getId()).update(clientRepresentation);
+    }
+    
+    private void setRedirectUris(ClientRepresentation clientRepresentation) {
+        List<String> redirectURIs = new ArrayList<>();
+        redirectURIs.add(config.getUiURL());
+        //       redirectURIs.add("http://localhost:4200");      // for development only
+        clientRepresentation.setRedirectUris(redirectURIs);
+
+//            List<String> webOrigins = new ArrayList(); 
+        clientRepresentation.setWebOrigins(redirectURIs);  
+    }
+
+    public void editRealm() {
+        log.info("editRealm");
+        
+        RealmResource dinaRealmResource = getDinaRealmResource();
+        RealmRepresentation realmRepresentation = dinaRealmResource.toRepresentation();
+        setRealmEmailServer(realmRepresentation);
+        
+        realmRepresentation.setPasswordPolicy(config.getPasswordPolicies());
+        dinaRealmResource.update(realmRepresentation);
     }
       
+    private void setRealmEmailServer(RealmRepresentation realmRepresentation) {
+        helper = new KeycloakHelper();
+         
+        realmRepresentation.setSmtpServer(helper.buildSMTPMailMap(config.getEmailHost(), config.getEmilPort(), 
+                                                                  config.getEmailFrom(), config.getEmailUsername(), 
+                                                                  config.getEmailPassword())); 
+    }
+    
     public JsonObject getRealmByRealmName(String realmName) { 
         log.info("getRealmByRealmName");
         
-        RealmResource realmResource = keycloakClient.realm(config.getRealm()); // TODO: use config property for now
+        RealmResource realmResource = keycloakClient.realm(config.getRealm()); 
          
         List<ClientRepresentation> clientRepresentations = KeycloakPredicates.filterClients(realmResource.clients().findAll(), 
                                                                                             KeycloakPredicates.isDinaRealmClients());
         
         List<RoleRepresentation> roleRepresentations = KeycloakPredicates.filterRoles(realmResource.roles().list(), 
                                                                                       KeycloakPredicates.isFiltoutRealmRoles());
-         
-        System.out.println("json : " + json);
+          
         return json.converterRealm(realmResource.toRepresentation(), roleRepresentations, clientRepresentations);  
     }
     
@@ -281,11 +321,20 @@ public class RealmManagement implements Serializable {
         return getClientResourceById(id).roles().list();
     }
   
-     
+    /**
+     * getClientRepresentationByClientId
+     * @param clientId
+     * @return ClientRepresentation
+     */ 
     public ClientRepresentation getClientRepresentationByClientId(String clientId) {
         return getDinaClientResources().findByClientId(clientId).get(0);
     }
     
+    /**
+     * 
+     * @param id
+     * @return ClientResource
+     */
     public ClientResource getClientResourceById(String id) {
         return getDinaClientResources().get(id);
     }

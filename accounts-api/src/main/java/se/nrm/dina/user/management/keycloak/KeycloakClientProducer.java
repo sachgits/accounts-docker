@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;  
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder; 
+import org.keycloak.admin.client.KeycloakBuilder;   
 import se.nrm.dina.user.management.keycloak.properties.ConfigurationProperties;
 import se.nrm.dina.user.management.utils.CommonString; 
 
@@ -59,7 +59,7 @@ public class KeycloakClientProducer {
                                         .password(config.getMasterPassword())
                                         .clientId(CommonString.getInstance().getAdminClientId())
                                         .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
-                                        .build();    
+                                        .build();     
     }
     
     /**

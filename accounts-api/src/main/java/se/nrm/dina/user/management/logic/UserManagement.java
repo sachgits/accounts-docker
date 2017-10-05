@@ -232,7 +232,7 @@ public class UserManagement implements Serializable {
 
             userRepresentation.setEnabled(Boolean.TRUE);
             userResource.update(userRepresentation);
-
+             
             if (resetPassword) {
                 userResource.resetPasswordEmail();
             } 

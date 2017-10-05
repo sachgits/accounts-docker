@@ -56,7 +56,7 @@ public class KeycloakSetup implements Serializable {
      */
     @PostConstruct
     public void init() {
-        log.info("init");  
+        log.info("init");   
          
         // realmManagement.deleteRealm();          // TODO: Only for development. Remove in production
         if(!realmManagement.isRealmExist()) {   
@@ -71,10 +71,11 @@ public class KeycloakSetup implements Serializable {
                                               CommonString.getInstance().getUserManagementClientDescription(), false); 
             
             realmManagement.createClientRoles();
-            realmManagement.createRealmInitialUsers(); 
-            
-            
-        } 
+            realmManagement.createRealmInitialUsers();  
+        } else {
+            realmManagement.editRealm();
+            realmManagement.editDinaRestClient();
+        }
     }     
 }
  
