@@ -41,6 +41,8 @@ public class ConfigurationPropertiesTest {
     private String uiUrl;
     private String passwordPolicies;
     
+    private String apiUrl;
+    
     private ConfigurationProperties testInstanceWithInjection;
     private ConfigurationProperties testInstanceWithEmptyInjection;
     
@@ -79,15 +81,18 @@ public class ConfigurationPropertiesTest {
         userLastname = "Dina";
         uiUrl = "http://dina-account.se";
         passwordPolicies = "password policies";
+        apiUrl = "http://dina-api.se";
         
         testInstanceWithInjection = new ConfigurationProperties( keycloakAuthURL, realm, emailHost, emailPort, emailUsername, 
                                                                 emailPassword, emailFrom, superAdminUsername, superAdminPassword, 
                                                                 superAdminFirstname, superAdminLastname, adminUsername, 
                                                                 adminPassword, adminFirstname, adminLastname, userUsername, 
-                                                                userPassword, userFirstname, userLastname, uiUrl, passwordPolicies);
+                                                                userPassword, userFirstname, userLastname, uiUrl, passwordPolicies,
+                                                                apiUrl);
         
         testInstanceWithEmptyInjection = new ConfigurationProperties(null, null, null, null, null, null, null, null, null, null, 
-                                                                     null, null, null, null, null, null, null, null, null, null, null);
+                                                                     null, null, null, null, null, null, null, null, null, null, 
+                                                                     null, null);
     }
     
     @After

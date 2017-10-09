@@ -7,7 +7,9 @@ swarm:
         name: dina
         passwordpolicies: hashIterations and specialChars and length
     ui:
-        url: http://beta-accounts.dina-web.net
+        url: https://beta-accounts.dina-web.net
+    api:
+        url: https://beta-api.dina-web.net
     email:
         host: $SECRET_API_EMAIL_HOST
         port: $SECRET_API_EMAIL_PORT

@@ -52,6 +52,8 @@ public class ConfigurationProperties {
     private String masterAdmin;
     private String masterPassword; 
      
+    private String apiUrl;
+    
     public ConfigurationProperties() {
         
     }
@@ -77,7 +79,8 @@ public class ConfigurationProperties {
                                    @ConfigurationValue("swarm.user.user.firstname") String userFirstname,
                                    @ConfigurationValue("swarm.user.user.lastname") String userLastname,
                                    @ConfigurationValue("swarm.ui.url") String uiUrl,
-                                   @ConfigurationValue("swarm.realm.passwordpolicies") String passwordPolicies) {
+                                   @ConfigurationValue("swarm.realm.passwordpolicies") String passwordPolicies,
+                                   @ConfigurationValue("swarm.api.url") String apiUrl) {
         this.keycloakAuthURL = keycloakAuthURL;  
         this.dinaRealm = dinaRealm;
         this.emailHost = emailHost;
@@ -99,8 +102,8 @@ public class ConfigurationProperties {
         this.userLastname = userLastname;
         this.uiUrl = uiUrl;
         this.passwordPolicies = passwordPolicies;
-        
-                
+        this.apiUrl = apiUrl;
+         
         this.masterAdmin = System.getenv(CommonString.getInstance().getKeycloakUser());
         this.masterPassword = System.getenv(CommonString.getInstance().getKeycloakPassword());
         
@@ -345,6 +348,14 @@ public class ConfigurationProperties {
             throw new RuntimeException(CONFIG_INITIALLISING_ERROR);
         }
         return keycloakAuthURL;
+    }
+    
+    public String getApiURL() {
+        if(null == apiUrl) {
+            apiUrl = "https://beta-api.dina-web.net";
+//            throw new RuntimeException(CONFIG_INITIALLISING_ERROR);
+        }
+        return apiUrl;
     }
     
     /**

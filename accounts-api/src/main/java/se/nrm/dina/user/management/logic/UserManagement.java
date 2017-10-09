@@ -6,6 +6,7 @@
 package se.nrm.dina.user.management.logic;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +16,12 @@ import javax.inject.Inject;
 import javax.json.JsonObject;  
 import javax.ws.rs.core.Response; 
 import lombok.extern.slf4j.Slf4j; 
-import org.keycloak.admin.client.Keycloak;  
-import org.keycloak.admin.client.resource.ClientResource;
+import org.keycloak.admin.client.Keycloak;   
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource; 
+import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -29,8 +30,10 @@ import org.keycloak.representations.idm.UserRepresentation;
 import se.nrm.dina.user.management.json.JsonConverter;
 import se.nrm.dina.user.management.keycloak.KeycloakClient; 
 import se.nrm.dina.user.management.keycloak.properties.ConfigurationProperties;
+import se.nrm.dina.user.management.mails.MailHandler;
 import se.nrm.dina.user.management.utils.AccountStatus;
 import se.nrm.dina.user.management.utils.CommonString; 
+import se.nrm.dina.user.management.utils.Util;
 
 /**
  *
@@ -51,6 +54,9 @@ public class UserManagement implements Serializable {
     
     @Inject
     private RealmManagement realm;
+    
+    @Inject
+    private MailHandler mail;
      
     public UserManagement() {
     }
@@ -112,14 +118,36 @@ public class UserManagement implements Serializable {
 
     public JsonObject sendEmail(String id, boolean isPendingUser) {
         log.info("sendEmail : {}", id);
-
-        UserResource userResource = getUsersResource().get(id); 
-        if(isPendingUser) {
-            userResource.sendVerifyEmail();
+          
+        UserResource userResource = getUsersResource().get(id);   
+        String email = userResource.toRepresentation().getUsername();
+        
+        if(isPendingUser) { 
+//            userResource.sendVerifyEmail();
+//            mail.sendEmailToAdmin(); 
+            mail.sendEmailVerificationNotication(id, email);   
         } else {
-            userResource.resetPasswordEmail();
-        } 
+            mail.sendSetPasswordEmail(id, email);
+//            userResource.resetPasswordEmail();
+        }
         return json.converterUser(userResource.toRepresentation(), null, null);
+    }
+    
+    public boolean isEmailExpired(long timeInLong) {
+        LocalDateTime time = Util.getInstance().dateLongToLocalDateTime(timeInLong);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        
+        log.info("is expired: {} -- {}", time, yesterday);
+        return yesterday.isAfter(time);
+    }
+
+    public void emailVerification(String id) {
+        
+        UserResource userResource = getUsersResource().get(id);
+
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+        userRepresentation.setEmailVerified(true);
+        userResource.update(userRepresentation);
     }
 
     public JsonObject recoverPassword(String email) {

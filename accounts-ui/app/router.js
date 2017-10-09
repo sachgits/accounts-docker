@@ -8,9 +8,11 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('login');
-  this.route('register'); 
+  this.route('register');
   this.route('password-recover');
- 
+  this.route('email-verification');
+  this.route('email-expired');
+
   this.route('admin', function() {
     this.route('users', function() {
       this.route('new');
@@ -23,7 +25,7 @@ Router.map(function() {
     this.route('profile', {path: '/:id'});
   });
 
- 
+
   this.route('clients', function() {
     this.route('new');
     this.route('view', {path: ':id'});
@@ -31,7 +33,8 @@ Router.map(function() {
 
   this.route('users.account', {
     path: 'users/account',
-  }); 
+  });
+  this.route('password-setup');
 });
 
 export default Router;

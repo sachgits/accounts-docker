@@ -42,12 +42,25 @@ public class Util {
         }
     }
       
-    public String dateLongToString(long dateLong) {
-        LocalDateTime localDate = Instant.ofEpochMilli(dateLong)
-                                         .atZone(ZoneId.systemDefault())
-                                         .toLocalDateTime(); 
-        
-        String strDate = localDate.format(FORMATTER_WITH_TIMESTAMP); 
-        return strDate;
+    public String dateLongToString(long dateLong) { 
+        return dateLongToLocalDateTime(dateLong).format(FORMATTER_WITH_TIMESTAMP);
     }   
+
+    public LocalDateTime dateLongToLocalDateTime(long dateLong) {
+        return Instant.ofEpochMilli(dateLong)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
+
+    public LocalDateTime getNow() {
+        return LocalDateTime.now();
+    }
+    
+    public long getNowLong() {
+        return getNow().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+    
+    public String getNowString() {
+        return getNow().format(FORMATTER_WITH_TIMESTAMP);
+    }
 }
