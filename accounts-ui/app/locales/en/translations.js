@@ -115,6 +115,7 @@ export default {
             'view': 'View',
             'edit-user': 'Edit user',
             'cancel': 'Cancel', 
+            'submit': 'Submit',
         }
     },
     'sweetalert': {

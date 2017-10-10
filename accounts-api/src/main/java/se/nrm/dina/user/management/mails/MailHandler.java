@@ -83,14 +83,23 @@ public class MailHandler implements Serializable  {
     }
     
     public void sendSetPasswordEmail(String id, String email) {
+        log.info("sendSetPasswordEmail");
         
+        try {  
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject(MimeUtility.encodeText(MailMessages.getInstance().getSetupPasswordSubject(), UTF_8, B));
+  
+            message.setContent(MailMessages.getInstance().getSetupPasswordBody(apiUrl, id), TEXT_HTML);
+            sendMail(email);
+        } catch (MessagingException | UnsupportedEncodingException ex) {
+            log.error(ex.getMessage());
+        } 
     }
     
     public void sendEmailVerificationNotication(String id, String email) {
         log.info("sendEmailVerificationNotication");
           
-        try { 
-            message.addHeader(email, email);
+        try {  
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(MimeUtility.encodeText(MailMessages.getInstance().getEmailVerificationNotificationSubject(), UTF_8, B));
   

@@ -17,6 +17,8 @@ public class MailMessages {
     private static final String NEW_ACCOUNT_NOTIFICATION_BODY = "New account notification";
     private static final String EMAIL_VARIFICATION_NOTIFICATION_SUBJECT = "Email varification";
     private static final String EMAIL_VARIFICATION_NOTIFICATION_BODY = "Email varification";
+    private static final String SETUP_PASSWORD_SUBJECT = "Setup password";
+    private static final String SETUP_PASSWORD_BODY = "Setup password";
  
     private static MailMessages instance = null;
     
@@ -26,6 +28,26 @@ public class MailMessages {
         }
         return instance;
     }
+    
+    public String getSetupPasswordSubject() {
+        return SETUP_PASSWORD_SUBJECT;
+    }
+    
+    public String getSetupPasswordBody(String apiUrl, String id) {
+        
+        long nowlong = Util.getInstance().getNowLong();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(SETUP_PASSWORD_BODY);
+        sb.append("<br/><br/>");
+        sb.append(apiUrl);
+        sb.append("/user/api/v01/setup-password?key=");
+        sb.append(nowlong);
+        sb.append("&id=");
+        sb.append(id); 
+        return sb.toString();
+    }
+    
     
     public String getEmailVerificationNotificationSubject() {
         return EMAIL_VARIFICATION_NOTIFICATION_SUBJECT;
@@ -43,8 +65,7 @@ public class MailMessages {
         sb.append(nowlong);
         sb.append("&id=");
         sb.append(id);
-        
-        System.out.println("string: " + sb.toString());
+         
         return sb.toString();
     }
     

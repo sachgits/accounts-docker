@@ -10,3 +10,5 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         this.transitionTo('index');
     } 
 });
+
+ 

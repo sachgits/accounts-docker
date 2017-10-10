@@ -6,8 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
     notifications: Ember.inject.service('notification-messages'),
 
-    model(params) { 
-        console.log("model");
+    model(params) {  
         return this.store.findRecord('user', params.id );
     },
 

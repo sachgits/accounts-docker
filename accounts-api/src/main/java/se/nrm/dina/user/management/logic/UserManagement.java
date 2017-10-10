@@ -21,7 +21,6 @@ import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource; 
-import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -99,9 +98,9 @@ public class UserManagement implements Serializable {
         UserRepresentation userRespresentation = null;
         if (locationHeader != null) {
             UserResource userResource = getUsersResource()
-                    .get(locationHeader
-                            .replaceAll(CommonString.getInstance().getREGEX(),
-                                    CommonString.getInstance().getREGEX1()));
+                                            .get(locationHeader
+                                                    .replaceAll(CommonString.getInstance().getREGEX(),
+                                                            CommonString.getInstance().getREGEX1()));
             if (createdByAdmin) {
                 setRealmRole(userResource, CommonString.getInstance().getUserRole());
                 setClientRole(userResource, CommonString.getInstance().getDinaRestClientId(), CommonString.getInstance().getUserRole());
@@ -133,11 +132,14 @@ public class UserManagement implements Serializable {
         return json.converterUser(userResource.toRepresentation(), null, null);
     }
     
+    public void setupPassword(String id) {
+        log.info("setupPassword : {}", id);
+         
+    }
+    
     public boolean isEmailExpired(long timeInLong) {
         LocalDateTime time = Util.getInstance().dateLongToLocalDateTime(timeInLong);
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        
-        log.info("is expired: {} -- {}", time, yesterday);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1); 
         return yesterday.isAfter(time);
     }
 
@@ -267,7 +269,27 @@ public class UserManagement implements Serializable {
             return getUserById(id);
         }
     }
+    
+    public JsonObject updatePassword(String jsonString) {
+        log.info("updateUser");
+        JsonObject dataJson = json.readInJson(jsonString).getJsonObject(CommonString.getInstance().getData());
+        JsonObject attributesJson = dataJson.getJsonObject(CommonString.getInstance().getAttributes());
+        
+        String id = dataJson.getString(CommonString.getInstance().getId());
+        UserResource userResource = getUsersResource().get(id);
+        
+        String jsonPassword = attributesJson.get(CommonString.getInstance().getPassword()).toString(); 
+        if(!jsonPassword.equals("null") && !jsonPassword.isEmpty()) {
+            String password = attributesJson.getString(CommonString.getInstance().getPassword());
+            resetCredential(userResource, password);   
+        }
+        
+        UserRepresentation userRepresentation = userResource.toRepresentation();  
+        userResource.update(userRepresentation); 
 
+        return json.converterUser(userRepresentation, null, null);
+    }
+    
     public JsonObject updateUser(String jsonString) {
         log.info("updateUser");
         JsonObject dataJson = json.readInJson(jsonString).getJsonObject(CommonString.getInstance().getData());
@@ -282,7 +304,7 @@ public class UserManagement implements Serializable {
         UserResource userResource = getUsersResource().get(id);
         
         String jsonPassword = attributesJson.get(CommonString.getInstance().getPassword()).toString();
-        String oldPassword = attributesJson.get("old_password").toString();
+//        String oldPassword = attributesJson.get("old_password").toString();
         if(!jsonPassword.equals("null") && !jsonPassword.isEmpty()) {
             String password = attributesJson.getString(CommonString.getInstance().getPassword());
             resetCredential(userResource, password);   
