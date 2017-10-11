@@ -50,6 +50,7 @@ public class MailHandler implements Serializable  {
     private String mailPassword;
               
     private String apiUrl;
+    private String uiUrl;
     private String superAdminEmail;
       
     @Inject
@@ -63,6 +64,7 @@ public class MailHandler implements Serializable  {
         this.mailUsername = config.getEmailUsername();
         this.mailPassword = config.getEmailPassword();
         this.apiUrl = config.getApiURL();
+        this.uiUrl = config.getUiURL();
 
         Properties props = new Properties();
         props.put(MAIL_PROTOCOL, SMTP);
@@ -89,7 +91,7 @@ public class MailHandler implements Serializable  {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(MimeUtility.encodeText(MailMessages.getInstance().getSetupPasswordSubject(), UTF_8, B));
   
-            message.setContent(MailMessages.getInstance().getSetupPasswordBody(apiUrl, id), TEXT_HTML);
+            message.setContent(MailMessages.getInstance().getSetupPasswordBody(apiUrl, uiUrl, id, email), TEXT_HTML);
             sendMail(email);
         } catch (MessagingException | UnsupportedEncodingException ex) {
             log.error(ex.getMessage());

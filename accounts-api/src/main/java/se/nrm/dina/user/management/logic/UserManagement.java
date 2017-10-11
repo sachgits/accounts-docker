@@ -165,8 +165,9 @@ public class UserManagement implements Serializable {
         } else { 
             UserRepresentation userRepresentation = userRepresentations.get(0);
             if (getAccountStatus(userRepresentation).equals(AccountStatus.Enabled.name())) { 
-                UserResource userResource = getUsersResource().get(userRepresentation.getId());
-                userResource.resetPasswordEmail();
+                mail.sendSetPasswordEmail(userRepresentation.getId(), email);
+//                UserResource userResource = getUsersResource().get(userRepresentation.getId());
+//                userResource.resetPasswordEmail();
                 return json.successJson("Email sent successfully");
             }
             return json.successJson("User email address is not verified or user is not enabled. Update password email do not send.");
