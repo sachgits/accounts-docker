@@ -2,13 +2,6 @@ version: '3'
 
 services:
 
-#  fs-api:
-#    image: tianon/true
-#    volumes:
-#      - ./nginx-conf:/etc/nginx/conf.d
-#      - ./nginx-certs:/etc/nginx/ssl
-#      - ./nginx-logs:/etc/nginx/logs
-
 # MySQL database for Keycloak
   db:
     image: mysql:5.7
