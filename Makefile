@@ -8,15 +8,6 @@ all: init build dotfiles up
 
 init:
 
-sso-init:
-	@test ! -f $(PWD)/env/.envaccounts || echo "Please run 'make dotfiles' first."
-	# this adds a master user to KeyCloak using environment settings from env/.envaccounts
-	docker-compose up -d db
-	docker-compose up -d sso
-	#docker-compose run sso keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
-	docker exec accountsdocker_sso_1 keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
-	docker-compose restart sso
-
 build: build-api build-ui build-sso
 
 build-sso:
