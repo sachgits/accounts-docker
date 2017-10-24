@@ -30,7 +30,7 @@ services:
     env_file:  
       - ./env/.envaccounts
     environment:
-      - VIRTUAL_HOST=beta-api.dina-web.net
+      - VIRTUAL_HOST=alpha-api.dina-web.net
     volumes:
       - ./env/.envapi:/usr/src/myapp/project-initdata.yml
     ports:
@@ -39,9 +39,9 @@ services:
 # Keycloak API proxy
   ws:
     image: nginx
-    container_name: beta-sso.dina-web.net
+    container_name: alpha-sso.dina-web.net
     environment:
-      - VIRTUAL_HOST=beta-sso.dina-web.net
+      - VIRTUAL_HOST=alpha-sso.dina-web.net
   #  links:
   #    - api 
     volumes:
@@ -56,9 +56,9 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.template
     environment:
-      - VIRTUAL_HOST=beta-accounts.dina-web.net
+      - VIRTUAL_HOST=alpha-accounts.dina-web.net
       - VIRTUAL_PROTO=http
-      - NGINX_HOST=beta-accounts.dina-web.net
+      - NGINX_HOST=alpha-accounts.dina-web.net
       - NGINX_PORT=80
     command: /bin/ash -c "envsubst '$$NGINX_HOST $$NGINX_PORT $$NGINX_ROOT $$NGINX_INDEX' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 
