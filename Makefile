@@ -2,8 +2,8 @@
  
 PWD=$(shell pwd)
 
-
-all: init build dotfiles up
+#all: init build dotfiles up
+all: init dotfiles up
 .PHONY: all
 
 init:
@@ -65,6 +65,18 @@ up:
 down:
 	docker-compose down
 
+clean: down
+	# remove builds
+	sudo rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+	# remove .env-files
+	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql
+	# remove all images
+	docker rmi -f dina/keycloak:v0.1 dina/accounts-ui:v0.1 dina/accounts-api:v0.1
+	# remove volume
+	docker volume rm accountsdocker_db_accounts
+
+	
+# docker login 
 release:
 	docker push dina/keycloak:v0.1
 	docker push dina/accounts-api:v0.1
