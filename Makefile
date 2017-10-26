@@ -1,9 +1,9 @@
 #!make
- 
+
 PWD=$(shell pwd)
 
-#all: init build dotfiles up
-all: init dotfiles up
+all: init build dotfiles up
+#all: dotfiles up
 .PHONY: all
 
 init:
@@ -57,17 +57,23 @@ dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
 	bash -c ". secrets && envsubst < env/envapi.template > env/.envapi"
 
--include env/.envaccounts
+	-include env/.envaccounts
 
 up:
-	docker-compose up -d
+	#docker-compose up -d
+	docker-compose up -d proxy
+	docker-compose up -d ws
+	docker-compose up -d db
+	docker-compose up -d sso
+	docker-compose up -d api
+	docker-compose up -d ui
 
 down:
 	docker-compose down
 
 clean: down
 	# remove builds
-	sudo rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
 	# remove .env-files
 	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql
 	# remove all images
@@ -75,6 +81,8 @@ clean: down
 	# remove volume
 	docker volume rm accountsdocker_db_accounts
 
+backup:
+	@echo "backup of what ?"
 	
 # docker login 
 release:
