@@ -42,8 +42,6 @@ services:
     container_name: alpha-sso.dina-web.net
     environment:
       - VIRTUAL_HOST=alpha-sso.dina-web.net
-  #  links:
-  #    - api 
     volumes:
       - ./nginx-conf/app.conf:/etc/nginx/conf.d/app.conf
       - ./nginx-certs:/etc/nginx/ssl
