@@ -57,7 +57,7 @@ dotfiles: secrets
 	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
 	bash -c ". secrets && envsubst < env/envapi.template > env/.envapi"
 
-	-include env/.envaccounts
+-include env/.envaccounts
 
 up:
 	#docker-compose up -d
