@@ -11,7 +11,8 @@ m2
 /env/.envmailserver
 /accounts-api/nbproject/
 secrets
-/certs/
+/certs/*.crt
+/certs/*.key
 cert.tar
 /nginx-certs/
 /nginx-logs/
