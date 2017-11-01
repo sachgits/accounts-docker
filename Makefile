@@ -2,11 +2,15 @@
  
 PWD=$(shell pwd)
 
+all: init secrets dotfiles
+# build (check docker-images)... up .... docker-compose up -d api
 
-all: init build dotfiles up
 .PHONY: all
 
 init:
+	test -f env/.envmailserver || cp env/envmailserver.template env/.envmailserver
+	@echo "enter the credentials to the .envmailserver-file before continuing , then run secrets"
+	vi env/.envmailserver
 
 build: build-api build-ui build-sso
 
@@ -44,15 +48,14 @@ secrets:
 		$$(cat /dev/urandom | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | head -c 50) >> $@
 	printf "export SECRET_MYSQL_PASSWORD=%b\n" \
 		$$(cat /dev/urandom | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | head -c 50) >> $@
-	printf "export SECRET_API_EMAIL_HOST=\n" >> $@
-	printf "export SECRET_API_EMAIL_PORT=587\n" >> $@
-	printf "export SECRET_API_EMAIL_USER=\n" >> $@
-	printf "export SECRET_API_EMAIL_PASS=\n" >> $@
-	printf "export SECRET_API_EMAIL_FROM=\n" >> $@
+	printf "`cat env/.envmailserver`">> $@
+	printf "\n" >> $@
 	printf "export ACCOUNTS_ROOT=admin\n" >> $@
 	printf "export ACCOUNTS_PASS=dina\n" >> $@
+	
 
-dotfiles: secrets
+dotfiles:
+	echo "remember to update the secrets file with mailserver-credentials"
 	bash -c ". secrets && envsubst < env/envmysql.template > env/.envmysql"
 	bash -c ". secrets && envsubst < env/envaccounts.template > env/.envaccounts"
 	bash -c ". secrets && envsubst < env/envapi.template > env/.envapi"
@@ -63,6 +66,9 @@ up:
 	#docker-compose up -d
 	docker-compose up -d db sso ui ws proxy
 
+rm: 
+	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+
 down:
 	docker-compose down
 
@@ -70,7 +76,7 @@ clean: down
 	# remove builds
 	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
 	# remove .env-files
-	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql
+	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql && rm -rf $(PWD)/env/.envmailserver
 	# remove all images
 	docker rmi -f dina/keycloak:v0.1 dina/accounts-ui:v0.1 dina/accounts-api:v0.1
 	# remove volume
