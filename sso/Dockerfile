@@ -31,7 +31,7 @@ USER jboss
 
 EXPOSE 8080
 
-ENTRYPOINT ["/tini", "--", "/wait-for-it.sh", "mysql:3306", "-t", "60", "--"]
+ENTRYPOINT ["/tini", "--", "/wait-for-it.sh", "db:3306", "-t", "60", "--"]
 
 CMD ["/opt/jboss/docker-entrypoint.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
 
