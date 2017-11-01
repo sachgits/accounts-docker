@@ -10,6 +10,7 @@ all: init secrets dotfiles
 init:
 	test -f env/.envmailserver || cp env/envmailserver.template env/.envmailserver
 	@echo "enter the credentials to the .envmailserver-file before continuing , then run secrets"
+	sleep 2;
 	vi env/.envmailserver
 
 build: build-api build-ui build-sso
@@ -66,21 +67,27 @@ up:
 	#docker-compose up -d
 	docker-compose up -d db sso ui ws proxy
 
-rm: 
-	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+
 
 down:
 	docker-compose down
 
-clean: down
+clean: down rm-builds rm-env
 	# remove builds
-	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+	#rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
 	# remove .env-files
-	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql && rm -rf $(PWD)/env/.envmailserver
+	#rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql && rm -rf $(PWD)/env/.envmailserver
 	# remove all images
 	docker rmi -f dina/keycloak:v0.1 dina/accounts-ui:v0.1 dina/accounts-api:v0.1
 	# remove volume
 	docker volume rm accountsdocker_db_accounts
+
+rm-builds: 
+	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+
+rm-env:
+	# remove .env-files
+	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql && rm -rf $(PWD)/env/.envmailserver
 
 release:
 	docker push dina/keycloak:v0.1

@@ -34,9 +34,9 @@ You can use an existing email service (3rd party or the email server at your hom
 
 ## Configuring the module URL
 
-If you want to use the module at some other URL than the default (beta...dina-web.net), change the URL to following places:
+If you want to use the module at some other URL than the default (alpha...dina-web.net), change the URL to following places:
 
-- accounts-ui/config/environment.js (process.env.API_URL)
+- accounts-ui/.env (process.env.API_URL)
 - env/.envaccounts.template
 - env/.envapi.template
 - docker-compose.yml
@@ -45,28 +45,29 @@ If you want to use the module at some other URL than the default (beta...dina-we
 
 A recipe of commands to get the necessary parts in place, running on your host.
 
-		# get the code for this project
+    # get the code for this project
 		git clone $THIS_REPO_SLUG
 		cd accounts-docker
 
-		# to use the development branch
-		git fetch
-		git checkout development
+    # set up reverse proxy with self-signed certs
+    # follow instructions at https://github.com/dina-web/proxy-docker/tree/self-signed-certs
+    
+    # fetch the certificates and extract them 
+    accounts-docker/tar -xvf certs.tar 
 
-		# generate random credentials
-		make secrets
+    # to use i.e. the development branch
+    git fetch
+    git checkout development
 
-		# configure email settings, fill in email connection settings
-		nano secrets
+    # configure email settings:  fill in email connection settings 
+    # + generates the 'secret'-file + generates the 'dotfiles' in the 'env'-folder  using the secret credentials
+		make init 
 
-		# generate 'dotfiles' using the secret credentials above
-		make dotfiles
-
-		# set up reverse proxy with self-signed certs
-		# follow instructions at https://github.com/dina-web/proxy-docker/tree/self-signed-certs
-
-		# build locally and launch services
-		make
+		# build locally 
+		make build 
+    
+    # launch services, note that the 'api' depends on the 'sso' ( the 'sso' takes a long time to start,3-5 minutes ) 
+    make up 
 
 
 **Note**: A local build will initially pull many dependencies (~150+M maven libs for the API, ~1.4G npm packages for the UI) and takes c. 20 minutes depending on Internet connection speed. Re-building is faster, a couple of minutes at the most.
@@ -75,13 +76,13 @@ You can also use `make up` to start the system from pre-existing images. If thes
 
 **Note**: Add the following entries to the `/etc/hosts` file so that your host responds to the above services:
 
-		127.0.0.1	beta-accounts.dina-web.net beta-api.dina-web.net beta-sso.dina-web.net
+		127.0.0.1	alpha-accounts.dina-web.net alpha-api.dina-web.net alpha-sso.dina-web.net
 
 # Logging in
 
-Open up your browser at https://beta-accounts.dina-web.net, remember to install any self-signed certs first, see https://github.com/dina-web/proxy-docker/tree/self-signed-certs
+Open up your browser at https://alpha-accounts.dina-web.net, remember to install any self-signed certs first, see https://github.com/dina-web/proxy-docker/tree/self-signed-certs
 
-		firefox https://beta-accounts.dina-web.net
+		firefox https://alpha-accounts.dina-web.net
 
 
 Log in with the default Accounts API user credentials from the 'envapi.template' file that you have used, usually user: admin@nrm.se and pass: admin#001.
