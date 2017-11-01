@@ -8,8 +8,10 @@ m2
 /env/.envaccounts
 /env/.envmysql
 /env/.envapi
+/env/.envmailserver
 /accounts-api/nbproject/
 secrets
 /certs/
+cert.tar
 /nginx-certs/
 /nginx-logs/
