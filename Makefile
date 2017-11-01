@@ -60,10 +60,21 @@ dotfiles: secrets
 -include env/.envaccounts
 
 up:
-	docker-compose up -d
+	#docker-compose up -d
+	docker-compose up -d db sso ui ws proxy
 
 down:
 	docker-compose down
+
+clean: down
+	# remove builds
+	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+	# remove .env-files
+	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql
+	# remove all images
+	docker rmi -f dina/keycloak:v0.1 dina/accounts-ui:v0.1 dina/accounts-api:v0.1
+	# remove volume
+	docker volume rm accountsdocker_db_accounts
 
 release:
 	docker push dina/keycloak:v0.1
