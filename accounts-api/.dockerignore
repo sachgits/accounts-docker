@@ -1,0 +1,6 @@
+#comment
+target/*
+!target/accounts-api-swarm.jar
+src/*
+pom.xml
+Makefile
