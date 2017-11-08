@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map; 
 import java.util.stream.Collectors; 
-import javax.inject.Inject;
-import javax.json.JsonObject;  
+import javax.inject.Inject;   
+import javax.json.JsonObject;
 import javax.ws.rs.core.Response; 
 import lombok.extern.slf4j.Slf4j; 
 import org.keycloak.admin.client.Keycloak;   
@@ -264,8 +264,9 @@ public class UserManagement implements Serializable {
             userRepresentation.setEnabled(Boolean.TRUE);
             userResource.update(userRepresentation);
              
-            if (resetPassword) {
-                userResource.resetPasswordEmail();
+            if (resetPassword) { 
+                mail.sendSetPasswordEmail(id, userRepresentation.getEmail());
+//                userResource.resetPasswordEmail();
             } 
             return getUserById(id);
         }

@@ -67,7 +67,15 @@
             <!--<version>3.3.0.CR2</version>--> 
         </dependency>
         
-<!--        <dependency>
+<!--         https://mvnrepository.com/artifact/org.keycloak/keycloak-model-api 
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-model-api</artifactId>
+            <version>1.8.1.Final</version>
+            <scope>provided</scope>
+        </dependency>-->
+
+        <!--        <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-authz-client</artifactId>
             <version>3.2.1.Final</version>
@@ -99,13 +107,12 @@
             <!--<version>3.0.1.Final</version>-->
         </dependency>
          
-<!--        <dependency>
+        <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
- -->
- 
+  
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>management-console</artifactId> 

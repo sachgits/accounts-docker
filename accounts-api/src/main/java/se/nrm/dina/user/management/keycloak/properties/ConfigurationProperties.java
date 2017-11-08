@@ -352,8 +352,8 @@ public class ConfigurationProperties {
     
     public String getApiURL() {
         if(null == apiUrl) {
-            apiUrl = "https://beta-api.dina-web.net";
-//            throw new RuntimeException(CONFIG_INITIALLISING_ERROR);
+//            apiUrl = "https://beta-api.dina-web.net";
+            throw new RuntimeException(CONFIG_INITIALLISING_ERROR);
         }
         return apiUrl;
     }

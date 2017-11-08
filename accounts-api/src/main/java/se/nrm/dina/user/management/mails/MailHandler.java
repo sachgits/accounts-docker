@@ -123,7 +123,7 @@ public class MailHandler implements Serializable  {
             message.setSubject(MimeUtility.encodeText(MailMessages.getInstance().getNewAccountNotificationSubject(), UTF_8, B));
 
             message.setContent(MailMessages.getInstance().getNewAccountNotificationBody(), TEXT_HTML);
-            InternetAddress[] toaddress = new InternetAddress[]{new InternetAddress(superAdminEmail)};
+//            InternetAddress[] toaddress = new InternetAddress[]{new InternetAddress(superAdminEmail)};
             sendMail(superAdminEmail);
 //            Transport transport = session.getTransport();
 //            transport.connect(mailHost, mailPort, mailUsername, mailPassword);
