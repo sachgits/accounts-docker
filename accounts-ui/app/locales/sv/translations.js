@@ -87,6 +87,7 @@ export default {
                 password: 'Password',
                 'username-email': 'Användarnamn',
                 purpose: 'Syfte',
+                'max-purpose': 'Maximum 255 charaters',
                 'created-date': 'Skapad datum',
                 'user-enabled': 'Aktiverad',
                 'email-verified': 'E-postadressen har verifierats',

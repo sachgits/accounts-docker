@@ -88,6 +88,7 @@ export default {
                 password: 'Password',
                 'username-email': 'Username/Email',
                 purpose: 'Purpose',
+                'max-purpose': 'Maximum 255 charaters',
                 descriptions: 'Descriptions',
                 'created-date': 'Created date',
                 'user-enabled': 'Enabled',

@@ -82,17 +82,22 @@
               {{input 
                 value=account.purpose 
                 placeholder=(t 'fields.labels.user.purpose')
+                maxlength="255"
                 class="form-control" 
                 focus-out=(action (mut showPurposeError) true) }} 
+                <small>{{t 'fields.labels.user.max-purpose'}}</small>
 
                 {{#if showPurposeError}} 
                   <div class="error"> 
                     {{v-get account 'purpose' 'message'}}
                   </div> 
                 {{/if}}  
+
             </div>
+
           </div>
-  
+          
+
             {{#unless isNew}}
               {{#if isAdmin}} 
                 <hr>
