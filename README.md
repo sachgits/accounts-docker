@@ -32,10 +32,18 @@ You can use an existing email service (3rd party or the email server at your hom
  
 - [DINA-Web dockerized email server](https://github.com/DINA-Web/mail-docker)
 
+## Configuring the module URL
+
+If you want to use the module at some other URL than the default (beta...dina-web.net), change the URL to following places:
+
+- accounts-ui/config/environment.js (process.env.API_URL)
+- env/.envaccounts.template
+- env/.envapi.template
+- docker-compose.yml
+
 ## Step-by-step instructions
 
 A recipe of commands to get the necessary parts in place, running on your host.
-
 
 		# get the code for this project
 		git clone $THIS_REPO_SLUG
@@ -56,7 +64,6 @@ A recipe of commands to get the necessary parts in place, running on your host.
 
 		# set up reverse proxy with self-signed certs
 		# follow instructions at https://github.com/dina-web/proxy-docker/tree/self-signed-certs
-
 
 		# build locally and launch services
 		make

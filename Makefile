@@ -1,21 +1,12 @@
 #!make
- 
+
 PWD=$(shell pwd)
 
-
 all: init build dotfiles up
+#all: dotfiles up
 .PHONY: all
 
 init:
-
-sso-init:
-	@test ! -f $(PWD)/env/.envaccounts || echo "Please run 'make dotfiles' first."
-	# this adds a master user to KeyCloak using environment settings from env/.envaccounts
-	docker-compose up -d db
-	docker-compose up -d sso
-	#docker-compose run sso keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
-	docker exec accountsdocker_sso_1 keycloak/bin/add-user-keycloak.sh -u $(ACCOUNTS_ROOT) -p $(ACCOUNTS_PASS)
-	docker-compose restart sso
 
 build: build-api build-ui build-sso
 
@@ -69,11 +60,31 @@ dotfiles: secrets
 -include env/.envaccounts
 
 up:
-	docker-compose up -d
+	#docker-compose up -d
+	docker-compose up -d proxy
+	docker-compose up -d ws
+	docker-compose up -d db
+	docker-compose up -d sso
+	docker-compose up -d api
+	docker-compose up -d ui
 
 down:
 	docker-compose down
 
+clean: down
+	# remove builds
+	rm -rf ${PWD}/accounts-ui/dist && sudo rm -rf ${PWD}/accounts-api/target
+	# remove .env-files
+	rm -rf $(PWD)/env/.envaccounts && rm -rf $(PWD)/env/.envapi && rm -rf $(PWD)/env/.envmysql
+	# remove all images
+	docker rmi -f dina/keycloak:v0.1 dina/accounts-ui:v0.1 dina/accounts-api:v0.1
+	# remove volume
+	docker volume rm accountsdocker_db_accounts
+
+backup:
+	@echo "backup of what ?"
+	
+# docker login 
 release:
 	docker push dina/keycloak:v0.1
 	docker push dina/accounts-api:v0.1
